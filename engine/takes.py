@@ -7,6 +7,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from uuid import uuid4
 import hashlib
+import os
+import tempfile
 
 from config import OUTPUT_DIR
 from config import CHARACTERS_DIR
@@ -39,14 +41,44 @@ def _load_manifest() -> dict:
 
 
 def _write_manifest(manifest: dict) -> None:
+    """Replace the manifest atomically, leaving a recoverable prior version."""
     path = _manifest_path()
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    _atomic_json_write(path, manifest)
 
 
-def record_take(scene: ResolvedScene, *, provider: str = "offline-preview", model: str = "", parent_take_id: str | None = None, output_path: Path | None = None, provider_metadata: dict | None = None) -> Path:
+class TakeStorageError(RuntimeError):
+    """A local take could not be saved safely; the user may retry."""
+
+
+def _atomic_json_write(path: Path, payload: dict) -> None:
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w", encoding="utf-8", suffix=".tmp", prefix=f".{path.stem}-",
+            dir=path.parent, delete=False,
+        ) as handle:
+            temporary = Path(handle.name)
+            json.dump(payload, handle, indent=2, ensure_ascii=False)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, path)
+    except OSError as exc:
+        try:
+            if "temporary" in locals() and temporary.exists():
+                temporary.unlink()
+        except OSError:
+            pass
+        raise TakeStorageError(f"Could not safely save '{path.name}'. Please retry: {exc}") from exc
+
+
+def new_take_id() -> str:
+    return uuid4().hex
+
+
+def record_take(scene: ResolvedScene, *, provider: str = "offline-preview", model: str = "", parent_take_id: str | None = None, output_path: Path | None = None, provider_metadata: dict | None = None, take_id: str | None = None) -> Path:
     """Store an immutable take and append a compact manifest entry."""
-    record_id = uuid4().hex
+    record_id = take_id or new_take_id()
     directory = OUTPUT_DIR / "records"
     directory.mkdir(parents=True, exist_ok=True)
     path = directory / f"{record_id}.json"
@@ -63,7 +95,7 @@ def record_take(scene: ResolvedScene, *, provider: str = "offline-preview", mode
         "negative_prompt": compose_negative_prompt(scene),
         "output": {"path": str(output_path) if output_path else None, "sha256": _sha256(output_path) if output_path else None},
     }
-    path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    _atomic_json_write(path, payload)
     manifest = _load_manifest()
     manifest["takes"].append({"take_id": record_id, "record": str(path), "character_id": scene.brief.character_id, "created_at": payload["created_at"], "provider": provider, "record_sha256": _sha256(path)})
     _write_manifest(manifest)

@@ -13,14 +13,14 @@ from engine.composer import compose_negative_prompt, compose_prompt
 from engine.resolver import resolve_scene
 from engine.rules import CharacterValidationError
 from engine.scene_models import SceneBrief
-from engine.takes import record_take
+from engine.takes import new_take_id, record_take
 from engine.takes import list_takes, load_take, verify_take
 from engine.audit import run_audit
 from engine.migrations import migrate_character_file
 from engine.providers import get_provider, ProviderError
 from engine.resolver import reroll_scene
 from engine.prompts import compose_prompt_document
-from config import CHARACTERS_DIR, OUTPUT_DIR, REFERENCE_IMAGES_DIR
+from config import CHARACTERS_DIR, OUTPUT_DIR, reference_image_for
 
 
 def print_character_summary(character) -> None:
@@ -165,15 +165,16 @@ def main() -> None:
         if args.generate:
             try:
                 provider = get_provider(args.provider)
-                reference = REFERENCE_IMAGES_DIR / f"{args.character.lower()}.png"
+                reference = reference_image_for(character.character_id)
                 result = provider.generate(compose_prompt_document(scene), (reference,) if reference.is_file() else ())
                 suffix = ".png" if result.mime_type == "image/png" else ".txt"
                 image_dir = OUTPUT_DIR / "images"
                 image_dir.mkdir(parents=True, exist_ok=True)
-                output = image_dir / f"{character.character_id}-{args.seed}{suffix}"
+                take_id = new_take_id()
+                output = image_dir / f"{take_id}{suffix}"
                 output.write_bytes(result.image_bytes)
                 print(f"Generated output: {output}")
-                print(f"Take record: {record_take(scene, provider=result.provider, model=result.model, output_path=output, provider_metadata=result.metadata)}")
+                print(f"Take record: {record_take(scene, provider=result.provider, model=result.model, output_path=output, provider_metadata=result.metadata, take_id=take_id)}")
             except ProviderError as exc:
                 print(f"Provider error: {exc}")
                 raise SystemExit(2)
