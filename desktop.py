@@ -19,7 +19,7 @@ try:
     from PySide6.QtWidgets import (
         QApplication, QButtonGroup, QComboBox, QFrame, QGridLayout, QHBoxLayout,
         QLabel, QListWidget, QMainWindow, QMessageBox, QPushButton, QSizePolicy,
-        QStackedWidget, QTextEdit, QVBoxLayout, QWidget,
+        QScrollArea, QStackedWidget, QTextEdit, QVBoxLayout, QWidget,
     )
 except ImportError as exc:
     PYSIDE_ERROR = exc
@@ -28,7 +28,7 @@ else:
 
 
 if PYSIDE_ERROR is None:
-    ACCENT, PANEL, MUTED = "#57f5a1", "#0b151b", "#9ca9ca"
+    ACCENT, PANEL, MUTED = "#69efac", "#0d1c22", "#9eafc4"
     CHARACTER_IMAGES = {
         "ayami_tanaka": "ayami.png", "charlotte_taylor_rose": "charlotte.png",
         "idun_braten": "idun.png", "luna_campbell": "luna.png",
@@ -76,12 +76,12 @@ if PYSIDE_ERROR is None:
             self.character_id = character.character_id
             self.setObjectName("characterCard")
             self.setCheckable(True)
-            self.setMinimumWidth(142)
+            self.setMinimumWidth(126)
             self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
             content = QVBoxLayout(self)
             content.setContentsMargins(8, 8, 8, 10)
             content.setSpacing(5)
-            content.addWidget(_image(image_path, 124, 132))
+            content.addWidget(_image(image_path, 108, 116))
             name = QLabel(character.identity.name.split()[0]); name.setObjectName("cardName"); content.addWidget(name)
             detail = QLabel(f"{character.identity.age}  ·  {character.identity.nationality}"); detail.setObjectName("cardDetail"); content.addWidget(detail)
             tags = QLabel("  ".join(character.interests[:2])); tags.setObjectName("tagText"); tags.setWordWrap(True); content.addWidget(tags)
@@ -95,8 +95,8 @@ if PYSIDE_ERROR is None:
             self.session = 0
             self.character_cards = {}
             self.setWindowTitle("CharacterStudio — NexusStudio Director")
-            self.resize(1500, 920)
-            self.setMinimumSize(1180, 760)
+            self.resize(1440, 900)
+            self.setMinimumSize(1080, 720)
             self.setStyleSheet(self._stylesheet())
             root = QWidget(); root.setObjectName("root"); self.setCentralWidget(root)
             shell = QVBoxLayout(root); shell.setContentsMargins(26, 18, 26, 18); shell.setSpacing(14)
@@ -114,52 +114,56 @@ if PYSIDE_ERROR is None:
         @staticmethod
         def _stylesheet():
             return f"""
-                QWidget#root {{ background: #061015; color: #e8efff; font-family: Arial; font-size: 13px; }}
-                QFrame#panel, QFrame#rail, QFrame#previewRail, QWidget#stage {{ background: {PANEL}; border: 1px solid #274955; border-radius: 9px; }}
-                QLabel#brand {{ font-family: 'Segoe UI'; font-size: 33px; font-weight: 700; color: #fbfcff; }}
+                QWidget#root {{ background: #071217; color: #edf4fa; font-family: 'Segoe UI'; font-size: 13px; }}
+                QFrame#topBar {{ border-bottom: 1px solid #26404a; }}
+                QFrame#panel, QFrame#rail, QFrame#previewRail, QWidget#stage, QFrame#nextBar {{ background: {PANEL}; border: 1px solid #294752; border-radius: 12px; }}
+                QLabel#brand {{ font-family: 'Segoe UI'; font-size: 31px; font-weight: 700; color: #fbfcff; }}
                 QLabel#brandAccent, QLabel#sectionTitle {{ color: {ACCENT}; }}
                 QLabel#eyebrow, QLabel#muted, QLabel#cardDetail {{ color: {MUTED}; }}
-                QLabel#eyebrow {{ font-size: 11px; letter-spacing: 2px; }} QLabel#sectionTitle {{ font-size: 21px; font-weight: 700; }}
-                QLabel#cardName {{ font-size: 16px; font-weight: 700; }} QLabel#tagText {{ color: #b9c9ef; font-size: 11px; }}
-                QLabel#imagePlaceholder {{ background: #172b31; border: 1px solid #375663; border-radius: 6px; color: {MUTED}; }}
-                QPushButton {{ background: #102027; border: 1px solid #31515b; border-radius: 7px; padding: 9px; text-align: left; }}
-                QPushButton:hover, QPushButton:focus {{ border: 1px solid {ACCENT}; background: #12312e; }}
-                QPushButton#characterCard {{ padding: 0; }} QPushButton#characterCard:checked {{ border: 2px solid {ACCENT}; background: #102c27; }}
-                QPushButton#stepButton {{ color: #d8e4fa; min-height: 36px; }} QPushButton#stepButton:checked {{ color: {ACCENT}; background: #102c27; border-color: {ACCENT}; }}
-                QPushButton#primary {{ background: {ACCENT}; border-color: {ACCENT}; color: #03130d; font-weight: 800; text-align: center; min-height: 30px; }}
+                QLabel#eyebrow {{ font-size: 10px; font-weight: 700; letter-spacing: 1.6px; }} QLabel#sectionTitle {{ font-size: 22px; font-weight: 700; }}
+                QLabel#cardName {{ font-size: 15px; font-weight: 700; }} QLabel#tagText {{ color: #bfd1ea; font-size: 11px; }}
+                QLabel#imagePlaceholder {{ background: #12272e; border: 1px solid #365862; border-radius: 8px; color: {MUTED}; }}
+                QPushButton {{ background: #102229; border: 1px solid #31535e; border-radius: 8px; padding: 10px; text-align: left; }}
+                QPushButton:hover, QPushButton:focus {{ border: 1px solid {ACCENT}; background: #15322f; }}
+                QPushButton#characterCard {{ background: #0b181e; padding: 8px; }} QPushButton#characterCard:checked {{ border: 2px solid {ACCENT}; background: #102b28; }}
+                QPushButton#stepButton {{ color: #d9e7f7; min-height: 42px; border-color: transparent; background: transparent; }} QPushButton#stepButton:checked {{ color: {ACCENT}; background: #102c29; border-color: #347b63; }}
+                QPushButton#treatmentCard {{ min-height: 100px; font-size: 14px; font-weight: 600; }} QPushButton#treatmentCard:checked {{ border: 2px solid {ACCENT}; background: #102d29; color: {ACCENT}; }}
+                QPushButton#primary {{ background: {ACCENT}; border-color: {ACCENT}; color: #06150f; font-weight: 800; text-align: center; min-height: 32px; padding-left: 18px; padding-right: 18px; }}
                 QPushButton#secondary {{ text-align: center; }}
-                QComboBox, QTextEdit, QListWidget {{ background: #09181f; border: 1px solid #31515b; border-radius: 6px; padding: 8px; color: #e8efff; }}
+                QComboBox, QTextEdit, QListWidget {{ background: #09191f; border: 1px solid #31535e; border-radius: 8px; padding: 9px; color: #edf4fa; selection-background-color: #1d7056; }}
                 QComboBox:focus, QTextEdit:focus {{ border-color: {ACCENT}; }}
+                QScrollArea {{ border: none; background: transparent; }} QScrollArea > QWidget > QWidget {{ background: transparent; }}
+                QScrollBar:horizontal {{ height: 8px; background: transparent; margin: 3px 0; }} QScrollBar::handle:horizontal {{ background: #31535e; border-radius: 4px; min-width: 44px; }}
             """
 
         def _header(self):
-            panel = QFrame(); panel.setObjectName("panel"); layout = QHBoxLayout(panel); layout.setContentsMargins(18, 12, 18, 12)
+            panel = QFrame(); panel.setObjectName("topBar"); layout = QHBoxLayout(panel); layout.setContentsMargins(8, 4, 8, 12)
             left = QVBoxLayout(); brand = QHBoxLayout(); first = QLabel("Character"); first.setObjectName("brand"); second = QLabel("Studio"); second.setObjectName("brandAccent"); second.setStyleSheet("font-size: 33px; font-weight: 700;"); brand.addWidget(first); brand.addWidget(second); brand.addStretch(); left.addLayout(brand)
             eyebrow = QLabel("REAL PEOPLE, INFINITE MOMENTS."); eyebrow.setObjectName("eyebrow"); left.addWidget(eyebrow); layout.addLayout(left, 2)
-            quote = QLabel("Ideas to images.\nMoments to stories."); quote.setAlignment(Qt.AlignCenter); quote.setStyleSheet("color: #b9c9ef; font-style: italic;"); layout.addWidget(quote, 2)
-            status = QLabel("v0.1.0   |   Local Mode   |   6 Characters   |   Ready"); status.setAlignment(Qt.AlignRight | Qt.AlignVCenter); status.setStyleSheet(f"color: {ACCENT};"); layout.addWidget(status, 3)
+            quote = QLabel("A local studio for consistent people and new moments."); quote.setObjectName("muted"); quote.setAlignment(Qt.AlignCenter); quote.setStyleSheet("font-style: italic;"); layout.addWidget(quote, 2)
+            status = QLabel("LOCAL STUDIO  ·  6 CHARACTERS  ·  READY"); status.setObjectName("eyebrow"); status.setAlignment(Qt.AlignRight | Qt.AlignVCenter); status.setStyleSheet(f"color: {ACCENT};"); layout.addWidget(status, 3)
             return panel
 
         def _rail(self):
-            rail = QFrame(); rail.setObjectName("rail"); rail.setMinimumWidth(270); rail.setMaximumWidth(290); layout = QVBoxLayout(rail); layout.setContentsMargins(14, 16, 14, 14); layout.setSpacing(8)
+            rail = QFrame(); rail.setObjectName("rail"); rail.setMinimumWidth(235); rail.setMaximumWidth(270); layout = QVBoxLayout(rail); layout.setContentsMargins(15, 18, 15, 15); layout.setSpacing(8)
             title = QLabel("Scene Director"); title.setObjectName("sectionTitle"); layout.addWidget(title)
             blurb = QLabel("A calm, guided flow to create beautiful, consistent takes."); blurb.setObjectName("muted"); blurb.setWordWrap(True); layout.addWidget(blurb); layout.addSpacing(14)
-            self.step_buttons = []; descriptions = ("Choose who is in the scene", "Where they are and what happens", "Set the visual treatment", "Check details and lock", "Create a local take")
+            self.step_buttons = []; descriptions = ("Choose who is in the scene", "Set the moment and setting", "Choose the visual language", "Review and protect choices", "Create a local take")
             for index, (label, description) in enumerate(zip(self.steps, descriptions), 1):
-                button = QPushButton(f"{index}  {label}\n     {description}"); button.setObjectName("stepButton"); button.setCheckable(True); button.clicked.connect(partial(self.go_to, index - 1)); layout.addWidget(button); self.step_buttons.append(button)
+                button = QPushButton(f"{index:02d}  {label}\n      {description}"); button.setObjectName("stepButton"); button.setCheckable(True); button.clicked.connect(partial(self.go_to, index - 1)); layout.addWidget(button); self.step_buttons.append(button)
             layout.addStretch(); note = QLabel("Simple choices.\nBeautiful results."); note.setObjectName("muted"); note.setAlignment(Qt.AlignCenter); note.setStyleSheet("font-style: italic;"); layout.addWidget(note)
             return rail
 
         def _quick_preview(self):
-            rail = QFrame(); rail.setObjectName("previewRail"); rail.setMinimumWidth(250); rail.setMaximumWidth(270); self.quick_rail = rail; layout = QVBoxLayout(rail); layout.setContentsMargins(14, 16, 14, 14)
-            title = QLabel("Quick Preview"); title.setObjectName("sectionTitle"); layout.addWidget(title)
-            self.quick_image = _image(_ui_asset(), 220, 330); layout.addWidget(self.quick_image, alignment=Qt.AlignHCenter)
-            self.quick_caption = QLabel("Select a character to see their approved reference."); self.quick_caption.setObjectName("muted"); self.quick_caption.setWordWrap(True); layout.addWidget(self.quick_caption)
-            layout.addStretch(); tagline = QLabel("Small moments,\nbig stories."); tagline.setAlignment(Qt.AlignCenter); tagline.setStyleSheet("color: #b9c9ef; font-style: italic;"); layout.addWidget(tagline)
+            rail = QFrame(); rail.setObjectName("previewRail"); rail.setMinimumWidth(225); rail.setMaximumWidth(250); self.quick_rail = rail; layout = QVBoxLayout(rail); layout.setContentsMargins(15, 18, 15, 15)
+            title = QLabel("Reference Preview"); title.setObjectName("sectionTitle"); layout.addWidget(title)
+            self.quick_image = _image(None, 195, 292); layout.addWidget(self.quick_image, alignment=Qt.AlignHCenter)
+            self.quick_caption = QLabel("Choose a character to load their approved visual reference."); self.quick_caption.setObjectName("muted"); self.quick_caption.setWordWrap(True); layout.addWidget(self.quick_caption)
+            layout.addStretch(); tagline = QLabel("Identity stays steady.\nThe moment can change."); tagline.setAlignment(Qt.AlignCenter); tagline.setStyleSheet("color: #b9c9ef; font-style: italic;"); layout.addWidget(tagline)
             return rail
 
         def _page(self, step, title, detail):
-            page = QWidget(); layout = QVBoxLayout(page); layout.setContentsMargins(18, 18, 18, 14); layout.setSpacing(12)
+            page = QWidget(); layout = QVBoxLayout(page); layout.setContentsMargins(24, 22, 24, 18); layout.setSpacing(11)
             eyebrow = QLabel(f"STEP {step} OF 5"); eyebrow.setObjectName("eyebrow"); layout.addWidget(eyebrow)
             heading = QLabel(title); heading.setObjectName("sectionTitle"); heading.setStyleSheet("font-size: 24px;"); layout.addWidget(heading)
             muted = QLabel(detail); muted.setObjectName("muted"); muted.setWordWrap(True); layout.addWidget(muted)
@@ -167,10 +171,12 @@ if PYSIDE_ERROR is None:
 
         def _character_page(self):
             _, layout = self._page(1, "Choose a Character", "Select a canonical character to feature in your scene. Their protected identity remains outside the scene controls.")
-            row = QHBoxLayout(); row.setSpacing(10); group = QButtonGroup(self); group.setExclusive(True)
+            cards = QWidget(); row = QHBoxLayout(cards); row.setContentsMargins(0, 0, 0, 0); row.setSpacing(10); group = QButtonGroup(self); group.setExclusive(True)
             for character in self.controller.list_characters():
-                card = CharacterCard(character, REFERENCE_IMAGES_DIR / CHARACTER_IMAGES[character.character_id]); card.setMinimumHeight(224); group.addButton(card); card.clicked.connect(partial(self.choose_character, character.character_id)); row.addWidget(card); self.character_cards[character.character_id] = card
-            layout.addLayout(row)
+                card = CharacterCard(character, REFERENCE_IMAGES_DIR / CHARACTER_IMAGES[character.character_id]); card.setMinimumHeight(214); group.addButton(card); card.clicked.connect(partial(self.choose_character, character.character_id)); row.addWidget(card); self.character_cards[character.character_id] = card
+            row.addStretch()
+            self.character_scroller = QScrollArea(); self.character_scroller.setWidgetResizable(False); self.character_scroller.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded); self.character_scroller.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff); self.character_scroller.setWidget(cards); self.character_scroller.setFixedHeight(232)
+            layout.addWidget(self.character_scroller)
             self.selected_summary = QFrame(); self.selected_summary.setObjectName("panel"); summary = QHBoxLayout(self.selected_summary); self.summary_image = _image(None, 94, 112); summary.addWidget(self.summary_image)
             self.summary_copy = QLabel("Choose a card to see canonical identity context."); self.summary_copy.setWordWrap(True); summary.addWidget(self.summary_copy, 3)
             self.summary_traits = QLabel("Identity protections remain separate from this presentation."); self.summary_traits.setObjectName("muted"); self.summary_traits.setWordWrap(True); summary.addWidget(self.summary_traits, 2); layout.addWidget(self.selected_summary)
@@ -190,7 +196,7 @@ if PYSIDE_ERROR is None:
             _, layout = self._page(3, "Set the Visual Treatment", "Choose only the current engine-backed treatment. This changes technical guidance, never character identity.")
             self.styles = QButtonGroup(self); self.styles.setExclusive(True); row = QHBoxLayout()
             for style, copy in (("clean", "Clean\nClear and intentional."), ("natural", "Natural\nGrounded photographic realism."), ("documentary", "Documentary\nObserved, lived-in detail.")):
-                button = QPushButton(copy); button.setCheckable(True); button.setMinimumHeight(92); button.setProperty("style_id", style); self.styles.addButton(button); row.addWidget(button)
+                button = QPushButton(copy); button.setObjectName("treatmentCard"); button.setCheckable(True); button.setMinimumHeight(100); button.setProperty("style_id", style); self.styles.addButton(button); row.addWidget(button)
                 if style == "natural": button.setChecked(True)
             layout.addLayout(row); layout.addStretch(); layout.addWidget(self._next_bar("Preview resolved take", self.apply_treatment))
 
@@ -210,10 +216,10 @@ if PYSIDE_ERROR is None:
             layout.addWidget(QLabel("Local take history")); self.history = QListWidget(); layout.addWidget(self.history, 1)
 
         def _next_bar(self, label, callback):
-            bar = QFrame(); bar.setObjectName("panel"); row = QHBoxLayout(bar); row.addWidget(QLabel("Next step\nPress Enter to continue.")); row.addStretch(); action = QPushButton(f"{label}  →"); action.setObjectName("primary"); action.clicked.connect(callback); row.addWidget(action); return bar
+            bar = QFrame(); bar.setObjectName("nextBar"); row = QHBoxLayout(bar); row.setContentsMargins(14, 11, 14, 11); cue = QLabel("NEXT\nPress Enter to continue."); cue.setObjectName("eyebrow"); row.addWidget(cue); row.addStretch(); action = QPushButton(f"{label}  →"); action.setObjectName("primary"); action.clicked.connect(callback); row.addWidget(action); return bar
 
         def _footer(self):
-            footer = QFrame(); footer.setObjectName("panel"); row = QHBoxLayout(footer); row.addWidget(QLabel("CharacterStudio")); row.addWidget(QLabel("Where imagination feels simple.")); row.addStretch(); row.addWidget(QLabel("Enter: Select     Backspace: Back")); return footer
+            footer = QFrame(); footer.setObjectName("topBar"); row = QHBoxLayout(footer); row.setContentsMargins(8, 10, 8, 0); brand = QLabel("CHARACTERSTUDIO"); brand.setObjectName("eyebrow"); row.addWidget(brand); copy = QLabel("Direct scenes. Protect identity."); copy.setObjectName("muted"); row.addWidget(copy); row.addStretch(); keys = QLabel("Enter  Continue     Backspace  Back"); keys.setObjectName("muted"); row.addWidget(keys); return footer
 
         def choose_character(self, character_id):
             character = self.controller.choose_character(character_id); self.session += 1; self.character_cards[character_id].setChecked(True); reference = self.controller.reference_image()

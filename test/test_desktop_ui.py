@@ -2,6 +2,7 @@ import os
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication
 
 import desktop
@@ -18,6 +19,7 @@ def test_desktop_window_has_director_composition_and_canonical_cards():
     assert window.stack.count() == 5
     assert len(window.character_cards) == 6
     assert window.quick_rail.objectName() == "previewRail"
+    assert window.character_scroller.horizontalScrollBarPolicy() == Qt.ScrollBarAsNeeded
 
 
 def test_ui_asset_loader_reads_optional_presentation_asset_only(tmp_path, monkeypatch):
