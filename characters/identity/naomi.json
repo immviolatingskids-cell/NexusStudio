@@ -1,0 +1,22 @@
+{
+  "schema": "character_studio.locked_look.v1",
+  "character_id": "naomi",
+  "reference_basis": {"images": 1, "confidence": "single-reference", "instruction": "Preserve facial relationships, colouring, and athletic silhouette; exclude hiking gear, mountain setting, selfie pose, wind, and cold-weather flush."},
+  "identity_lock": {
+    "face_geometry": {"priority": "critical", "description": "Balanced medium-length oval face with softly defined cheekbones, moderate cheek width, a smooth gently narrowing jaw, and rounded chin. Neither notably round nor angular."},
+    "eyes": {"priority": "critical", "description": "Clear blue-grey almond eyes of medium-large size, average-to-slightly-wide spacing, visible upper-lid crease, and gently lifted outer corners; calm open gaze."},
+    "brows": {"priority": "strong", "description": "Medium-full ash-brown brows, naturally straight at the inner half with a low soft arch and fine untidy texture."},
+    "nose": {"priority": "critical", "description": "Straight medium-length nose with a slim-to-medium bridge, softly rounded tip, and balanced nostril width; neither button-small nor strongly prominent."},
+    "mouth": {"priority": "critical", "description": "Medium-wide mouth with softly full natural lips, subtle cupid's bow, and a slightly fuller lower lip. Resting corners have a gentle upward tendency."},
+    "skin": {"priority": "strong", "description": "Warm light-to-medium skin with subtle freckles across nose and upper cheeks, natural outdoor colour variation, visible texture, and a healthy non-glossy finish."},
+    "hair": {"priority": "strong", "description": "Long dark-blonde to light-brown hair with dimensional ash and warm strands, abundant natural loose wave, medium-thick density, and irregular face-framing layers. Styling is mutable."},
+    "body_proportions": {"priority": "critical", "description": "Lean swimmer-athletic build with defined shoulders and upper back, strong legs, balanced waist and hips, and long functional proportions; fit without extreme muscularity or narrow fragility."}
+  },
+  "identity_relationships": {"priority": "critical", "facial_length_to_width": "balanced oval; moderately longer than wide", "eye_spacing": "average to subtly wide", "cheek_to_jaw_transition": "gentle cheek definition flows into a smooth narrowing jaw", "nose_to_mouth_relationship": "medium straight nose over a slightly broader soft mouth", "lip_ratio": "balanced full lips with lower lip modestly fuller", "feature_balance": "no single feature dominates; eye colour, balanced oval geometry, and wavy dimensional hair identify her together"},
+  "expression_behavior": {"priority": "strong", "neutral": "Calm attentive expression with relaxed lips and soft focused eyes.", "smile": "Gentle lateral smile lifts the cheeks evenly and creates understated warmth rather than a dramatic grin.", "cheek_response": "Upper cheeks rise smoothly with light smile creasing.", "eye_response": "Lower lids lift slightly while the almond shape remains open."},
+  "signature_features": [{"priority": "critical", "feature": "clear blue-grey almond eyes"}, {"priority": "strong", "feature": "balanced oval facial geometry"}, {"priority": "strong", "feature": "long dimensional dark-blonde to light-brown wavy hair"}, {"priority": "strong", "feature": "lean swimmer-athletic shoulder line"}],
+  "mutable_features": {"hair_style": true, "makeup": true, "clothing": true, "jewellery": true, "expression": true, "pose": true, "environment": true, "capture_style": true},
+  "presentation_exclusions": ["hiking shell", "backpack", "snowy mountains", "windswept styling", "cold-weather cheek flush", "selfie perspective"],
+  "immutable_features": ["balanced oval facial proportions", "eye shape and blue-grey colour", "nose structure", "natural lip proportions", "hair base colour and texture", "lean swimmer-athletic proportions"],
+  "negative_identity_constraints": ["no round full-cheek face", "no long angular jaw", "no dark-brown eyes", "no platinum-blonde or dark-brunette hair", "no exaggerated glam contour", "no petite frail body", "do not sharpen or glamourise away her balanced natural structure"]
+}

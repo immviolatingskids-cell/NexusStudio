@@ -1,0 +1,122 @@
+{
+  "schema_version": "0.1",
+  "character_id": "naomi",
+
+  "identity": {
+    "name": "Naomi",
+    "age": 25,
+    "gender": "woman",
+    "nationality": "Canadian",
+    "home": "Canada"
+  },
+
+  "appearance": {
+    "body": {
+      "height": "average-to-tall",
+      "build": "lean swimmer-athletic",
+      "proportions": "balanced athletic proportions with a strong upper body",
+      "physical_features": [
+        "defined shoulders",
+        "gently developed upper back",
+        "strong legs",
+        "naturally fit frame"
+      ]
+    },
+
+    "skin": {
+      "tone": "warm light-to-medium",
+      "texture": "natural skin texture",
+      "features": [
+        "subtle natural freckles",
+        "naturally flushed cheeks",
+        "light signs of regular outdoor exposure"
+      ]
+    },
+
+    "face": {
+      "shape": "balanced oval",
+      "jaw": "moderately defined with a soft contour",
+      "cheekbones": "moderately high and naturally defined",
+      "cheeks": "balanced with gentle natural fullness",
+      "nose": {
+        "bridge": "straight",
+        "tip": "softly defined",
+        "width": "medium"
+      },
+      "lips": {
+        "shape": "natural balanced shape",
+        "fullness": "medium"
+      },
+      "brows": {
+        "shape": "soft natural arch",
+        "density": "medium",
+        "color": "dark blonde to light brown"
+      }
+    },
+
+    "eyes": {
+      "color": "blue-grey",
+      "shape": "soft almond",
+      "size": "medium"
+    },
+
+    "hair": {
+      "color": "dark blonde to light brown",
+      "length": "long, below shoulder-length",
+      "density": "medium-thick",
+      "texture": "naturally wavy",
+      "framing": "soft natural face-framing strands"
+    },
+
+    "distinguishing_features": [
+      "blue-grey eyes",
+      "naturally wavy dark-blonde hair",
+      "subtle freckles",
+      "balanced athletic facial structure"
+    ],
+
+    "physicality": {
+      "posture": "relaxed, grounded and naturally upright",
+      "movement": "deliberate, comfortable and physically capable"
+    }
+  },
+
+  "occupation": {
+    "primary": "marine biologist"
+  },
+
+  "hobbies": [
+    "hiking",
+    "swimming",
+    "meditation",
+    "volunteering",
+    "cooking"
+  ],
+
+  "interests": [
+    "marine life",
+    "animals",
+    "nature",
+    "conservation",
+    "climate change",
+    "environmental sustainability"
+  ],
+
+  "personality": [
+    "empathetic",
+    "emotionally aware",
+    "compassionate",
+    "patient",
+    "thoughtful"
+  ],
+
+  "affinities": {
+    "nature": 3,
+    "animals": 3,
+    "outdoors": 3,
+    "active": 2,
+    "quiet": 1,
+    "wellness": 2,
+    "hands_on": 1
+  }
+}

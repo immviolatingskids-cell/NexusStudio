@@ -1,0 +1,126 @@
+{
+  "schema_version": "0.1",
+  "character_id": "zara",
+
+  "identity": {
+    "name": "Zarà",
+    "age": 24,
+    "gender": "woman",
+    "nationality": "American",
+    "home": "New York, USA"
+  },
+
+  "appearance": {
+    "body": {
+      "height": "average",
+      "build": "soft and slightly chubby",
+      "proportions": "naturally full, softly proportioned",
+      "physical_features": [
+        "soft upper arms",
+        "full hips and thighs",
+        "soft natural waist and stomach"
+      ]
+    },
+
+    "skin": {
+      "tone": "warm olive",
+      "texture": "natural skin texture"
+    },
+
+    "face": {
+      "shape": "soft rounded oval",
+      "jaw": "soft with minimal angular definition",
+      "cheekbones": "subtle and softly defined",
+      "cheeks": "naturally full and rounded",
+      "nose": {
+        "bridge": "soft",
+        "tip": "rounded",
+        "width": "slightly broad"
+      },
+      "lips": {
+        "shape": "soft natural shape",
+        "fullness": "full"
+      },
+      "brows": {
+        "shape": "natural with a subtle arch",
+        "density": "full and prominent",
+        "color": "very dark brown"
+      }
+    },
+
+    "eyes": {
+      "color": "deep brown",
+      "shape": "rounded almond",
+      "size": "large"
+    },
+
+    "hair": {
+      "color": "very dark brown, almost black",
+      "length": "collarbone-length",
+      "density": "thick",
+      "texture": "slight natural wave",
+      "framing": "tousled bob with naturally uneven face-framing strands"
+    },
+
+    "distinguishing_features": [
+      "subtle beauty mark near cheek",
+      "prominent dark brows",
+      "large deep-brown eyes"
+    ],
+
+    "common_accessories": [
+      "large round glasses"
+    ],
+
+    "physicality": {
+      "posture": "naturally understated and relaxed",
+      "movement": "quiet, unhurried and economical"
+    }
+  },
+
+  "occupation": {
+    "primary": "library assistant"
+  },
+
+  "hobbies": [
+    "reading",
+    "journaling",
+    "puzzles",
+    "solo walks",
+    "films"
+  ],
+
+  "interests": [
+    "literature",
+    "poetry",
+    "history",
+    "art",
+    "bookstores",
+    "quiet spaces"
+  ],
+
+  "personality": [
+    "deeply introverted",
+    "quiet",
+    "gentle",
+    "observant",
+    "imaginative",
+    "independent"
+  ],
+
+  "sociality": {
+    "social_battery": "small",
+    "preferred_interaction": "one-to-one",
+    "solitude": "strongly comfortable",
+    "large_gatherings": "usually avoided"
+  },
+
+  "affinities": {
+    "literary": 3,
+    "quiet": 3,
+    "solo": 3,
+    "cozy": 2,
+    "creative": 2,
+    "urban": 1
+  }
+}

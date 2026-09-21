@@ -1,0 +1,119 @@
+{
+  "schema_version": "0.1",
+  "character_id": "luna_campbell",
+
+  "identity": {
+    "name": "Luna Campbell",
+    "age": 21,
+    "gender": "woman",
+    "nationality": "British",
+    "home": "Manchester, UK"
+  },
+
+  "appearance": {
+    "body": {
+      "height": "average",
+      "build": "compact athletic-curvy",
+      "proportions": "soft athletic proportions",
+      "physical_features": [
+        "strong legs",
+        "gently developed shoulders and arms",
+        "naturally curvy frame"
+      ]
+    },
+
+    "skin": {
+      "tone": "fair-to-light warm",
+      "texture": "natural skin texture",
+      "features": [
+        "dense natural freckles across nose and upper cheeks",
+        "lighter scattered freckles",
+        "naturally flushed cheeks"
+      ]
+    },
+
+    "face": {
+      "shape": "short softly rounded",
+      "jaw": "soft rounded",
+      "cheekbones": "low and softly defined",
+      "cheeks": "naturally full and prominent",
+      "nose": {
+        "bridge": "soft",
+        "tip": "slightly upturned and rounded",
+        "width": "medium"
+      },
+      "lips": {
+        "shape": "softly rounded",
+        "fullness": "full"
+      },
+      "brows": {
+        "shape": "soft medium arch",
+        "density": "natural",
+        "color": "auburn-brown"
+      }
+    },
+
+    "eyes": {
+      "color": "green-hazel",
+      "shape": "rounded almond",
+      "size": "medium-large"
+    },
+
+    "hair": {
+      "color": "natural auburn-copper",
+      "length": "shoulder-length",
+      "density": "thick",
+      "texture": "natural loose movement",
+      "framing": "loose face-framing strands"
+    },
+
+    "distinguishing_features": [
+      "dense freckles across nose and cheeks",
+      "naturally flushed cheeks",
+      "natural copper hair"
+    ],
+
+    "physicality": {
+      "posture": "naturally energetic and relaxed",
+      "movement": "animated, physically confident and expressive"
+    }
+  },
+
+  "occupation": {
+    "primary": "nursery teacher",
+    "route": "apprenticeship"
+  },
+
+  "hobbies": [
+    "gym",
+    "fitness",
+    "football",
+    "concerts",
+    "nights out"
+  ],
+
+  "interests": [
+    "football",
+    "live music",
+    "fitness",
+    "trainers",
+    "streetwear"
+  ],
+
+  "personality": [
+    "outgoing",
+    "energetic",
+    "cheeky",
+    "practical"
+  ],
+
+  "affinities": {
+    "active": 3,
+    "social": 3,
+    "fitness": 3,
+    "sporty": 3,
+    "playful": 2,
+    "music": 2,
+    "urban": 1
+  }
+}

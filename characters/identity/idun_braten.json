@@ -1,0 +1,22 @@
+{
+  "schema": "character_studio.locked_look.v1",
+  "character_id": "idun_braten",
+  "reference_basis": {"images": 1, "confidence": "single-reference", "instruction": "Preserve structural identity while excluding chef clothing, kitchen context, work pose, and lens perspective."},
+  "identity_lock": {
+    "face_geometry": {"priority": "critical", "description": "Long oval-to-angular face with high prominent cheekbones, moderate cheek width, a clearly defined lower jaw, and firm rounded-square chin. Strong and feminine, never gaunt or severe."},
+    "eyes": {"priority": "critical", "description": "Cool grey-green almond eyes, slightly deep-set, average spacing, with modest lid exposure and subtly lifted outer corners; steady self-possessed gaze."},
+    "brows": {"priority": "strong", "description": "Thick medium-to-dark brown brows set relatively low, mostly straight with a restrained outer arch and natural dense texture."},
+    "nose": {"priority": "critical", "description": "Straight prominent medium-long nose with defined bridge and softly squared-to-rounded tip. Maintain projection and length."},
+    "mouth": {"priority": "critical", "description": "Medium-wide mouth with a restrained upper lip, fuller lower lip, softly defined cupid's bow, and composed resting corners."},
+    "skin": {"priority": "strong", "description": "Fair neutral skin with rosy cheeks and nose, subtle freckles across the central face and arms, visible pores, and light natural warmth."},
+    "hair": {"priority": "strong", "description": "Thick medium-brown hair with warm variation, natural texture and slight wave, around or below shoulder length. Styling is mutable; base density and colour remain stable."},
+    "body_proportions": {"priority": "critical", "description": "Tall naturally sturdy softly athletic frame with broad capable shoulders, substantial torso, strong forearms and hands, and long balanced limbs; practical strength without extreme leanness."}
+  },
+  "identity_relationships": {"priority": "critical", "facial_length_to_width": "noticeably longer than wide", "eye_spacing": "approximately one eye width", "cheek_to_jaw_transition": "high cheekbone plane narrows through a defined but not pinched jaw", "nose_to_mouth_relationship": "prominent nose length balanced by a medium-wide grounded mouth", "lip_ratio": "lower lip clearly fuller than upper", "feature_balance": "cheekbones, nose, jaw, and low strong brows create mature structural identity"},
+  "expression_behavior": {"priority": "strong", "neutral": "Composed and slightly serious, with level gaze and relaxed closed lips.", "smile": "Mouth widens and softens markedly, revealing warmth while jaw and cheekbone structure remain visible.", "cheek_response": "Rosy cheeks lift beneath high cheekbones without becoming round or childlike.", "eye_response": "Eyes soften and narrow modestly; outer corners lift slightly."},
+  "signature_features": [{"priority": "critical", "feature": "high cheekbones and defined long facial structure"}, {"priority": "critical", "feature": "straight prominent nose"}, {"priority": "critical", "feature": "grey-green slightly deep-set eyes"}, {"priority": "strong", "feature": "strong forearms and hands within a tall sturdy frame"}],
+  "mutable_features": {"hair_style": true, "makeup": true, "clothing": true, "jewellery": true, "expression": true, "pose": true, "environment": true, "capture_style": true},
+  "presentation_exclusions": ["chef jacket", "apron", "kitchen", "food plating", "Norwegian flag patch", "tied-up work hair"],
+  "immutable_features": ["long angular facial proportions", "high cheekbones", "jaw and chin structure", "prominent nose", "eye shape and colour", "baseline tall sturdy athletic proportions"],
+  "negative_identity_constraints": ["no short round face", "no button nose", "no weak narrow jaw", "no delicate petite frame", "no severe gauntness", "no glossy poreless skin", "do not soften away her defining bone structure"]
+}

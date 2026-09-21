@@ -1,0 +1,139 @@
+{
+  "schema_version": "0.1",
+  "character_id": "charlotte_taylor_rose",
+
+  "identity": {
+    "name": "Charlotte Taylor-Rose",
+    "age": 22,
+    "gender": "woman",
+    "nationality": "Australian",
+    "home": "Queensland, Australia"
+  },
+
+  "appearance": {
+    "body": {
+      "height": "petite-to-average",
+      "build": "naturally curvy and softly toned",
+      "proportions": "compact feminine proportions with gentle athletic tone",
+      "physical_features": [
+        "naturally defined waist",
+        "fuller hips and thighs",
+        "soft natural muscle tone"
+      ]
+    },
+
+    "skin": {
+      "tone": "warm light-to-olive",
+      "texture": "natural skin texture",
+      "features": [
+        "prominent natural freckles across nose and cheeks",
+        "lighter scattered freckles",
+        "warm complexion"
+      ]
+    },
+
+    "face": {
+      "shape": "soft heart-shaped",
+      "jaw": "gently tapered",
+      "chin": "narrow and softly defined",
+      "cheekbones": "high and moderately prominent",
+      "cheeks": "soft with visible cheekbone definition",
+      "nose": {
+        "bridge": "straight and relatively narrow",
+        "tip": "softly rounded",
+        "width": "narrow-to-medium"
+      },
+      "lips": {
+        "shape": "broad with a defined cupid's bow",
+        "fullness": "full"
+      },
+      "brows": {
+        "shape": "expressive with a gentle natural arch",
+        "density": "prominent and full",
+        "color": "dark espresso brown"
+      }
+    },
+
+    "eyes": {
+      "color": "dark brown",
+      "shape": "large rounded almond",
+      "size": "large",
+      "spacing": "slightly wide-set"
+    },
+
+    "hair": {
+      "color": "dark espresso brown",
+      "length": "long",
+      "density": "thick",
+      "texture": "subtle natural wave",
+      "framing": "loose face-framing strands"
+    },
+
+    "distinguishing_features": [
+      "prominent natural freckles",
+      "slightly wide-set dark brown eyes",
+      "prominent expressive brows",
+      "heart-shaped face with narrow chin",
+      "broad naturally full mouth"
+    ],
+
+    "physicality": {
+      "posture": "naturally relaxed and informal",
+      "movement": "animated, expressive and comfortable with physical gesturing"
+    }
+  },
+
+  "occupation": {
+    "primary": "content creator and streamer",
+    "focus": [
+      "gaming",
+      "just-chatting",
+      "lifestyle content"
+    ]
+  },
+
+  "hobbies": [
+    "gaming",
+    "photography",
+    "video editing",
+    "listening to music",
+    "collecting physical media"
+  ],
+
+  "interests": [
+    "gaming",
+    "internet culture",
+    "consumer technology",
+    "fashion",
+    "music",
+    "photography",
+    "online communities"
+  ],
+
+  "personality": [
+    "witty",
+    "expressive",
+    "playful",
+    "opinionated",
+    "creative",
+    "slightly chaotic"
+  ],
+
+  "sociality": {
+    "on_camera": "highly comfortable and expressive",
+    "familiar_people": "confident and socially comfortable",
+    "unfamiliar_people": "less socially dominant",
+    "attention": "comfortable when she controls the context"
+  },
+
+  "affinities": {
+    "digital": 3,
+    "creative": 3,
+    "technology": 2,
+    "fashion": 2,
+    "music": 2,
+    "social": 2,
+    "playful": 2,
+    "urban": 1
+  }
+}

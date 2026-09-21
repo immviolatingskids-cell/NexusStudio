@@ -1,0 +1,22 @@
+{
+  "schema": "character_studio.locked_look.v1",
+  "character_id": "ayami_tanaka",
+  "reference_basis": {"images": 1, "confidence": "single-reference", "instruction": "Preserve anatomical identity and characteristic hair baseline; exclude office wardrobe, jewellery, background, posture, and polished studio lighting."},
+  "identity_lock": {
+    "face_geometry": {"priority": "critical", "description": "Soft slender oval face with moderate length, gently defined high-mid cheekbones, a smooth narrowing jaw, and a small rounded-to-subtly-pointed chin. Delicate but not childlike."},
+    "eyes": {"priority": "critical", "description": "Dark brown elongated almond eyes, average spacing, clear tapered inner and outer corners, subtle upper-lid fold, and level-to-slightly lifted orientation. Preserve natural East Asian eyelid anatomy without enlarging into round eyes."},
+    "brows": {"priority": "strong", "description": "Dark brown medium-full brows with a low gentle arch, clean tapered ends, and natural separation from the eyes."},
+    "nose": {"priority": "critical", "description": "Straight slim-to-medium bridge, compact softly rounded tip, and narrow natural nostril width; moderate projection in balance with the delicate jaw."},
+    "mouth": {"priority": "critical", "description": "Medium-width mouth with smooth medium-full lips, subtle cupid's bow, and slightly fuller lower lip. Corners lift gently in a composed smile."},
+    "skin": {"priority": "strong", "description": "Light warm-neutral skin with even but realistic natural texture and gentle tonal variation; retain a small beauty mark below the left eye when visible."},
+    "hair": {"priority": "critical", "description": "Very dark espresso-brown long hair, thick and glossy with loose natural S-wave through the lengths, center-to-soft-off-centre part, airy curtain fringe and wispy face-framing strands. Preserve colour, length, and density while allowing styling variation."},
+    "body_proportions": {"priority": "critical", "description": "Medium-tall lean softly athletic frame with graceful upright carriage, gently defined shoulders, long balanced legs, a defined waist, and naturally feminine hips; toned without appearing frail or heavily muscular."}
+  },
+  "identity_relationships": {"priority": "critical", "facial_length_to_width": "slender oval, moderately longer than wide", "eye_spacing": "approximately one eye width", "cheek_to_jaw_transition": "subtle cheek prominence flows into a smooth narrow jaw", "nose_to_mouth_relationship": "slim compact nose over a moderately wider composed mouth", "lip_ratio": "upper and lower lips balanced, lower lip slightly fuller", "feature_balance": "elongated eyes, slim nose, gentle jaw, and airy dark hair create a refined harmonious identity"},
+  "expression_behavior": {"priority": "strong", "neutral": "Composed approachable expression with relaxed lips and attentive level gaze.", "smile": "Small controlled smile lifts the corners and softly rounds the cheeks without dramatically changing face width.", "cheek_response": "Cheeks lift subtly and remain gently defined rather than full.", "eye_response": "Eyes narrow delicately at the outer corners while preserving their elongated almond geometry."},
+  "signature_features": [{"priority": "critical", "feature": "dark elongated almond eyes"}, {"priority": "critical", "feature": "long thick espresso-brown hair with airy curtain fringe"}, {"priority": "strong", "feature": "soft slender oval face and small chin"}, {"priority": "strong", "feature": "small beauty mark below the left eye"}],
+  "mutable_features": {"hair_style": "limited: arrangement may change; preserve long length, dark base colour, density, and soft face framing", "makeup": true, "clothing": true, "jewellery": true, "expression": true, "pose": true, "environment": true, "capture_style": true},
+  "presentation_exclusions": ["cream sweater", "navy trousers", "pendant necklace", "home office", "programming monitors", "hands-behind-back pose"],
+  "immutable_features": ["slender oval facial proportions", "eye shape and spacing", "nose structure", "natural lip proportions", "beauty mark below left eye", "dark long dense hair baseline", "lean softly athletic proportions"],
+  "negative_identity_constraints": ["no round wide face", "no oversized round eyes", "no blunt square jaw", "no short or light hair", "no porcelain-plastic skin", "no frail underweight body", "no exaggerated anime-like East Asian features"]
+}

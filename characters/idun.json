@@ -1,0 +1,123 @@
+{
+  "schema_version": "0.1",
+  "character_id": "idun_braten",
+
+  "identity": {
+    "name": "Idun Synnøve Bråten",
+    "age": 26,
+    "gender": "woman",
+    "nationality": "Norwegian",
+    "home": "Ålesund, Norway"
+  },
+
+  "appearance": {
+    "body": {
+      "height": "tall",
+      "build": "sturdy and softly athletic",
+      "proportions": "strong, naturally substantial proportions",
+      "physical_features": [
+        "strong forearms",
+        "strong hands",
+        "gently developed shoulders",
+        "solid lower-body build"
+      ]
+    },
+
+    "skin": {
+      "tone": "fair neutral",
+      "texture": "natural skin texture",
+      "features": [
+        "subtle freckles across nose and cheeks",
+        "naturally rosy cheeks"
+      ]
+    },
+
+    "face": {
+      "shape": "long softly angular",
+      "jaw": "strong and clearly defined",
+      "cheekbones": "high and prominent",
+      "cheeks": "moderately lean with visible underlying structure",
+      "nose": {
+        "bridge": "straight and prominent",
+        "tip": "natural and softly defined",
+        "width": "medium"
+      },
+      "lips": {
+        "shape": "defined natural shape",
+        "fullness": "medium with a fuller lower lip"
+      },
+      "brows": {
+        "shape": "mostly straight with a subtle natural arch",
+        "density": "thick",
+        "color": "dark brown"
+      }
+    },
+
+    "eyes": {
+      "color": "grey-green",
+      "shape": "slightly deep-set almond",
+      "size": "medium"
+    },
+
+    "hair": {
+      "color": "medium brown",
+      "length": "just below shoulder-length",
+      "density": "thick",
+      "texture": "naturally textured with slight movement",
+      "framing": "soft face-framing strands"
+    },
+
+    "distinguishing_features": [
+      "high defined cheekbones",
+      "prominent straight nose",
+      "thick dark brows",
+      "naturally rosy complexion"
+    ],
+
+    "physicality": {
+      "posture": "naturally upright and purposeful",
+      "movement": "confident, practical and physically assured",
+      "hands": "visibly strong from regular hands-on work"
+    }
+  },
+
+  "occupation": {
+    "primary": "chef"
+  },
+
+  "hobbies": [
+    "baking",
+    "skiing",
+    "fishing",
+    "photography",
+    "trying new restaurants"
+  ],
+
+  "interests": [
+    "food",
+    "cooking",
+    "local ingredients",
+    "travel",
+    "music",
+    "food photography"
+  ],
+
+  "personality": [
+    "confident",
+    "direct",
+    "witty",
+    "hardworking",
+    "adventurous",
+    "stubborn"
+  ],
+
+  "affinities": {
+    "food": 3,
+    "hands_on": 3,
+    "active": 2,
+    "outdoors": 2,
+    "adventurous": 2,
+    "social": 1,
+    "creative": 1
+  }
+}

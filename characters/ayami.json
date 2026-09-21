@@ -1,0 +1,108 @@
+{
+  "schema_version": "0.1",
+  "character_id": "ayami_tanaka",
+
+  "identity": {
+    "name": "Ayami Tanaka",
+    "nickname": "Sumai",
+    "age": 23,
+    "gender": "woman",
+    "nationality": "Japanese",
+    "home": "Tokyo, Japan"
+  },
+
+  "appearance": {
+    "body": {
+      "height": "tall-average",
+      "build": "lean athletic",
+      "proportions": "balanced athletic proportions",
+      "physical_features": [
+        "strong legs",
+        "gently defined shoulders"
+      ]
+    },
+
+    "skin": {
+      "tone": "light natural complexion",
+      "texture": "natural skin texture"
+    },
+
+    "face": {
+      "shape": "soft oval",
+      "jaw": "gently defined",
+      "cheekbones": "softly defined",
+      "nose": {
+        "bridge": "straight",
+        "tip": "softly rounded",
+        "width": "medium"
+      },
+      "lips": {
+        "shape": "softly defined",
+        "fullness": "medium"
+      },
+      "brows": {
+        "shape": "straight",
+        "density": "natural",
+        "color": "dark"
+      }
+    },
+
+    "eyes": {
+      "color": "dark brown",
+      "shape": "almond",
+      "size": "medium"
+    },
+
+    "hair": {
+      "color": "very dark brown",
+      "length": "long",
+      "density": "thick",
+      "texture": "soft natural wave",
+      "framing": "wispy face-framing strands"
+    },
+
+    "distinguishing_features": [
+      "beauty mark beneath left eye",
+      "faint scar on right knee"
+    ],
+
+    "physicality": {
+      "posture": "naturally upright and graceful",
+      "movement": "controlled and composed"
+    }
+  },
+
+  "occupation": {
+    "primary": "software engineer"
+  },
+
+  "hobbies": [
+    "walking",
+    "cycling",
+    "swimming",
+    "cooking"
+  ],
+
+  "interests": [
+    "technology",
+    "programming",
+    "language learning"
+  ],
+
+  "personality": [
+    "calm",
+    "kind",
+    "thoughtful",
+    "quietly confident",
+    "focused",
+    "reserved"
+  ],
+
+  "affinities": {
+    "technology": 3,
+    "focused": 3,
+    "quiet": 2,
+    "active": 1,
+    "urban": 1
+  }
+}
