@@ -1,3 +1,5 @@
+import json
+
 import pytest
 
 from engine.composer import compose_negative_prompt, compose_prompt
@@ -7,7 +9,7 @@ from engine.resolver import resolve_scene
 from engine.scene_models import SceneBrief
 from engine.scoring import score_entry
 from engine import takes
-from pools.registry import find
+from pools.registry import find, find_display
 
 
 CHARACTERS = [
@@ -93,11 +95,12 @@ def test_recorded_take_captures_resolved_scene(tmp_path, monkeypatch):
     record = takes.record_take(scene)
 
     assert record.is_file()
-    assert '"provider": "offline-preview"' in record.read_text(encoding="utf-8")
+    assert '"name": "offline-preview"' in record.read_text(encoding="utf-8")
+    assert takes.verify_take(json.loads(record.read_text(encoding="utf-8"))["take_id"])
 
 
 def test_affinities_can_rank_scene_vocabulary_without_changing_identity():
-    streetwear = find("streetwear", category="style")
+    streetwear = find_display("streetwear", category="style")
 
     assert streetwear is not None
     assert score_entry(streetwear, {"streetwear": 3}) == 3

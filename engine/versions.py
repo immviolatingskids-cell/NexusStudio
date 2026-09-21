@@ -1,0 +1,11 @@
+"""Version identifiers for every durable NexusStudio contract."""
+
+CHARACTER_VERSION = "nexus_studio.character.v1"
+IDENTITY_VERSION = "nexus_studio.identity.v1"
+SCENE_BRIEF_VERSION = "nexus_studio.scene_brief.v1"
+RESOLVED_SCENE_VERSION = "nexus_studio.resolved_scene.v1"
+PROMPT_DOCUMENT_VERSION = "nexus_studio.prompt_document.v1"
+TAKE_VERSION = "nexus_studio.take.v2"
+MANIFEST_VERSION = "nexus_studio.take_manifest.v1"
+LEGACY_CHARACTER_VERSION = "0.1"
+LEGACY_IDENTITY_VERSION = "character_studio.locked_look.v1"

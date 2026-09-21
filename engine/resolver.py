@@ -5,10 +5,13 @@ from __future__ import annotations
 import random
 from collections.abc import Mapping
 
+from dataclasses import replace
+
 from engine.scene_models import ResolvedScene, SceneBrief
 from engine.scoring import preferred_entries
+from engine.versions import RESOLVED_SCENE_VERSION
 from pool_models import PoolEntry
-from pools.registry import entries_for, find
+from pools.registry import BY_ID, entries_for, find_display
 
 
 def _pick(
@@ -17,7 +20,7 @@ def _pick(
     rng: random.Random,
     affinities: Mapping[str, int],
 ) -> PoolEntry:
-    matched = find(requested, category=category)
+    matched = find_display(requested, category=category)
     if matched:
         return matched
     options = entries_for(category)
@@ -42,14 +45,20 @@ def resolve_scene(
         raise ValueError("A scene brief needs a character_id.")
     rng = random.Random(brief.seed)
     affinities = affinities or {}
-    selections = {
-        "location": _pick("location", brief.location, rng, affinities).text,
-        "atmosphere": _pick("atmosphere", brief.atmosphere, rng, affinities).text,
-        "wardrobe": _pick("style", brief.wardrobe_style, rng, affinities).text,
-        "pose": _pick("base_pose", brief.pose, rng, affinities).text,
-        "lighting": _pick("lighting_setup", brief.lighting, rng, affinities).text,
-        "framing": _pick("framing", brief.framing, rng, affinities).text,
-    }
+    requested = {"location": brief.location, "atmosphere": brief.atmosphere, "wardrobe": brief.wardrobe_style, "pose": brief.pose, "lighting": brief.lighting, "framing": brief.framing}
+    categories = {"location": "location", "atmosphere": "atmosphere", "wardrobe": "style", "pose": "base_pose", "lighting": "lighting_setup", "framing": "framing"}
+    entries: dict[str, PoolEntry] = {}
+    for key, category in categories.items():
+        locked_id = brief.locked_selections.get(key)
+        if locked_id:
+            entry = BY_ID.get(locked_id)
+            if entry is None or entry.metadata.get("category") != category:
+                raise ValueError(f"Locked selection '{locked_id}' is invalid for {key}.")
+        else:
+            entry = _pick(category, requested[key], rng, affinities)
+        entries[key] = entry
+    selections = {key: entry.text for key, entry in entries.items()}
+    selection_ids = {key: entry.id for key, entry in entries.items()}
     if brief.hair_style:
         selections["hair_style"] = brief.hair_style
     if brief.expression:
@@ -59,8 +68,24 @@ def resolve_scene(
     if brief.activity:
         selections["activity"] = brief.activity
     return ResolvedScene(
+        schema_version=RESOLVED_SCENE_VERSION,
         brief=brief,
+        selection_ids=selection_ids,
         selections=selections,
         identity_anchors=identity_profile.anchors,
         negative_constraints=identity_profile.negative_constraints,
     )
+
+
+def reroll_scene(scene: ResolvedScene, identity_profile, affinities: Mapping[str, int] | None = None, *, dimension: str | None = None) -> ResolvedScene:
+    """Advance a seed while retaining explicit locks and, optionally, all but one dimension."""
+    valid = set(scene.selection_ids)
+    if dimension is not None and dimension not in valid:
+        raise ValueError(f"Unknown reroll dimension '{dimension}'.")
+    if dimension in scene.brief.locks:
+        raise ValueError(f"Cannot reroll locked dimension '{dimension}'.")
+    locked = {key: scene.selection_ids[key] for key in scene.brief.locks if key in scene.selection_ids}
+    if dimension is not None:
+        locked.update({key: value for key, value in scene.selection_ids.items() if key != dimension})
+    brief = replace(scene.brief, seed=scene.brief.seed + 1, locked_selections=locked)
+    return resolve_scene(brief, identity_profile, affinities)
