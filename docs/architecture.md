@@ -27,6 +27,12 @@ python generate.py luna --activity "concert preparation" --generate --provider f
 python generate.py --migrate-character luna
 ```
 
+For a friendlier directing flow, run `python studio.py`. It guides character
+selection and scene direction, then lets you lock details, reroll only what is
+unlocked, save a preview, or run the deterministic fake provider. It is a thin
+CLI layer over the same `SceneBrief` and resolver contracts; `generate.py`
+remains the explicit automation interface.
+
 Run validation with:
 
 ```powershell
