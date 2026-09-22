@@ -1,0 +1,104 @@
+CharacterStudio quick prompt audit — 2026-09-22
+Adapter: gemini
+Density: standard
+Scope: compiled prompt inspection only; no provider/image generation was run.
+
+RESULT 1 — Ayami Tanaka / workplace
+Identity anchors:
+- long very dark brown hair
+- dark brown eyes
+- lean athletic
+
+Plan:
+Activity: She works naturally in her professional setting.
+Environment: The scene is set in a practical software engineer workspace.
+Composition: Use a three-quarter angle at eye level.
+Lighting: Soft practical indoor light keeps the work setting believable.
+Omitted: atmosphere
+Canonical fallbacks: appearance.hair.color, appearance.hair.length
+Conflicts: none
+
+Compiled prompt:
+Photorealistic lifestyle image of Ayami Tanaka, a 23-year-old Japanese woman, with long very dark brown hair, dark brown eyes, lean athletic. She has light natural complexion skin, soft oval facial features, and softly defined cheekbones. Her hair is thick, soft natural wave, and wispy face-framing strands.
+
+She is dressed in simple workwear. She works naturally in her professional setting. The scene is set in a practical software engineer workspace.
+
+Use a three-quarter angle at eye level. Soft practical indoor light keeps the work setting believable.
+
+natural skin texture, realistic proportions preserve her described hair colour, eye colour, and distinguishing facial features
+
+Assessment: NEEDS REFINEMENT
+Classification: COMPILER
+Notes: Identity is clear and front-loaded. The workplace event is too abstract to picture, and “light natural complexion skin” is visibly assembled wording. The workspace establishes a job category but not a plausible on-screen action.
+
+RESULT 2 — Luna Campbell / lifestyle
+Identity anchors:
+- shoulder-length natural auburn-copper hair
+- green-hazel eyes
+- dense natural freckles across nose and upper cheeks
+- compact athletic-curvy
+
+Plan:
+Activity: She sits casually in an unposed everyday moment.
+Environment: The scene is set in an everyday setting in Manchester, UK.
+Composition: Use a three-quarter angle at eye level.
+Lighting: Diffused daylight enters from a nearby window, creating gentle facial modelling.
+Omitted: atmosphere
+Canonical fallbacks: none
+Conflicts: none
+
+Compiled prompt:
+Photorealistic lifestyle image of Luna Campbell, a 21-year-old British woman, with shoulder-length natural auburn-copper hair, green-hazel eyes, dense natural freckles across nose and upper cheeks, compact athletic-curvy. She has fair-to-light warm skin, short softly rounded facial features, and low and softly defined cheekbones. Her hair is thick, natural loose movement, and loose face-framing strands.
+
+She is dressed in casual layered clothing. She sits casually in an unposed everyday moment. The scene is set in an everyday setting in Manchester, UK.
+
+Use a three-quarter angle at eye level. Diffused daylight enters from a nearby window, creating gentle facial modelling.
+
+natural skin texture, realistic proportions preserve her described hair colour, eye colour, and distinguishing facial features
+
+Assessment: PASS WITH LIMITATIONS
+Classification: COMPILER
+Notes: This is the clearest identity result: auburn-copper hair, green-hazel eyes, freckles, and build all survive. Lighting is physically understandable. The event and environment are too generic to make the intended moment distinctive; this is a compiler/scene-default specificity issue, not missing character vocabulary.
+
+RESULT 3 — Idun Synnøve Bråten / workplace
+Identity anchors:
+- just below shoulder-length medium brown hair
+- grey-green eyes
+- subtle freckles across nose and cheeks
+- sturdy and softly athletic
+
+Plan:
+Activity: She stands at a preparation counter, focused on the work in her hands.
+Environment: The scene is set in a practical chef workspace.
+Composition: Use a three-quarter angle at eye level.
+Lighting: Soft practical indoor light keeps the work setting believable.
+Omitted: atmosphere
+Canonical fallbacks: appearance.hair.color
+Conflicts: none
+
+Compiled prompt:
+Photorealistic lifestyle image of Idun Synnøve Bråten, a 26-year-old Norwegian woman, with just below shoulder-length medium brown hair, grey-green eyes, subtle freckles across nose and cheeks, sturdy and softly athletic. She has fair neutral skin, long softly angular facial features, and high and prominent cheekbones. Her hair is thick, naturally textured with slight movement, and soft face-framing strands.
+
+She is dressed in simple workwear. She stands at a preparation counter, focused on the work in her hands. The scene is set in a practical chef workspace.
+
+Use a three-quarter angle at eye level. Soft practical indoor light keeps the work setting believable.
+
+natural skin texture, realistic proportions preserve her described hair colour, eye colour, and distinguishing facial features
+
+Assessment: PASS WITH MINOR REFINEMENT
+Classification: COMPILER
+Notes: The strongest scene of the three. The preparation counter produces a coherent action, place, pose, and light. “Work in her hands” is slightly vague but remains credible without inventing a specific dish.
+
+Cross-case findings
+
+1. COMPILER — Fix the realism/identity-constraint boundary. All three prompts end with one run-on fragment: “natural skin texture, realistic proportions preserve...”. Render those as separate sentences or distinct final clauses.
+
+2. COMPILER — Normalize canonical descriptive scalars into natural phrases. Examples: “light natural complexion skin” and “low and softly defined cheekbones” expose source-shaped wording. The compiler should say “a light, natural complexion” and “low, softly defined cheekbones”.
+
+3. SCENE/COMPILER — Strengthen generic lifestyle and software-workplace events with a small, deterministic action grammar. Do not invent props or pools; use an activity that can be visualized, then let later scene vocabulary add specificity.
+
+4. No identity contradiction, semantic repetition, provider issue, or vocabulary gap was discovered in these three cases.
+
+Overall view
+
+The system is structurally doing the important things correctly: identity survives, prompts are deterministic, key traits arrive before scene direction, lighting is contextually coherent, and Idun demonstrates that the pipeline can already make a credible image scenario. The next quality gain is not more data. It is a narrow compiler refinement pass for grammar and event specificity.

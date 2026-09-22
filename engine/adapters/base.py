@@ -51,7 +51,13 @@ def prose_paragraphs(sections: tuple[PromptSection, ...]) -> str:
         ("composition", "lighting", "atmosphere"),
         ("realism", "constraints"),
     )
-    return "\n\n".join(" ".join(by_id[name] for name in group if name in by_id) for group in groups if any(name in by_id for name in group))
+    return "\n\n".join(_sentence_join(by_id[name] for name in group if name in by_id) for group in groups if any(name in by_id for name in group))
+
+
+def _sentence_join(parts) -> str:
+    """Join complete clauses without allowing final constraints to run on."""
+    values = [part.strip() for part in parts if part and part.strip()]
+    return " ".join(value if value.endswith((".", "!", "?")) else value + "." for value in values)
 
 
 def result_for(name: str, plan: PromptPlan, sections: tuple[PromptSection, ...], positive: str, negative: str | None) -> PromptResult:

@@ -1,0 +1,60 @@
+CharacterStudio v1.0.1b — Prompt Grammar Closure
+Adapter: gemini
+Density: standard
+API calls: none
+
+Defect 1 — realism / identity constraint boundary
+Old (all three):
+natural skin texture, realistic proportions preserve her described hair colour, eye colour, and distinguishing facial features
+
+New (all three):
+natural skin texture, realistic proportions. preserve her described hair colour, eye colour, and distinguishing facial features.
+
+Result: PASS. The two independent instructions are now separate sentences.
+
+Defect 2 — field-aware skin/face rendering
+Ayami old:
+She has light natural complexion skin, soft oval facial features, and softly defined cheekbones.
+
+Ayami new:
+She has a light, natural complexion, soft oval facial features, and softly defined cheekbones.
+
+Luna old:
+She has fair-to-light warm skin, short softly rounded facial features, and low and softly defined cheekbones.
+
+Luna new:
+She has a fair-to-light warm complexion, short softly rounded facial features, and low and softly defined cheekbones.
+
+Idun old:
+She has fair neutral skin, long softly angular facial features, and high and prominent cheekbones.
+
+Idun new:
+She has a fair neutral complexion, long softly angular facial features, and high and prominent cheekbones.
+
+Result: PASS. Skin tone now uses a complexion phrase; face shape and cheekbones remain separately field-aware.
+
+Defect 3 — generic professional action
+Ayami old:
+She works naturally in her professional setting. The scene is set in a practical software engineer workspace.
+
+Ayami new:
+She works at a desk, focused on her screen and keyboard. The scene is set in a practical software engineer workspace.
+
+Result: PASS. The deterministic occupation mapping provides a visual action without introducing props or new vocabulary systems.
+
+Regenerated prompt summaries
+
+Ayami — workplace
+Identity: long very dark brown hair; dark brown eyes; lean athletic.
+Scene: desk-based software work, software engineer workspace, three-quarter eye-level composition, soft practical indoor light.
+Assessment: improved from accurate-but-abstract to directly visualizable.
+
+Luna — lifestyle
+Identity: shoulder-length auburn-copper hair; green-hazel eyes; dense freckles; compact athletic-curvy build.
+Scene: seated casual everyday moment in Manchester, three-quarter eye-level composition, diffused window daylight.
+Assessment: grammar is clean and identity remains highly distinctive. The activity stays intentionally general because no scene-specific activity was requested.
+
+Idun — workplace
+Identity: medium brown hair; grey-green eyes; freckles; sturdy softly athletic build.
+Scene: preparation-counter chef action, practical chef workspace, three-quarter eye-level composition, soft practical indoor light.
+Assessment: remains the strongest of the three; grammar closure improves its final constraints without changing its successful scene event.

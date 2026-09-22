@@ -92,7 +92,7 @@ def compile_prompt_plan(character, visual_description, scene_description, densit
     body = None
     face_shape = _appearance(character, "face.shape")
     cheekbones = _appearance(character, "face.cheekbones")
-    face_bits = _unique((f"{skin_tone} skin" if skin_tone else "", f"{face_shape} facial features" if face_shape else "", f"{cheekbones} cheekbones" if cheekbones else ""))
+    face_bits = _unique((_skin_phrase(skin_tone), f"{face_shape} facial features" if face_shape else "", f"{cheekbones} cheekbones" if cheekbones else ""))
     face = "She has " + _natural_join(face_bits) + "." if face_bits else None
     hair_density = _appearance(character, "hair.density")
     hair_texture = _appearance(character, "hair.texture")
@@ -153,6 +153,16 @@ def _natural_join(values: tuple[str, ...]) -> str:
     return ", ".join(values[:-1]) + ", and " + values[-1]
 
 
+def _skin_phrase(tone: str) -> str:
+    """Render canonical skin scalars as grammatical appearance language."""
+    value = tone.removesuffix(" skin").removesuffix(" complexion").strip()
+    if value == "light natural":
+        return "a light, natural complexion"
+    if not value:
+        return ""
+    return f"a {value} complexion"
+
+
 def _pose_for(activity: str | None, pose: str | None) -> str | None:
     if not activity:
         return pose
@@ -168,8 +178,11 @@ def _event_for(mode: str, activity: str | None, pose: str | None) -> str | None:
     """Make activity and pose one visual event instead of adjacent labels."""
     if activity and activity.startswith("working as a chef"):
         return "She stands at a preparation counter, focused on the work in her hands."
+    if activity and activity.startswith("working as a software engineer"):
+        return "She works at a desk, focused on her screen and keyboard."
     if activity and activity.startswith("working as a "):
-        return "She works naturally in her professional setting."
+        occupation = activity.removeprefix("working as a ")
+        return f"She works naturally as a {occupation}."
     if activity and activity.startswith("enjoying "):
         hobby = activity.removeprefix("enjoying ")
         return f"She is {hobby}, moving naturally through the setting."
