@@ -6,6 +6,7 @@ from pathlib import Path
 
 from engine.loader import (
     CharacterNotFoundError,
+    load_all_characters,
     load_character,
 )
 from engine.identity import load_identity_profile
@@ -44,6 +45,21 @@ def print_character_summary(character) -> None:
         )
 
     print()
+
+
+def print_foundation_summary() -> None:
+    """Print the v0.2 character-loading smoke test without resolving a scene."""
+    characters = load_all_characters()
+    print("CharacterStudio")
+    print()
+    print(f"{len(characters)} characters loaded")
+    print()
+    for character in characters:
+        identity = character.identity
+        print(character.character_id)
+        print(f"  {identity.name} · {identity.age} · {identity.home}")
+    print()
+    print("Validation: PASS")
 
 
 def main() -> None:
@@ -103,7 +119,12 @@ def main() -> None:
         print(json.dumps(migrate_character_file(path, apply=args.apply), indent=2))
         return
     if not args.character:
-        parser.error("character is required unless using an administrative command")
+        try:
+            print_foundation_summary()
+        except CharacterValidationError as exc:
+            print(f"Validation: FAIL\n{exc}")
+            raise SystemExit(1)
+        return
 
     try:
         character = load_character(args.character)

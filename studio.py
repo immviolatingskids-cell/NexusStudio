@@ -12,7 +12,7 @@ from pathlib import Path
 from config import OUTPUT_DIR
 from engine.composer import compose_negative_prompt, compose_prompt
 from engine.desktop_controller import DesktopStudioController
-from engine.loader import list_character_ids, load_character
+from engine.loader import CharacterNotFoundError, list_character_ids, load_character
 from engine.providers import ProviderError, get_provider
 from engine.scene_models import ResolvedScene
 from engine.takes import list_takes
@@ -59,9 +59,12 @@ def guided_session(input_fn=input, output_fn=print) -> None:
     output_fn(f"Available characters: {_character_choices()}")
     while True:
         key = _optional("Choose a character: ", input_fn)
-        if key in list_character_ids():
+        try:
+            load_character(key or "")
+        except CharacterNotFoundError:
+            output_fn("Please choose one of the listed character keys.")
+        else:
             break
-        output_fn("Please choose one of the listed character keys.")
     idea = _optional("What is happening? (for example, 'getting ready for a concert'): ", input_fn)
     direction = {
         "location": _optional("Where? Leave blank for a suggested location: ", input_fn),

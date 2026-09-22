@@ -12,8 +12,20 @@ from engine.rules import (
 
 
 def list_character_ids() -> list[str]:
-    """Return canonical character filenames without their .json suffix."""
-    return sorted(path.stem for path in CHARACTERS_DIR.glob("*.json") if path.is_file())
+    """Return canonical IDs from every top-level character JSON record."""
+    character_ids: list[str] = []
+    for path in sorted(CHARACTERS_DIR.glob("*.json")):
+        if not path.is_file():
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            raise CharacterValidationError(
+                f"{path.stem}.$: invalid JSON at line {exc.lineno}, column {exc.colno}"
+            ) from exc
+        validate_character_data(data, character=path.stem)
+        character_ids.append(data["character_id"])
+    return character_ids
 
 
 class CharacterNotFoundError(FileNotFoundError):
@@ -65,7 +77,7 @@ def load_character(character_name: str) -> Character:
             f"line {exc.lineno}, column {exc.colno}"
         ) from exc
 
-    validate_character_data(data)
+    validate_character_data(data, character=path.stem)
 
     return Character.from_dict(data)
 

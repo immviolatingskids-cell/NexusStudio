@@ -110,11 +110,21 @@ def _require_list(value: Any, location: str) -> list[Any]:
     return value
 
 
-def validate_character_data(data: dict[str, Any]) -> None:
+def validate_character_data(data: dict[str, Any], *, character: str | None = None) -> None:
+    """Validate a canonical character record without changing its contents.
+
+    ``character`` is a source label supplied by the loader so failures identify
+    the affected record even when its own ``character_id`` is absent or invalid.
+    """
+    label = character or (
+        data.get("character_id", "<unknown>") if isinstance(data, dict) else "<unknown>"
+    )
+
+    def fail(location: str, reason: str) -> None:
+        raise CharacterValidationError(f"{label}.{location}: {reason}")
+
     if not isinstance(data, dict):
-        raise CharacterValidationError(
-            "Character JSON root must be an object."
-        )
+        fail("$", "expected object/dictionary")
 
     _require_fields(
         data,
@@ -136,14 +146,10 @@ def validate_character_data(data: dict[str, Any]) -> None:
         )
 
     if not isinstance(data["character_id"], str):
-        raise CharacterValidationError(
-            "character_id must be a string."
-        )
+        fail("character_id", "expected string")
 
     if not data["character_id"].strip():
-        raise CharacterValidationError(
-            "character_id must be a non-empty string."
-        )
+        fail("character_id", "expected non-empty string")
 
     identity = _require_dict(
         data["identity"],
@@ -156,15 +162,16 @@ def validate_character_data(data: dict[str, Any]) -> None:
         "identity",
     )
 
-    if not isinstance(identity["age"], int):
-        raise CharacterValidationError(
-            "identity.age must be an integer."
-        )
+    for field_name in ("name", "gender", "nationality", "home"):
+        value = identity[field_name]
+        if not isinstance(value, str) or not value.strip():
+            fail(f"identity.{field_name}", "expected non-empty string")
 
-    if not 20 <= identity["age"] <= 27:
-        raise CharacterValidationError(
-            "identity.age must be between 20 and 27."
-        )
+    if not isinstance(identity["age"], int) or isinstance(identity["age"], bool):
+        fail("identity.age", "expected integer")
+
+    if not 18 <= identity["age"] <= 120:
+        fail("identity.age", "expected sensible adult age (18-120)")
 
     appearance = _require_dict(
         data["appearance"],
@@ -177,6 +184,11 @@ def validate_character_data(data: dict[str, Any]) -> None:
         "appearance",
     )
 
+    for section in ("skin", "physicality"):
+        _require_dict(appearance[section], f"appearance.{section}")
+
+    _require_list(appearance["distinguishing_features"], "appearance.distinguishing_features")
+
     body = _require_dict(
         appearance["body"],
         "appearance.body",
@@ -187,6 +199,11 @@ def validate_character_data(data: dict[str, Any]) -> None:
         REQUIRED_BODY_FIELDS,
         "appearance.body",
     )
+
+    for field_name in ("height", "build", "proportions"):
+        if not isinstance(body[field_name], str):
+            fail(f"appearance.body.{field_name}", "expected string")
+    _require_list(body["physical_features"], "appearance.body.physical_features")
 
     face = _require_dict(
         appearance["face"],
@@ -199,6 +216,10 @@ def validate_character_data(data: dict[str, Any]) -> None:
         "appearance.face",
     )
 
+    for field_name in ("shape", "jaw", "cheekbones"):
+        if not isinstance(face[field_name], str):
+            fail(f"appearance.face.{field_name}", "expected string")
+
     eyes = _require_dict(
         appearance["eyes"],
         "appearance.eyes",
@@ -209,6 +230,10 @@ def validate_character_data(data: dict[str, Any]) -> None:
         REQUIRED_EYE_FIELDS,
         "appearance.eyes",
     )
+
+    for field_name in REQUIRED_EYE_FIELDS:
+        if not isinstance(eyes[field_name], str):
+            fail(f"appearance.eyes.{field_name}", "expected string")
 
     hair = _require_dict(
         appearance["hair"],
@@ -221,15 +246,17 @@ def validate_character_data(data: dict[str, Any]) -> None:
         "appearance.hair",
     )
 
+    for field_name in REQUIRED_HAIR_FIELDS:
+        if not isinstance(hair[field_name], str):
+            fail(f"appearance.hair.{field_name}", "expected string")
+
     occupation = _require_dict(
         data["occupation"],
         "occupation",
     )
 
-    if "primary" not in occupation:
-        raise CharacterValidationError(
-            "occupation.primary is required."
-        )
+    if not isinstance(occupation.get("primary"), str) or not occupation["primary"].strip():
+        fail("occupation.primary", "expected non-empty string")
 
     for field_name in (
         "hobbies",
