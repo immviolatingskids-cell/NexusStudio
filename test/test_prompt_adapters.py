@@ -22,7 +22,7 @@ def test_each_adapter_is_deterministic_and_preserves_luna_identity_and_scene(ada
     second = build_prompt("luna_campbell", "portrait", adapter)
 
     assert first.to_dict() == second.to_dict()
-    for phrase in ("Luna Campbell", "21-year-old", "British", "curvy", "freckles", "green-hazel", "auburn", "simple neutral environment", "medium portrait framed", "soft natural daylight"):
+    for phrase in ("Luna Campbell", "21-year-old", "British", "curvy", "freckles", "green-hazel", "auburn", "simple neutral environment", "Frame her in a medium portrait", "Soft natural daylight"):
         assert phrase in first.positive_prompt
 
 
@@ -63,7 +63,7 @@ def test_adapter_negative_prompt_policy_is_explicit():
 @pytest.mark.parametrize("adapter", list_adapters())
 def test_scene_context_with_activity_is_preserved_by_every_adapter(adapter):
     prompt = build_prompt("idun", "workplace", adapter)
-    for phrase in ("practical chef workspace", "working as a chef", "three-quarter angle", "soft practical indoor light"):
+    for phrase in ("practical chef workspace", "preparation counter", "three-quarter angle", "Soft practical indoor light"):
         assert phrase in prompt.positive_prompt
 
 

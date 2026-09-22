@@ -47,28 +47,28 @@ def _composition(camera: str | None) -> str | None:
         return None
     text = camera.replace("framing", "composition")
     if "full-body" in text:
-        return "full-body composition with the entire figure visible and comfortable space around her"
+        return "Use a full-body composition with her entire figure visible, including her feet, and comfortable space around her."
     if "medium portrait" in text:
-        return "medium portrait framed from roughly the waist upward"
+        return "Frame her in a medium portrait from roughly the waist upward."
     if "wide environmental" in text:
-        return "wide environmental composition showing her within the surrounding setting"
+        return "Use a wide environmental composition that clearly shows her within the surrounding setting."
     if "three-quarter view" in text:
-        return "three-quarter angle at eye level"
-    return text
+        return "Use a three-quarter angle at eye level."
+    return f"Use {text}."
 
 
 def _lighting(lighting: str | None, environment: str | None) -> str | None:
     if not lighting:
         return None
     if "window light" in lighting:
-        return "diffused daylight entering from a nearby window, with gentle facial modelling"
+        return "Diffused daylight enters from a nearby window, creating gentle facial modelling."
     if "indoor ambient" in lighting:
-        return "soft practical indoor light that keeps the work setting believable"
+        return "Soft practical indoor light keeps the work setting believable."
     if "overcast" in lighting:
-        return "soft overcast daylight with even, natural facial light"
+        return "Soft overcast daylight gives even, natural facial light."
     if "natural daylight" in lighting:
-        return "soft natural daylight with gentle, believable shadows"
-    return lighting
+        return "Soft natural daylight creates gentle, believable shadows."
+    return lighting.rstrip(".") + "."
 
 
 def compile_prompt_plan(character, visual_description, scene_description, density: str = "standard") -> PromptPlan:
@@ -109,8 +109,9 @@ def compile_prompt_plan(character, visual_description, scene_description, densit
         character_id=character.character_id, character_name=character.identity.name, mode=scene_description.mode,
         density=density, image_intent=_intent(scene_description.mode), subject_identity=identity,
         identity_anchors=anchors, body_description=body, face_description=face, hair_description=hair,
-        wardrobe=context.wardrobe, activity=context.activity or ("caught in an unposed everyday moment" if scene_description.mode == "lifestyle" else None), pose=_pose_for(context.activity, context.pose),
-        environment=context.environment, composition=_composition(context.camera), camera=context.camera,
+        wardrobe=f"She is dressed in {context.wardrobe}." if context.wardrobe else None,
+        activity=_event_for(scene_description.mode, context.activity, context.pose), pose=_pose_for(context.activity, context.pose),
+        environment=_environment_for(scene_description.mode, context.environment), composition=_composition(context.camera), camera=context.camera,
         lighting=_lighting(context.lighting, context.environment), atmosphere=context.mood if density == "detailed" else None,
         quality_constraints=("natural skin texture", "realistic proportions", "realistic fabric behaviour") if density == "detailed" else ("natural skin texture", "realistic proportions"),
         identity_constraints=("preserve her described hair colour, eye colour, and distinguishing facial features",),
@@ -161,3 +162,33 @@ def _pose_for(activity: str | None, pose: str | None) -> str | None:
     if pose:
         return pose
     return "positioned naturally for the activity"
+
+
+def _event_for(mode: str, activity: str | None, pose: str | None) -> str | None:
+    """Make activity and pose one visual event instead of adjacent labels."""
+    if activity and activity.startswith("working as a chef"):
+        return "She stands at a preparation counter, focused on the work in her hands."
+    if activity and activity.startswith("working as a "):
+        return "She works naturally in her professional setting."
+    if activity and activity.startswith("enjoying "):
+        hobby = activity.removeprefix("enjoying ")
+        return f"She is {hobby}, moving naturally through the setting."
+    if activity:
+        return f"She is {activity}, {pose or 'positioned naturally for it'}."
+    if mode == "lifestyle":
+        return "She sits casually in an unposed everyday moment."
+    if mode == "full_body":
+        return "She stands naturally, with a relaxed and balanced posture."
+    if mode == "environmental":
+        return "She stands naturally within the setting, making the location part of the image."
+    if pose:
+        return f"She holds {pose.removeprefix('a ')}."
+    return None
+
+
+def _environment_for(mode: str, environment: str | None) -> str | None:
+    if not environment:
+        return None
+    if mode == "environmental":
+        return f"Give clear visual weight to {environment}."
+    return f"The scene is set in {environment}."

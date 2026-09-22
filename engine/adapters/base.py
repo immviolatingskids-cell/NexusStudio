@@ -31,7 +31,7 @@ def source_sections(plan: PromptPlan) -> tuple[PromptSection, ...]:
     for section_id, text in (("body", plan.body_description), ("face", plan.face_description), ("hair", plan.hair_description), ("wardrobe", plan.wardrobe)):
         if text:
             sections.append(PromptSection(section_id, text))
-    scene_fields = (("environment", plan.environment), ("action", _event_text(plan)), ("composition", plan.composition)) if plan.mode == "environmental" else (("action", _event_text(plan)), ("environment", plan.environment), ("composition", plan.composition))
+    scene_fields = (("environment", plan.environment), ("action", plan.activity), ("composition", plan.composition)) if plan.mode == "environmental" else (("action", plan.activity), ("environment", plan.environment), ("composition", plan.composition))
     for section_id, text in scene_fields:
         if text:
             sections.append(PromptSection(section_id, text))
@@ -42,10 +42,16 @@ def source_sections(plan: PromptPlan) -> tuple[PromptSection, ...]:
     return tuple(sections)
 
 
-def _event_text(plan: PromptPlan) -> str | None:
-    if not plan.activity:
-        return plan.pose
-    return f"She is {plan.activity}, {plan.pose}." if plan.pose else f"She is {plan.activity}."
+def prose_paragraphs(sections: tuple[PromptSection, ...]) -> str:
+    """Group fixed compiler sections into readable image-direction paragraphs."""
+    by_id = {section.id: section.text for section in sections}
+    groups = (
+        ("subject", "body", "face", "hair"),
+        ("wardrobe", "action", "environment"),
+        ("composition", "lighting", "atmosphere"),
+        ("realism", "constraints"),
+    )
+    return "\n\n".join(" ".join(by_id[name] for name in group if name in by_id) for group in groups if any(name in by_id for name in group))
 
 
 def result_for(name: str, plan: PromptPlan, sections: tuple[PromptSection, ...], positive: str, negative: str | None) -> PromptResult:
