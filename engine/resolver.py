@@ -8,10 +8,28 @@ from collections.abc import Mapping
 from dataclasses import replace
 
 from engine.scene_models import ResolvedScene, SceneBrief
+from engine.character_resolution import resolve_character as _resolve_character
+from engine.character_resolution import resolution_diagnostics
+from engine.loader import load_all_characters, load_character
 from engine.scoring import preferred_entries
 from engine.versions import RESOLVED_SCENE_VERSION
 from pool_models import PoolEntry
 from pools.registry import BY_ID, entries_for, find_display
+
+
+def resolve_character(character):
+    """Resolve canonical appearance into vocabulary entries without scene selection."""
+    return _resolve_character(character)
+
+
+def resolve_character_by_id(character_id: str):
+    """Load through the canonical gateway, then resolve its appearance vocabulary."""
+    return resolve_character(load_character(character_id))
+
+
+def resolve_all_characters():
+    """Resolve every canonical character in stable loader order."""
+    return tuple(resolve_character(character) for character in load_all_characters())
 
 
 def _pick(
