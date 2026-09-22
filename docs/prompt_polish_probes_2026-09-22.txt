@@ -1,0 +1,40 @@
+CharacterStudio prompt polish probes — 2026-09-22
+Adapter: gemini
+Density: standard
+API calls: none
+
+Ayami — workplace
+
+Photorealistic lifestyle image of Ayami Tanaka, a 23-year-old Japanese woman, with long very dark brown hair, dark brown eyes, lean athletic. She has a light, natural complexion, a soft oval face, and softly defined cheekbones. Her hair is thick, soft natural wave, and wispy face-framing strands.
+
+She is dressed in simple workwear. She works at a desk, focused on her screen and keyboard. The scene is set in a practical software engineer workspace.
+
+Use a three-quarter angle at eye level. Soft practical indoor light keeps the work setting believable.
+
+Natural skin texture, Realistic proportions. Preserve her described hair colour, eye colour, and distinguishing facial features.
+
+Review: PASS. The desk action is visually specific while remaining deterministic; face and final constraints now read naturally.
+
+Luna — lifestyle
+
+Photorealistic lifestyle image of Luna Campbell, a 21-year-old British woman, with shoulder-length natural auburn-copper hair, green-hazel eyes, dense natural freckles across nose and upper cheeks, compact athletic-curvy. She has a fair-to-light warm complexion, a short, softly rounded face, and low, softly defined cheekbones. Her hair is thick, natural loose movement, and loose face-framing strands.
+
+She is dressed in casual layered clothing. She sits casually in an unposed everyday moment. The scene is set in an everyday setting in Manchester, UK.
+
+Use a three-quarter angle at eye level. Diffused daylight enters from a nearby window, creating gentle facial modelling.
+
+Natural skin texture, Realistic proportions. Preserve her described hair colour, eye colour, and distinguishing facial features.
+
+Review: PASS WITH INTENTIONAL GENERICITY. Identity remains strong. The event remains broad because no scene-specific activity is supplied.
+
+Idun — workplace
+
+Photorealistic lifestyle image of Idun Synnøve Bråten, a 26-year-old Norwegian woman, with just below shoulder-length medium brown hair, grey-green eyes, subtle freckles across nose and cheeks, sturdy and softly athletic. She has a fair neutral complexion, a long, softly angular face, and high, prominent cheekbones. Her hair is thick, naturally textured with slight movement, and soft face-framing strands.
+
+She is dressed in simple workwear. She stands at a preparation counter, focused on the work in her hands. The scene is set in a practical chef workspace.
+
+Use a three-quarter angle at eye level. Soft practical indoor light keeps the work setting believable.
+
+Natural skin texture, Realistic proportions. Preserve her described hair colour, eye colour, and distinguishing facial features.
+
+Review: PASS. The strongest current probe: recognizable character, credible chef event, clear framing, and physically coherent light.

@@ -92,7 +92,7 @@ def compile_prompt_plan(character, visual_description, scene_description, densit
     body = None
     face_shape = _appearance(character, "face.shape")
     cheekbones = _appearance(character, "face.cheekbones")
-    face_bits = _unique((_skin_phrase(skin_tone), f"{face_shape} facial features" if face_shape else "", f"{cheekbones} cheekbones" if cheekbones else ""))
+    face_bits = _unique((_skin_phrase(skin_tone), _face_shape_phrase(face_shape), _cheekbone_phrase(cheekbones)))
     face = "She has " + _natural_join(face_bits) + "." if face_bits else None
     hair_density = _appearance(character, "hair.density")
     hair_texture = _appearance(character, "hair.texture")
@@ -113,8 +113,8 @@ def compile_prompt_plan(character, visual_description, scene_description, densit
         activity=_event_for(scene_description.mode, context.activity, context.pose), pose=_pose_for(context.activity, context.pose),
         environment=_environment_for(scene_description.mode, context.environment), composition=_composition(context.camera), camera=context.camera,
         lighting=_lighting(context.lighting, context.environment), atmosphere=context.mood if density == "detailed" else None,
-        quality_constraints=("natural skin texture", "realistic proportions", "realistic fabric behaviour") if density == "detailed" else ("natural skin texture", "realistic proportions"),
-        identity_constraints=("preserve her described hair colour, eye colour, and distinguishing facial features",),
+        quality_constraints=("Natural skin texture", "Realistic proportions", "Realistic fabric behaviour") if density == "detailed" else ("Natural skin texture", "Realistic proportions"),
+        identity_constraints=("Preserve her described hair colour, eye colour, and distinguishing facial features",),
         omitted_fields=tuple(omitted), source_metadata={
             "canonical_fallback_paths": visual_description.canonical_fallback_paths,
             "defaulted_fields": scene_description.defaulted_fields,
@@ -161,6 +161,26 @@ def _skin_phrase(tone: str) -> str:
     if not value:
         return ""
     return f"a {value} complexion"
+
+
+def _face_shape_phrase(shape: str) -> str:
+    """Turn canonical face-shape scalars into a natural noun phrase."""
+    if not shape:
+        return ""
+    if " softly " in shape:
+        lead, rest = shape.split(" softly ", 1)
+        return f"a {lead}, softly {rest} face"
+    if " rounded " in shape:
+        lead, rest = shape.split(" rounded ", 1)
+        return f"a {lead}, rounded {rest} face"
+    return f"a {shape} face"
+
+
+def _cheekbone_phrase(cheekbones: str) -> str:
+    """Keep cheekbone descriptors distinct but grammatically coordinated."""
+    if not cheekbones:
+        return ""
+    return cheekbones.replace(" and ", ", ", 1) + " cheekbones"
 
 
 def _pose_for(activity: str | None, pose: str | None) -> str | None:
