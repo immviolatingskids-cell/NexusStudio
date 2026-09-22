@@ -1,8 +1,11 @@
 import json
+import sys
 
 import pytest
 
 from config import CHARACTERS_DIR
+import generate
+from engine import loader
 from engine.loader import CharacterNotFoundError, list_character_ids, load_all_characters, load_character
 from engine.rules import CharacterValidationError, validate_character_data
 
@@ -49,6 +52,36 @@ def test_unknown_character_has_a_useful_error():
         load_character("does-not-exist")
 
 
+@pytest.mark.parametrize("character_id", ("", "   ", None, 42))
+def test_blank_or_wrong_type_character_ids_fail_clearly(character_id):
+    with pytest.raises(CharacterNotFoundError, match="non-empty string"):
+        load_character(character_id)
+
+
+def test_missing_character_file_names_the_requested_id(tmp_path, monkeypatch):
+    monkeypatch.setattr(loader, "CHARACTERS_DIR", tmp_path)
+
+    with pytest.raises(CharacterNotFoundError, match="missing"):
+        load_character("missing")
+
+
+def test_malformed_character_json_reports_filename_and_position(tmp_path, monkeypatch):
+    (tmp_path / "broken.json").write_text('{"character_id": ', encoding="utf-8")
+    monkeypatch.setattr(loader, "CHARACTERS_DIR", tmp_path)
+
+    with pytest.raises(CharacterValidationError, match=r"broken\.json.*line"):
+        load_character("broken")
+
+
+def test_discovery_propagates_malformed_json_instead_of_skipping_it(tmp_path, monkeypatch):
+    (tmp_path / "broken.json").write_text("{", encoding="utf-8")
+    (tmp_path / "notes.txt").write_text("ignore me", encoding="utf-8")
+    monkeypatch.setattr(loader, "CHARACTERS_DIR", tmp_path)
+
+    with pytest.raises(CharacterValidationError, match=r"broken\.\$: invalid JSON"):
+        list_character_ids()
+
+
 @pytest.mark.parametrize(
     ("mutate", "path"),
     [
@@ -67,9 +100,59 @@ def test_invalid_required_values_report_a_field_path(mutate, path):
         validate_character_data(data, character="luna")
 
 
+@pytest.mark.parametrize(
+    ("mutate", "path"),
+    [
+        (lambda data: data.update(identity=[]), "identity"),
+        (lambda data: data["appearance"].update(body=[]), "appearance.body"),
+        (lambda data: data["appearance"]["body"].update(physical_features={}), "appearance.body.physical_features"),
+        (lambda data: data["appearance"].update(distinguishing_features={}), "appearance.distinguishing_features"),
+        (lambda data: data.update(affinities=[]), "affinities"),
+    ],
+)
+def test_wrong_nested_dictionary_and_list_types_fail_with_paths(mutate, path):
+    data = canonical_data()
+    mutate(data)
+
+    with pytest.raises(CharacterValidationError, match=path):
+        validate_character_data(data, character="luna")
+
+
+@pytest.mark.parametrize("age", (17, 121, True, "21"))
+def test_invalid_age_boundaries_and_types_fail(age):
+    data = canonical_data()
+    data["identity"]["age"] = age
+
+    with pytest.raises(CharacterValidationError, match="identity.age"):
+        validate_character_data(data, character="luna")
+
+
 def test_optional_descriptive_fields_can_be_absent():
     data = canonical_data()
     data["identity"].pop("nickname", None)
     data["occupation"].pop("route", None)
+    data.pop("sociality", None)
+    data["occupation"].pop("focus", None)
 
     validate_character_data(data, character="luna")
+
+
+def test_load_all_characters_propagates_invalid_record_failure(tmp_path, monkeypatch):
+    data = canonical_data()
+    data["identity"]["age"] = 17
+    (tmp_path / "broken.json").write_text(json.dumps(data), encoding="utf-8")
+    monkeypatch.setattr(loader, "CHARACTERS_DIR", tmp_path)
+
+    with pytest.raises(CharacterValidationError, match="identity.age"):
+        load_all_characters()
+
+
+def test_cli_no_argument_summary_uses_the_loader(monkeypatch, capsys):
+    monkeypatch.setattr(sys, "argv", ["generate.py"])
+
+    generate.main()
+
+    output = capsys.readouterr().out
+    assert "6 characters loaded" in output
+    assert "luna_campbell" in output
+    assert "Validation: PASS" in output
