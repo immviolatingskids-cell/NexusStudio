@@ -49,11 +49,12 @@ class FakeProvider:
 class GeminiProvider:
     name = "gemini"
 
-    def __init__(self, model: str = "gemini-3.1-flash-image") -> None:
-        self.model = model
+    def __init__(self, model: str | None = None) -> None:
+        self.model = model or os.getenv("GEMINI_TEXT_MODEL", "gemini-2.5-flash")
+        self._client = None
 
     def capabilities(self) -> dict[str, object]:
-        return {"live": True, "reference_images": True, "deterministic": False, "model": self.model}
+        return {"live": True, "reference_images": False, "deterministic": False, "model": self.model, "purpose": "text refinement"}
 
     def validate(self) -> None:
         if not os.getenv("GEMINI_API_KEY"):
@@ -61,26 +62,32 @@ class GeminiProvider:
         try:
             from google import genai  # noqa: F401
         except ImportError as exc:
-            raise ProviderError("Install the optional 'google-genai' package to use Gemini generation.") from exc
+            raise ProviderError("Install the optional 'google-genai' package to use Gemini text refinement.") from exc
 
-    def generate(self, prompt: PromptDocument, reference_paths: tuple[Path, ...] = ()) -> GenerationResult:
+    def refine(self, prompt: str, instruction: str = "") -> str:
         self.validate()
         from google import genai
         from google.genai import types
-        contents: list[object] = [prompt.render()]
-        for path in reference_paths:
-            if not path.is_file():
-                raise ProviderError(f"Approved reference image is missing: {path}")
-            contents.append(types.Part.from_bytes(data=path.read_bytes(), mime_type="image/png"))
-        response = genai.Client().models.generate_content(
-            model=self.model,
-            contents=contents,
-            config=types.GenerateContentConfig(response_modalities=["IMAGE"]),
+        if self._client is None:
+            self._client = genai.Client()
+        task = instruction.strip() or (
+            "Refine this into a clear, concise image-generation prompt. Preserve all locked identity facts and the scene intent; "
+            "do not add new identity details, alter protected traits, or generate an image. Return only the refined prompt."
         )
-        for part in response.parts or ():
-            if getattr(part, "inline_data", None) and part.inline_data.data:
-                return GenerationResult(self.name, self.model, base64.b64decode(part.inline_data.data), part.inline_data.mime_type or "image/png", {})
-        raise ProviderError("Gemini returned no image data.")
+        response = self._client.models.generate_content(
+            model=self.model,
+            contents=f"{task}\n\nPROMPT TO REFINE:\n{prompt}",
+            config=types.GenerateContentConfig(
+                automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True),
+            ),
+        )
+        refined = (getattr(response, "text", None) or "").strip()
+        if not refined:
+            raise ProviderError("Gemini returned no refined prompt text.")
+        return refined
+
+    def generate(self, prompt: PromptDocument, reference_paths: tuple[Path, ...] = ()) -> GenerationResult:
+        raise ProviderError("GeminiProvider is text-only. Use refine() for prompt refinement; generate images in your chosen image tool.")
 
 
 def get_provider(name: str) -> GenerationProvider:

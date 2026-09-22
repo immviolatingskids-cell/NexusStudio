@@ -1,22 +1,214 @@
 {
   "schema": "character_studio.locked_look.v1",
+  "version": "1.1.0",
   "character_id": "luna_campbell",
-  "reference_basis": {"images": 1, "confidence": "single-reference", "instruction": "Preserve geometry and colouring, not clothing, pose, room, or wide-angle selfie perspective."},
-  "identity_lock": {
-    "face_geometry": {"priority": "critical", "description": "Short rounded-oval face with broad full cheeks, a soft lower face, rounded jaw corners, and a compact softly rounded chin; never angular or V-shaped."},
-    "eyes": {"priority": "critical", "description": "Bright green-hazel rounded-almond eyes of medium-large size, average spacing, visible lid fold, and gently lifted outer corners; green iris with warm hazel near the pupil."},
-    "brows": {"priority": "strong", "description": "Warm auburn-brown brows, medium-full, softly straight through the inner section with a mild natural arch."},
-    "nose": {"priority": "critical", "description": "Medium-width nose with a smooth short-to-medium bridge, softly rounded slightly lifted tip, and natural nostril width."},
-    "mouth": {"priority": "critical", "description": "Medium-wide mouth with plush natural lips, soft cupid's bow, and a fuller lower lip; smile is cheek-led and friendly."},
-    "skin": {"priority": "critical", "description": "Fair-to-light warm skin with natural peach flush. Dense copper-brown freckles bridge the nose and upper cheeks, with lighter freckling across forehead, shoulders, arms, and torso."},
-    "hair": {"priority": "critical", "description": "Natural copper-auburn hair, thick, shoulder to upper-chest length, with loose irregular wave and abundant movement. Base colour remains unmistakable under varied lighting."},
-    "body_proportions": {"priority": "critical", "description": "Compact athletic-curvy frame with developed but soft shoulders and arms, defined waist, full hips, and strong substantial thighs; active and powerful without bodybuilder definition."}
+  "reference_basis": {
+    "images": 1,
+    "confidence": "single-reference",
+    "instruction": "Preserve visible geometry, freckles, warm complexion, and copper-auburn hair. The seated close crop does not verify height or full-body proportions; exclude clothing, jewellery, room, pose, and wide-angle selfie perspective."
   },
-  "identity_relationships": {"priority": "critical", "facial_length_to_width": "short-to-moderate length with strong cheek width", "eye_spacing": "approximately one eye width", "cheek_to_jaw_transition": "full cheeks descend into a soft rounded jaw with minimal angular break", "nose_to_mouth_relationship": "medium nose and moderately broad mouth remain balanced", "lip_ratio": "upper lip full; lower lip modestly fuller", "feature_balance": "freckles, copper hair, bright eyes, and full cheeks form the dominant identity cluster"},
-  "expression_behavior": {"priority": "strong", "neutral": "Open energetic face with softly raised mouth corners and alert eyes.", "smile": "Broad friendly smile pushes full cheeks upward and gently rounds the lower eyelids.", "cheek_response": "Cheeks become distinctly rounder and create shallow smile folds.", "eye_response": "Outer corners lift slightly and eyes narrow without losing their bright open quality."},
-  "signature_features": [{"priority": "critical", "feature": "natural copper-auburn hair"}, {"priority": "critical", "feature": "dense freckles over a warm flushed complexion"}, {"priority": "critical", "feature": "short rounded face with full cheeks"}, {"priority": "strong", "feature": "green-hazel eyes"}],
-  "mutable_features": {"hair_style": true, "makeup": true, "clothing": true, "jewellery": true, "expression": true, "pose": true, "environment": true, "capture_style": true},
-  "presentation_exclusions": ["sports bra", "gym shorts", "bedroom", "seated selfie pose", "Manchester props", "necklace"],
-  "immutable_features": ["rounded facial geometry", "eye shape and colour", "nose structure", "freckle density and placement", "copper-auburn base hair colour", "compact athletic-curvy proportions"],
-  "negative_identity_constraints": ["no angular long face", "no hollow cheeks", "no sharp jawline", "no brown or blonde hair", "no freckle-free skin", "no very lean narrow frame", "do not converge toward Charlotte's heart-shaped narrow-chin geometry"]
+  "identity_lock": {
+    "face_geometry": {
+      "priority": "critical",
+      "description": "a short, softly rounded face with an oval silhouette, broad full cheeks, low, softly defined cheekbones, a soft lower face, rounded jaw corners, and a compact softly rounded chin; never angular or V-shaped."
+    },
+    "eyes": {
+      "priority": "critical",
+      "description": "Light green-hazel eyes, medium-large and rounded-almond, average spacing, visible lid fold, and gently lifted outer corners. The exact green-to-grey balance is uncertain under indoor light."
+    },
+    "brows": {
+      "priority": "strong",
+      "description": "Warm auburn-brown brows, medium-full, softly straight through the inner section with a mild natural arch."
+    },
+    "nose": {
+      "priority": "critical",
+      "description": "Medium-width nose with a smooth short-to-medium bridge, softly rounded slightly lifted tip, and natural nostril width."
+    },
+    "mouth": {
+      "priority": "critical",
+      "description": "Medium-wide mouth with plush natural lips, soft cupid's bow, and a fuller lower lip; smile is cheek-led and friendly."
+    },
+    "skin": {
+      "priority": "critical",
+      "description": "Fair-to-light warm skin with natural peach flush. Dense copper-brown freckles bridge the nose and upper cheeks, with lighter freckling across forehead, shoulders, arms, and torso."
+    },
+    "hair": {
+      "priority": "critical",
+      "description": "Natural copper-auburn hair, thick, shoulder to upper-chest length, with loose irregular wave and abundant movement. Base colour remains unmistakable under varied lighting."
+    },
+    "body_proportions": {
+      "priority": "critical",
+      "description": "Canonical baseline is compact athletic-curvy with a substantial but soft frame. The close seated crop suggests a fit, full build but does not establish full proportions or height."
+    }
+  },
+  "identity_relationships": {
+    "priority": "critical",
+    "facial_length_to_width": "short-to-moderate length with strong cheek width",
+    "eye_spacing": "approximately one eye width",
+    "cheek_to_jaw_transition": "full cheeks descend into a soft rounded jaw with minimal angular break",
+    "nose_to_mouth_relationship": "medium nose and moderately broad mouth remain balanced",
+    "lip_ratio": "upper lip full; lower lip modestly fuller",
+    "feature_balance": "freckles, copper hair, bright eyes, and full cheeks form the dominant identity cluster"
+  },
+  "expression_behavior": {
+    "priority": "strong",
+    "neutral": "A neutral expression is not shown; do not infer it from the single smiling reference.",
+    "smile": "The visible closed-mouth smile lifts the full cheeks; other smile intensities are not established.",
+    "cheek_response": "Cheeks lift in the visible smile while the rounded face silhouette remains recognizable.",
+    "eye_response": "A repeatable eye response is uncertain from one expression; preserve the light rounded-almond eye appearance."
+  },
+  "signature_features": [
+    {
+      "priority": "critical",
+      "feature": "natural copper-auburn hair"
+    },
+    {
+      "priority": "critical",
+      "feature": "dense freckles over a warm flushed complexion"
+    },
+    {
+      "priority": "critical",
+      "feature": "short rounded face with full cheeks"
+    },
+    {
+      "priority": "strong",
+      "feature": "green-hazel eyes"
+    }
+  ],
+  "mutable_features": {
+    "hair_style": true,
+    "makeup": true,
+    "clothing": true,
+    "jewellery": true,
+    "expression": true,
+    "pose": true,
+    "environment": true,
+    "capture_style": true
+  },
+  "presentation_exclusions": [
+    "sports bra",
+    "gym shorts",
+    "bedroom",
+    "seated selfie pose",
+    "Manchester props",
+    "necklace"
+  ],
+  "immutable_features": [
+    "rounded facial geometry",
+    "eye shape and colour",
+    "nose structure",
+    "freckle density and placement",
+    "copper-auburn base hair colour",
+    "compact athletic-curvy proportions"
+  ],
+  "negative_identity_constraints": [
+    "no angular long face",
+    "no hollow cheeks",
+    "no sharp jawline",
+    "no brown or blonde hair",
+    "no freckle-free skin",
+    "no very lean narrow frame",
+    "do not converge toward Charlotte's heart-shaped narrow-chin geometry"
+  ],
+  "drift_critical_features": [
+    {
+      "feature": "copper-auburn hair",
+      "instruction": "Keep the recognizable copper-auburn base while allowing different parts, ties, or loose styling."
+    },
+    {
+      "feature": "dense freckles across nose and upper cheeks",
+      "instruction": "Retain the visible freckle pattern when the face is clearly shown."
+    },
+    {
+      "feature": "short rounded face with full cheeks",
+      "instruction": "Keep the soft cheek width and rounded jaw recognizable across expressions."
+    },
+    {
+      "feature": "green-hazel eyes",
+      "instruction": "Keep the green-hazel eye colour and rounded-almond shape."
+    },
+    {
+      "feature": "compact athletic-curvy silhouette",
+      "instruction": "Keep her compact strong proportions without slimming or exaggerating curves."
+    }
+  ],
+  "reference_consensus": {
+    "reference_count": 1,
+    "confidence": "single-reference",
+    "stable_features": [
+      "visible face geometry",
+      "visible hair colour family and texture",
+      "visible complexion and freckles or marks where clear",
+      "visible eye shape and appearance where unobscured"
+    ],
+    "variable_features": [
+      "hairstyle arrangement",
+      "expression",
+      "wardrobe",
+      "accessories",
+      "pose",
+      "environment",
+      "lighting and camera framing",
+      "temporary makeup"
+    ],
+    "uncertain_features": [
+      {
+        "feature": "full body proportions and stature",
+        "observations": [
+          "Close seated crop suggests shape but does not show enough to verify height or full proportions."
+        ],
+        "resolution": "Keep this property uncertain in the reference record; do not force an unsupported detail into immutable identity."
+      },
+      {
+        "feature": "exact eye hue",
+        "observations": [
+          "Iris appears light green-hazel to grey-green under indoor light; exact hue is uncertain."
+        ],
+        "resolution": "Keep this property uncertain in the reference record; do not force an unsupported detail into immutable identity."
+      }
+    ]
+  },
+  "variation_envelope": {
+    "hair": {
+      "can_change": true,
+      "locked": [
+        "base colour family",
+        "density",
+        "natural texture family"
+      ],
+      "variable": [
+        "part",
+        "updo",
+        "ponytail",
+        "loose arrangement",
+        "clips and other temporary accessories"
+      ]
+    },
+    "expression": {
+      "can_change": true,
+      "range": [
+        "neutral",
+        "small smile",
+        "focused",
+        "amused"
+      ],
+      "identity_behavior": "Expression may change; preserve the underlying facial geometry and characteristic feature relationships."
+    },
+    "wardrobe": {
+      "can_change": true,
+      "locked": [],
+      "variable": [
+        "clothing style",
+        "colour",
+        "layers",
+        "accessories"
+      ]
+    },
+    "presentation_note": "Treat these as continuity guidance. Do not force a fixed pose, expression, hairstyle, or photographic treatment."
+  },
+  "prompt_identity_blocks": {
+    "compact": "Luna Campbell, a 21-year-old British woman. Face: a short, softly rounded face with an oval silhouette, broad full cheeks, low, softly defined cheekbones, a soft lower face, rounded jaw corners, and a compact softly rounded chin; never angular or V-shaped. Eyes: Light green-hazel eyes, medium-large and rounded-almond, average spacing, visible lid fold, and gently lifted outer corners. The exact green-to-grey balance is uncertain under indoor light. Nose: Medium-width nose with a smooth short-to-medium bridge, softly rounded slightly lifted tip, and natural nostril width. Mouth: Medium-wide mouth with plush natural lips, soft cupid's bow, and a fuller lower lip; smile is cheek-led and friendly. Complexion: Fair-to-light warm skin with natural peach flush. Dense copper-brown freckles bridge the nose and upper cheeks, with lighter freckling across forehead, shoulders, arms, and torso. Hair: Natural copper-auburn hair, thick, shoulder to upper-chest length, with loose irregular wave and abundant movement. Base colour remains unmistakable under varied lighting. Body baseline: Canonical baseline is compact athletic-curvy with a substantial but soft frame. The close seated crop suggests a fit, full build but does not establish full proportions or height.",
+    "standard": "Luna Campbell, a 21-year-old British woman. Face: a short, softly rounded face with an oval silhouette, broad full cheeks, low, softly defined cheekbones, a soft lower face, rounded jaw corners, and a compact softly rounded chin; never angular or V-shaped. Eyes: Light green-hazel eyes, medium-large and rounded-almond, average spacing, visible lid fold, and gently lifted outer corners. The exact green-to-grey balance is uncertain under indoor light. Nose: Medium-width nose with a smooth short-to-medium bridge, softly rounded slightly lifted tip, and natural nostril width. Mouth: Medium-wide mouth with plush natural lips, soft cupid's bow, and a fuller lower lip; smile is cheek-led and friendly. Complexion: Fair-to-light warm skin with natural peach flush. Dense copper-brown freckles bridge the nose and upper cheeks, with lighter freckling across forehead, shoulders, arms, and torso. Hair: Natural copper-auburn hair, thick, shoulder to upper-chest length, with loose irregular wave and abundant movement. Base colour remains unmistakable under varied lighting. Body baseline: Canonical baseline is compact athletic-curvy with a substantial but soft frame. The close seated crop suggests a fit, full build but does not establish full proportions or height. Brows: Warm auburn-brown brows, medium-full, softly straight through the inner section with a mild natural arch. Facial length to width: short-to-moderate length with strong cheek width. Eye spacing: approximately one eye width. Cheek to jaw transition: full cheeks descend into a soft rounded jaw with minimal angular break. Nose to mouth relationship: medium nose and moderately broad mouth remain balanced. Lip ratio: upper lip full; lower lip modestly fuller. Feature balance: freckles, copper hair, bright eyes, and full cheeks form the dominant identity cluster.",
+    "detailed": "Luna Campbell, a 21-year-old British woman. Face: a short, softly rounded face with an oval silhouette, broad full cheeks, low, softly defined cheekbones, a soft lower face, rounded jaw corners, and a compact softly rounded chin; never angular or V-shaped. Eyes: Light green-hazel eyes, medium-large and rounded-almond, average spacing, visible lid fold, and gently lifted outer corners. The exact green-to-grey balance is uncertain under indoor light. Nose: Medium-width nose with a smooth short-to-medium bridge, softly rounded slightly lifted tip, and natural nostril width. Mouth: Medium-wide mouth with plush natural lips, soft cupid's bow, and a fuller lower lip; smile is cheek-led and friendly. Complexion: Fair-to-light warm skin with natural peach flush. Dense copper-brown freckles bridge the nose and upper cheeks, with lighter freckling across forehead, shoulders, arms, and torso. Hair: Natural copper-auburn hair, thick, shoulder to upper-chest length, with loose irregular wave and abundant movement. Base colour remains unmistakable under varied lighting. Body baseline: Canonical baseline is compact athletic-curvy with a substantial but soft frame. The close seated crop suggests a fit, full build but does not establish full proportions or height. Brows: Warm auburn-brown brows, medium-full, softly straight through the inner section with a mild natural arch. Facial length to width: short-to-moderate length with strong cheek width. Eye spacing: approximately one eye width. Cheek to jaw transition: full cheeks descend into a soft rounded jaw with minimal angular break. Nose to mouth relationship: medium nose and moderately broad mouth remain balanced. Lip ratio: upper lip full; lower lip modestly fuller. Feature balance: freckles, copper hair, bright eyes, and full cheeks form the dominant identity cluster. Neutral: A neutral expression is not shown; do not infer it from the single smiling reference. Smile: The visible closed-mouth smile lifts the full cheeks; other smile intensities are not established. Cheek response: Cheeks lift in the visible smile while the rounded face silhouette remains recognizable. Eye response: A repeatable eye response is uncertain from one expression; preserve the light rounded-almond eye appearance."
+  }
 }

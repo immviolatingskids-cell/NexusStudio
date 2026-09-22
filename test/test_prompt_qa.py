@@ -19,20 +19,20 @@ BENCHMARKS = (
 )
 
 GEMINI_QA_GOLDENS = {
-    ("ayami_tanaka", "portrait"): "2da4a53c14129cee55fd1e47187dc9d78cc35bccfaf40c22649bf38896e745e2",
-    ("ayami_tanaka", "workplace"): "099fa1fd7d6f7bb05e6e2047f46e8298b629cce427773d5d3add7754d35f2985",
-    ("ayami_tanaka", "lifestyle"): "1275023b5cfa64be54c7ce5eef4c340dc872023c2397fed2dcb1de6a2d56d122",
-    ("luna_campbell", "portrait"): "3d0f056dc013bd41db94d4c846f25e05a281dad51a84365012c8b1949afefc93",
-    ("luna_campbell", "full_body"): "185145ac923c6b16084cbfcc4a4c8a95b69fbdf48ec6ae031c222eb3d4f2de95",
-    ("luna_campbell", "lifestyle"): "62bcb46a75e66e2404640eb442618d16b6c3a5540be9b794946602a1b1d26012",
-    ("naomi", "hobby"): "613cba226f02a8deca3697614bc3163a312ff810cc94bc604f95a37accd4cd4d",
-    ("naomi", "environmental"): "d1a5f1c3fcdb454ed82e0d2275b9a7218e6ac5ce47e558f42445205fd3a089b2",
-    ("zara", "portrait"): "ae2312891f474105a4ad88ad56d8262ee11843858ee3dcb4d2090d247765bb3a",
-    ("idun_braten", "portrait"): "3806963243aa440bb56668829112051125812c25aeb14e1f259fddab003ca187",
-    ("idun_braten", "workplace"): "e87f74caf40c89241379d2726ea1941067af56fec104f0d31acf1421f6833dd9",
-    ("idun_braten", "environmental"): "883226e52665bddb62f7dcc9cb8a1d28d99e4b4ff90403ea9f7b414e1a9e641f",
-    ("charlotte_taylor_rose", "portrait"): "c4b60b0b21c1cdc490c589a0dbecca80587eb0f4b086e1d092ead8132e2a7d83",
-    ("charlotte_taylor_rose", "lifestyle"): "57de42695eeac9a984141a838b5f8b764f3a4c1e7a329c1d0d6359c2772ab86a",
+    ("ayami_tanaka", "portrait"): "02771a666e59ec3db609494538f6ed59e04630ec9be93f0666b7894805b7025f",
+    ("ayami_tanaka", "workplace"): "bab762bd5e5d4a31ba5f737d9d56240ecffd7ae3a94941eb564ffbc2e88157f3",
+    ("ayami_tanaka", "lifestyle"): "cdc7b4765f9d32faa10523e1f4df5b47b1e5e1e4e703628afddc8c97d7abbf3e",
+    ("luna_campbell", "portrait"): "7765c55c1e8ebdd04bb6b00368d11266675fa9b7863119ce949401bf8b136c72",
+    ("luna_campbell", "full_body"): "a68bcc3550d7fcf9f9d5f8f33797a6ad3dfbf42f3b3df955ba85f775fc365652",
+    ("luna_campbell", "lifestyle"): "ee33d472786d4bdb4eb61d11d0b378e343a88a6287e6c2e453cbf38a3d072265",
+    ("naomi", "hobby"): "40d83cc9cf84e4a3d98f71d8d4e304d6a9008bd983ed4bd603e53984fa7b240d",
+    ("naomi", "environmental"): "63e793f7f2c02853e418b759f44da65e921002aa1c71299d4e103b4b87e8b20e",
+    ("zara", "portrait"): "610c6430e6c0e9b0b577be23a7fffd05801664e19623e7daec8867a2c52bdc3d",
+    ("idun_braten", "portrait"): "455245f80be9d5f24fc6a8c64d994f1dddd3a9d469da01d10b0e45472bfc87c9",
+    ("idun_braten", "workplace"): "41f8990758ad7f90df29bd75a4653608a57c8ad7f1693219e8eb4f05b7753cb1",
+    ("idun_braten", "environmental"): "67141a4af30ba9cc4472f96f4c13c65bc8aea82ea7df29bcefe92150d3cfb7ac",
+    ("charlotte_taylor_rose", "portrait"): "67ccda8b00ca342be004576389da39f20678cad28a9f10731f8715e641d0bbd4",
+    ("charlotte_taylor_rose", "lifestyle"): "bf22667f4539cf8e43d7c6f287b438d6e83bc247dc0f57174b7be7673355607f",
 }
 
 

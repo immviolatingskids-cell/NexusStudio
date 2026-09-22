@@ -11,6 +11,7 @@ from engine.scene_models import ResolvedScene, SceneBrief
 from engine.character_resolution import resolve_character as _resolve_character
 from engine.character_resolution import resolution_diagnostics
 from engine.loader import load_all_characters, load_character
+from engine.identity import find_identity_conflicts
 from engine.scoring import preferred_entries
 from engine.versions import RESOLVED_SCENE_VERSION
 from pool_models import PoolEntry
@@ -61,6 +62,14 @@ def resolve_scene(
     """
     if not brief.character_id.strip():
         raise ValueError("A scene brief needs a character_id.")
+    identity_text = " ".join(value for value in (
+        brief.activity, brief.location, brief.atmosphere, brief.wardrobe_style,
+        brief.hair_style, brief.expression, brief.pose, brief.lighting,
+        brief.season, brief.framing, brief.image_style,
+    ) if value)
+    conflicts = find_identity_conflicts(brief.character_id, identity_text)
+    if conflicts:
+        raise ValueError("; ".join(conflicts))
     rng = random.Random(brief.seed)
     affinities = affinities or {}
     requested = {"location": brief.location, "atmosphere": brief.atmosphere, "wardrobe": brief.wardrobe_style, "pose": brief.pose, "lighting": brief.lighting, "framing": brief.framing}

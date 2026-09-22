@@ -8,18 +8,21 @@ from engine.desktop_controller import DesktopStudioController
 from engine.adapter_registry import list_adapters
 from engine.generation_pipeline import generate_image
 from engine.prompt_pipeline import build_prompt
+from engine.prompt_refiner import refine_prompt
+from engine.prompt_export import render_json_export, render_text_export
+from engine.providers import GeminiProvider
 from engine.provider_registry import list_providers
 from engine.record_store import list_records, load_record
 from engine.scene_defaults import SCENE_MODES
 try:
     from PySide6.QtCore import QEasingCurve, QObject, QPropertyAnimation, QSettings, QThread, Qt, Signal
     from PySide6.QtGui import QColor, QKeySequence, QLinearGradient, QPainter, QPixmap, QShortcut
-    from PySide6.QtWidgets import (QApplication,QButtonGroup,QCheckBox,QComboBox,QFrame,QGraphicsOpacityEffect,QGridLayout,QHBoxLayout,QLabel,QLineEdit,QListWidget,QMainWindow,QMessageBox,QPushButton,QScrollArea,QStackedWidget,QTextEdit,QVBoxLayout,QWidget)
+    from PySide6.QtWidgets import (QApplication,QButtonGroup,QCheckBox,QComboBox,QFileDialog,QFrame,QGraphicsOpacityEffect,QGridLayout,QHBoxLayout,QLabel,QLineEdit,QListWidget,QMainWindow,QMessageBox,QPushButton,QScrollArea,QStackedWidget,QTextEdit,QVBoxLayout,QWidget)
 except ImportError as exc: PYSIDE_ERROR=exc
 else: PYSIDE_ERROR=None
 
 if PYSIDE_ERROR is None:
-    DESTINATIONS=(("Create","Guide & generate"),("Characters","Meet the cast"),("Scenes","Places & situations"),("Styles","Visual moods"),("Gallery","Your creations"),("Settings","Preferences"))
+    DESTINATIONS=(("Create","Build & export prompts"),("Characters","Meet the cast"),("Scenes","Places & situations"),("Styles","Visual moods"),("Gallery","Legacy image outputs"),("Settings","Preferences"))
     SCENES=(("Cozy Café","environment_location_cafe","Everyday · Indoor · Warm"),("Home Workspace","environment_location_study","Home · Focus · Modern"),("City Streets","environment_location_city_street","Urban · Night · Neon"),("Nature Escape","environment_location_lakeside","Outdoor · Nature · Travel"),("At Work","environment_location_office","Work · Indoor · Modern"),("Bookstore","environment_location_library","Leisure · Books · Cozy"),("Travel Adventure","environment_location_mountains","Travel · Outdoor · Active"),("Quiet Evening","environment_location_living_room","Home · Peaceful · Warm"))
     STYLES=(("Casual","fashion_casual","Everyday · Relaxed · Modern"),("Streetwear","fashion_streetwear","Urban · Trendy · Modern"),("Smart Casual","fashion_smart_casual","Polished · Clean · Versatile"),("Professional","fashion_workwear","Office · Smart · Realistic"),("Sport & Active","fashion_casual","Gym · Sport · Active"),("Loungewear","fashion_cozy","Home · Cozy · Relaxed"),("Fashion","fashion_minimalist","Trendy · Chic · Bold"),("Alternative","fashion_streetwear","Creative · Unique · Edgy"))
 
@@ -95,9 +98,9 @@ if PYSIDE_ERROR is None:
             for i,c in enumerate(cards): grid.addWidget(c,i//cols,i%cols)
             grid.setRowStretch((len(cards)+cols-1)//cols,1); area=QScrollArea(); area.setWidgetResizable(True); area.setWidget(host); return area
         def create_page(self):
-            page=QWidget(); box=QVBoxLayout(page); head,_=self.header("Create a new image","A simple guided flow for consistent images."); box.addWidget(head)
+            page=QWidget(); box=QVBoxLayout(page); head,_=self.header("Create an image prompt","Lock identity, direct a scene, then export for manual generation."); box.addWidget(head)
             steps=QHBoxLayout(); self.create_steps=[]
-            for i,name in enumerate(("1  Character","2  Scene","3  Style","4  Preview","5  Generate")):
+            for i,name in enumerate(("1  Character","2  Scene","3  Style","4  Preview","5  Manual QA")):
                 button=QPushButton(name); button.setObjectName("step"); button.setCheckable(True); button.clicked.connect(partial(self.show_create_step,i)); self.create_steps.append(button); steps.addWidget(button)
             box.addLayout(steps); self.create_stack=QStackedWidget(); box.addWidget(self.create_stack,1)
 
@@ -111,15 +114,16 @@ if PYSIDE_ERROR is None:
             sbox.addWidget(self.create_mode); sbox.addWidget(QLabel("Optional context overrides")); self.environment_override=QLineEdit(); self.environment_override.setPlaceholderText("Environment, e.g. a quiet independent coffee shop"); self.lighting_override=QLineEdit(); self.lighting_override.setPlaceholderText("Lighting, e.g. soft overcast daylight"); sbox.addWidget(self.environment_override); sbox.addWidget(self.lighting_override)
             sbox.addStretch(); sbox.addWidget(self.next_button("Choose a style",2)); self.create_stack.addWidget(scene)
 
-            style=QFrame(); style.setObjectName("panel"); stbox=QVBoxLayout(style); stbox.addWidget(QLabel("Prompt and execution")); self.adapter_combo=QComboBox(); self.provider_combo=QComboBox(); self.density_combo=QComboBox()
+            style=QFrame(); style.setObjectName("panel"); stbox=QVBoxLayout(style); stbox.addWidget(QLabel("Prompt composition")); self.adapter_combo=QComboBox(); self.provider_combo=QComboBox(); self.density_combo=QComboBox(); self.refinement_combo=QComboBox()
             for adapter in list_adapters(): self.adapter_combo.addItem(adapter.title(),adapter)
             for provider in list_providers(): self.provider_combo.addItem(provider.title(),provider)
             for density in ("compact","standard","detailed"): self.density_combo.addItem(density.title(),density)
-            stbox.addWidget(QLabel("Prompt adapter")); stbox.addWidget(self.adapter_combo); stbox.addWidget(QLabel("Image provider")); stbox.addWidget(self.provider_combo); stbox.addWidget(QLabel("Prompt density")); stbox.addWidget(self.density_combo); stbox.addStretch(); preview=QPushButton("Build prompt preview  →"); preview.setObjectName("primary"); preview.clicked.connect(self.resolve_preview); stbox.addWidget(preview); self.create_stack.addWidget(style)
+            for refinement in ("off","balanced","rich"): self.refinement_combo.addItem(refinement.title(),refinement)
+            stbox.addWidget(QLabel("Prompt adapter")); stbox.addWidget(self.adapter_combo); stbox.addWidget(QLabel("Prompt density")); stbox.addWidget(self.density_combo); stbox.addWidget(QLabel("Text refinement")); stbox.addWidget(self.refinement_combo); stbox.addStretch(); preview=QPushButton("Build prompt preview  →"); preview.setObjectName("primary"); preview.clicked.connect(self.resolve_preview); stbox.addWidget(preview); self.create_stack.addWidget(style)
 
-            review=QFrame(); review.setObjectName("panel"); rbox=QHBoxLayout(review); self.prompt_preview=QTextEdit(); self.prompt_preview.setReadOnly(True); rbox.addWidget(self.prompt_preview,3); controls=QVBoxLayout(); controls.addWidget(QLabel("The prompt is built by the authoritative v0.9 pipeline.")); self.prompt_toggle=QPushButton("Show prompt sections"); self.prompt_toggle.clicked.connect(self.toggle_prompt_detail); controls.addWidget(self.prompt_toggle); controls.addStretch(); controls.addWidget(self.next_button("Ready to generate",4)); rbox.addLayout(controls,1); self.create_stack.addWidget(review); self.show_full_prompt=False
+            review=QFrame(); review.setObjectName("panel"); rbox=QHBoxLayout(review); self.prompt_preview=QTextEdit(); self.prompt_preview.setReadOnly(True); rbox.addWidget(self.prompt_preview,3); controls=QVBoxLayout(); controls.addWidget(QLabel("The deterministic compiler remains authoritative. Refinement is text-only.")); self.prompt_toggle=QPushButton("Show compiled and refined prompts"); self.prompt_toggle.clicked.connect(self.toggle_prompt_detail); controls.addWidget(self.prompt_toggle); self.copy_compiled_prompt=QPushButton("Copy final prompt"); self.copy_compiled_prompt.clicked.connect(self.copy_final_prompt); controls.addWidget(self.copy_compiled_prompt); self.export_prompt=QPushButton("Export TXT / JSON"); self.export_prompt.clicked.connect(self.export_final_prompt); controls.addWidget(self.export_prompt); controls.addStretch(); controls.addWidget(self.next_button("Manual generation and QA",4)); rbox.addLayout(controls,1); self.create_stack.addWidget(review); self.show_full_prompt=False
 
-            generate=QFrame(); generate.setObjectName("panel"); gbox=QVBoxLayout(generate); self.generate_status=QLabel("Your v0.9 prompt is ready."); self.generate_status.setObjectName("muted"); gbox.addWidget(self.generate_status); self.dry_run=QCheckBox("Dry run — build prompt and output plan only"); gbox.addWidget(self.dry_run); self.generate_button=QPushButton("Generate image  →"); self.generate_button.setObjectName("primary"); self.generate_button.clicked.connect(self.generate_take); gbox.addWidget(self.generate_button); self.take_history=QListWidget(); gbox.addWidget(self.take_history,1); self.create_stack.addWidget(generate)
+            generate=QFrame(); generate.setObjectName("panel"); gbox=QVBoxLayout(generate); self.generate_status=QLabel("CharacterStudio produces prompts only. Copy or export the prompt, generate the image manually in ChatGPT or Gemini, then review identity drift here."); self.generate_status.setObjectName("muted"); self.generate_status.setWordWrap(True); gbox.addWidget(self.generate_status); self.copy_manual_prompt=QPushButton("Copy prompt for manual generation"); self.copy_manual_prompt.clicked.connect(self.copy_final_prompt); gbox.addWidget(self.copy_manual_prompt); self.export_manual_prompt=QPushButton("Export prompt for manual QA"); self.export_manual_prompt.clicked.connect(self.export_final_prompt); gbox.addWidget(self.export_manual_prompt); self.take_history=QListWidget(); gbox.addWidget(QLabel("Legacy image records")); gbox.addWidget(self.take_history,1); self.create_stack.addWidget(generate)
             self.show_create_step(0); return page
 
         def next_button(self,label,index):
@@ -177,6 +181,7 @@ if PYSIDE_ERROR is None:
             try:
                 if self.controller.character is None: raise RuntimeError("Choose a canonical character before building a prompt.")
                 overrides=self.current_overrides(); self.current_prompt=build_prompt(self.controller.character.character_id,self.create_mode.currentData(),self.adapter_combo.currentData(),self.density_combo.currentData(),overrides)
+                refinement_mode=self.refinement_combo.currentData(); self.refined_prompt_result=refine_prompt(self.current_prompt,refinement_mode,GeminiProvider() if refinement_mode!="off" else None)
                 if self.remember.isChecked(): self.preferences.setValue("session/mode",self.create_mode.currentData()); self.preferences.setValue("session/adapter",self.adapter_combo.currentData()); self.preferences.setValue("session/provider",self.provider_combo.currentData()); self.preferences.sync()
                 self.refresh_preview(); self.show_create_step(3)
             except Exception as exc: QMessageBox.warning(self,"Could not resolve scene",str(exc))
@@ -186,11 +191,21 @@ if PYSIDE_ERROR is None:
             return {key:value for key,value in values.items() if value}
 
         def refresh_preview(self):
-            prompt=self.current_prompt
-            self.preview_summary=f"PROMPT READY\n\nCharacter: {prompt.character_id}\nMode: {prompt.source_scene_mode}\nAdapter: {prompt.adapter_name}\n\n"+prompt.positive_prompt
+            prompt=self.current_prompt; refined=self.refined_prompt_result
+            self.preview_summary=f"PROMPT READY\n\nCharacter: {prompt.character_id}\nIdentity lock: {refined.identity_lock_version}\nMode: {prompt.source_scene_mode}\nDensity: {refined.density}\nRefinement: {refined.refinement_mode}\n\nFINAL PROMPT\n\n"+refined.refined_prompt
             sections="\n\n".join(f"{section.id.upper()}\n{section.text}" for section in prompt.sections)
-            self.full_prompt_text=self.preview_summary+"\n\nPROMPT SECTIONS\n\n"+sections+(f"\n\nNEGATIVE / CONSTRAINTS\n\n{prompt.negative_prompt}" if prompt.negative_prompt else "")
+            self.full_prompt_text=(f"COMPILED PROMPT\n\n{refined.compiled_prompt}\n\nREFINED PROMPT\n\n{refined.refined_prompt}\n\nPROMPT SECTIONS\n\n{sections}"+(f"\n\nWARNINGS\n\n"+"\n".join(refined.warnings) if refined.warnings else ""))
             self.prompt_preview.setPlainText(self.full_prompt_text if self.show_full_prompt else self.preview_summary)
+
+        def copy_final_prompt(self):
+            if not hasattr(self,"refined_prompt_result"): return
+            QApplication.clipboard().setText(self.refined_prompt_result.refined_prompt); self.statusBar().showMessage("Final prompt copied",2500)
+
+        def export_final_prompt(self):
+            if not hasattr(self,"refined_prompt_result"): return
+            path,_=QFileDialog.getSaveFileName(self,"Export image prompt","characterstudio-prompt.txt","Text or JSON (*.txt *.json)")
+            if not path: return
+            target=Path(path); serialized=render_json_export(self.refined_prompt_result) if target.suffix.casefold()==".json" else render_text_export(self.refined_prompt_result); target.write_text(serialized,encoding="utf-8"); self.statusBar().showMessage(f"Prompt exported to {target}",4000)
 
         def toggle_prompt_detail(self):
             self.show_full_prompt=not self.show_full_prompt; self.prompt_preview.setPlainText(self.full_prompt_text if self.show_full_prompt else self.preview_summary); self.prompt_toggle.setText("Hide full prompt" if self.show_full_prompt else "View full prompt")

@@ -21,6 +21,7 @@ class PromptPlan:
     image_intent: str
     subject_identity: str
     identity_anchors: tuple[str, ...]
+    identity_block: str | None = None
     body_description: str | None = None
     face_description: str | None = None
     hair_description: str | None = None

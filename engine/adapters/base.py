@@ -27,8 +27,22 @@ def validate_density(density: str) -> None:
 def source_sections(plan: PromptPlan) -> tuple[PromptSection, ...]:
     """Expose compiler-selected material in one explicit order."""
     validate_density(plan.density)
-    sections = [PromptSection("subject", f"{plan.image_intent} of {plan.subject_identity}, with {', '.join(plan.identity_anchors)}.")]
-    for section_id, text in (("body", plan.body_description), ("face", plan.face_description), ("hair", plan.hair_description), ("wardrobe", plan.wardrobe)):
+    if plan.identity_block and plan.character_name.casefold() in plan.identity_block.casefold():
+        subject = f"{plan.image_intent}."
+    else:
+        subject = f"{plan.image_intent} of {plan.subject_identity}."
+    sections = [PromptSection("subject", subject)]
+    if plan.identity_block:
+        identity_text = plan.identity_block.rstrip()
+        if identity_text.endswith((".", "!", "?")):
+            identity_text = identity_text[:-1]
+        sections.append(PromptSection("identity", identity_text))
+    elif plan.identity_anchors:
+        clauses = tuple(item.strip() for item in plan.identity_anchors if item.strip())
+        identity_text = " ".join(item if item.endswith((".", "!", "?")) else item + "." for item in clauses)
+        sections.append(PromptSection("identity", identity_text))
+    identity_support = not plan.identity_block
+    for section_id, text in (("body", plan.body_description if identity_support else None), ("face", plan.face_description if identity_support else None), ("hair", plan.hair_description if identity_support else None), ("wardrobe", plan.wardrobe)):
         if text:
             sections.append(PromptSection(section_id, text))
     scene_fields = (("environment", plan.environment), ("action", plan.activity), ("composition", plan.composition)) if plan.mode == "environmental" else (("action", plan.activity), ("environment", plan.environment), ("composition", plan.composition))
@@ -46,7 +60,7 @@ def prose_paragraphs(sections: tuple[PromptSection, ...]) -> str:
     """Group fixed compiler sections into readable image-direction paragraphs."""
     by_id = {section.id: section.text for section in sections}
     groups = (
-        ("subject", "body", "face", "hair"),
+        ("subject", "identity", "body", "face", "hair"),
         ("wardrobe", "action", "environment"),
         ("composition", "lighting", "atmosphere"),
         ("realism", "constraints"),

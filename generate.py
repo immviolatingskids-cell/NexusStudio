@@ -19,6 +19,10 @@ from engine.takes import list_takes, load_take, verify_take
 from engine.audit import run_audit
 from engine.migrations import migrate_character_file
 from engine.providers import get_provider, ProviderError
+from engine.providers import GeminiProvider
+from engine.prompt_models import PromptResult, PromptSection
+from engine.prompt_refiner import refine_prompt
+from engine.prompt_export import render_json_export, render_text_export
 from engine.resolver import reroll_scene
 from engine.prompts import compose_prompt_document
 from config import CHARACTERS_DIR, OUTPUT_DIR, reference_image_for
@@ -64,7 +68,7 @@ def print_foundation_summary() -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Character Studio generator"
+        description="CharacterStudio deterministic prompt compiler and manual-generation exporter"
     )
 
     parser.add_argument(
@@ -86,7 +90,7 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--record", action="store_true", help="Save this offline preview as an immutable take record.")
     parser.add_argument("--provider", choices=("fake", "gemini"), default="fake")
-    parser.add_argument("--generate", action="store_true", help="Generate with the selected CLI provider and record the immutable take.")
+    parser.add_argument("--generate", action="store_true", help="Experimental legacy image-provider path; v1.1 exports prompts for manual generation.")
     parser.add_argument("--audit", action="store_true", help="Print a read-only project health report.")
     parser.add_argument("--list-takes", action="store_true")
     parser.add_argument("--inspect-take")
@@ -95,6 +99,9 @@ def main() -> None:
     parser.add_argument("--reroll-dimension")
     parser.add_argument("--replay-take")
     parser.add_argument("--json", action="store_true", help="Emit the resolved scene and prompt document as JSON.")
+    parser.add_argument("--density", choices=("compact", "standard", "detailed"), default="standard", help="Identity and scene detail level.")
+    parser.add_argument("--refinement", choices=("off", "balanced", "rich"), default="off", help="Optional text-only prompt refinement mode.")
+    parser.add_argument("--export", help="Write a paste-ready prompt export (.txt or .json).")
     parser.add_argument("--migrate-character", help="Preview migration of one character JSON filename or path.")
     parser.add_argument("--apply", action="store_true", help="Apply the requested migration after its preview.")
 
@@ -173,12 +180,50 @@ def main() -> None:
             stored_brief = stored["scene"]["brief"]
             stored_brief["locks"] = frozenset(stored_brief.get("locks", ()))
             scene = resolve_scene(SceneBrief(**stored_brief), profile, character.affinities)
-        print("Prompt preview:")
-        print(compose_prompt(scene))
+        document = compose_prompt_document(scene, args.density)
+        compiled_text = document.render()
+        prompt_result = PromptResult(
+            character_id=scene.brief.character_id,
+            adapter_name="deterministic-compiler",
+            positive_prompt=compiled_text,
+            source_scene_mode=args.location or "custom",
+            sections=tuple(PromptSection(str(index), text) for index, text in enumerate((*document.identity, *document.direction, *document.technical))),
+            source_metadata={
+                "density": args.density,
+                "prompt_plan": {
+                    "mode": args.location or "custom",
+                    "image_intent": "photorealistic image prompt",
+                    "style": scene.brief.image_style,
+                    "wardrobe": scene.selections.get("wardrobe"),
+                    "activity": scene.selections.get("activity"),
+                    "pose": scene.selections.get("pose"),
+                    "environment": scene.selections.get("location"),
+                    "composition": scene.selections.get("framing"),
+                    "lighting": scene.selections.get("lighting"),
+                    "atmosphere": scene.selections.get("atmosphere"),
+                    "identity_constraints": list(scene.negative_constraints),
+                },
+                "identity_diagnostics": document.identity_diagnostics,
+            },
+        )
+        refined_result = refine_prompt(prompt_result, args.refinement, GeminiProvider() if args.refinement != "off" else None)
+        print("Compiled prompt:")
+        print(refined_result.compiled_prompt)
+        if args.refinement != "off":
+            print(f"\nRefined prompt ({args.refinement}):")
+            print(refined_result.refined_prompt)
+            for warning in refined_result.warnings:
+                print(f"Refinement warning: {warning}")
+        if args.export:
+            target = Path(args.export)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            serialized = render_json_export(refined_result) if target.suffix.casefold() == ".json" else render_text_export(refined_result)
+            target.write_text(serialized, encoding="utf-8")
+            print(f"Prompt export: {target}")
         print("Negative identity constraints:")
         print(compose_negative_prompt(scene))
         if args.json:
-            print(json.dumps({"scene": scene.to_dict(), "prompt_document": compose_prompt_document(scene).to_dict()}, indent=2))
+            print(json.dumps({"scene": scene.to_dict(), "prompt_document": document.to_dict(), "prompt_result": refined_result.to_dict()}, indent=2))
         if args.record and not args.generate:
             print(f"Take record: {record_take(scene)}")
         if args.replay_take:

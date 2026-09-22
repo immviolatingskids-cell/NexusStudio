@@ -1,22 +1,221 @@
 {
   "schema": "character_studio.locked_look.v1",
+  "version": "1.1.0",
   "character_id": "naomi",
-  "reference_basis": {"images": 1, "confidence": "single-reference", "instruction": "Preserve facial relationships, colouring, and athletic silhouette; exclude hiking gear, mountain setting, selfie pose, wind, and cold-weather flush."},
-  "identity_lock": {
-    "face_geometry": {"priority": "critical", "description": "Balanced medium-length oval face with softly defined cheekbones, moderate cheek width, a smooth gently narrowing jaw, and rounded chin. Neither notably round nor angular."},
-    "eyes": {"priority": "critical", "description": "Clear blue-grey almond eyes of medium-large size, average-to-slightly-wide spacing, visible upper-lid crease, and gently lifted outer corners; calm open gaze."},
-    "brows": {"priority": "strong", "description": "Medium-full ash-brown brows, naturally straight at the inner half with a low soft arch and fine untidy texture."},
-    "nose": {"priority": "critical", "description": "Straight medium-length nose with a slim-to-medium bridge, softly rounded tip, and balanced nostril width; neither button-small nor strongly prominent."},
-    "mouth": {"priority": "critical", "description": "Medium-wide mouth with softly full natural lips, subtle cupid's bow, and a slightly fuller lower lip. Resting corners have a gentle upward tendency."},
-    "skin": {"priority": "strong", "description": "Warm light-to-medium skin with subtle freckles across nose and upper cheeks, natural outdoor colour variation, visible texture, and a healthy non-glossy finish."},
-    "hair": {"priority": "strong", "description": "Long dark-blonde to light-brown hair with dimensional ash and warm strands, abundant natural loose wave, medium-thick density, and irregular face-framing layers. Styling is mutable."},
-    "body_proportions": {"priority": "critical", "description": "Lean swimmer-athletic build with defined shoulders and upper back, strong legs, balanced waist and hips, and long functional proportions; fit without extreme muscularity or narrow fragility."}
+  "reference_basis": {
+    "images": 1,
+    "confidence": "single-reference",
+    "instruction": "Preserve visible face, freckles, pale cool eye appearance, and long wavy dark-blonde/light-brown hair. The coat and selfie crop do not verify full-body proportions; exclude hiking gear, mountain setting, selfie pose, wind, and cold-weather flush."
   },
-  "identity_relationships": {"priority": "critical", "facial_length_to_width": "balanced oval; moderately longer than wide", "eye_spacing": "average to subtly wide", "cheek_to_jaw_transition": "gentle cheek definition flows into a smooth narrowing jaw", "nose_to_mouth_relationship": "medium straight nose over a slightly broader soft mouth", "lip_ratio": "balanced full lips with lower lip modestly fuller", "feature_balance": "no single feature dominates; eye colour, balanced oval geometry, and wavy dimensional hair identify her together"},
-  "expression_behavior": {"priority": "strong", "neutral": "Calm attentive expression with relaxed lips and soft focused eyes.", "smile": "Gentle lateral smile lifts the cheeks evenly and creates understated warmth rather than a dramatic grin.", "cheek_response": "Upper cheeks rise smoothly with light smile creasing.", "eye_response": "Lower lids lift slightly while the almond shape remains open."},
-  "signature_features": [{"priority": "critical", "feature": "clear blue-grey almond eyes"}, {"priority": "strong", "feature": "balanced oval facial geometry"}, {"priority": "strong", "feature": "long dimensional dark-blonde to light-brown wavy hair"}, {"priority": "strong", "feature": "lean swimmer-athletic shoulder line"}],
-  "mutable_features": {"hair_style": true, "makeup": true, "clothing": true, "jewellery": true, "expression": true, "pose": true, "environment": true, "capture_style": true},
-  "presentation_exclusions": ["hiking shell", "backpack", "snowy mountains", "windswept styling", "cold-weather cheek flush", "selfie perspective"],
-  "immutable_features": ["balanced oval facial proportions", "eye shape and blue-grey colour", "nose structure", "natural lip proportions", "hair base colour and texture", "lean swimmer-athletic proportions"],
-  "negative_identity_constraints": ["no round full-cheek face", "no long angular jaw", "no dark-brown eyes", "no platinum-blonde or dark-brunette hair", "no exaggerated glam contour", "no petite frail body", "do not sharpen or glamourise away her balanced natural structure"]
+  "identity_lock": {
+    "face_geometry": {
+      "priority": "critical",
+      "description": "Balanced medium-length oval face with softly defined cheekbones, moderate cheek width, a smooth gently narrowing jaw, and rounded chin. Neither notably round nor angular."
+    },
+    "eyes": {
+      "priority": "critical",
+      "description": "Pale blue-grey to blue-green softly almond eyes, average-to-slightly-wide spacing, visible upper-lid crease, and gently lifted outer corners. Preserve their light cool appearance; exact hue varies with daylight."
+    },
+    "brows": {
+      "priority": "strong",
+      "description": "Medium-full ash-brown brows, naturally straight at the inner half with a low soft arch and fine untidy texture."
+    },
+    "nose": {
+      "priority": "critical",
+      "description": "Straight medium-length nose with a slim-to-medium bridge, softly rounded tip, and balanced nostril width; neither button-small nor strongly prominent."
+    },
+    "mouth": {
+      "priority": "critical",
+      "description": "Medium-wide mouth with softly full natural lips, subtle cupid's bow, and a slightly fuller lower lip. Resting corners have a gentle upward tendency."
+    },
+    "skin": {
+      "priority": "strong",
+      "description": "Warm light-to-medium skin with subtle freckles across nose and upper cheeks, natural outdoor colour variation, visible texture, and a healthy non-glossy finish."
+    },
+    "hair": {
+      "priority": "strong",
+      "description": "Long dark-blonde to light-brown hair with dimensional ash and warm strands, abundant natural loose wave, medium-thick density, and irregular face-framing layers. Styling is mutable."
+    },
+    "body_proportions": {
+      "priority": "critical",
+      "description": "Canonical baseline is lean swimmer-athletic with defined shoulders and strong legs. The selfie and coat obscure most of the body, so full proportions are not independently verified."
+    }
+  },
+  "identity_relationships": {
+    "priority": "critical",
+    "facial_length_to_width": "balanced oval; moderately longer than wide",
+    "eye_spacing": "average to subtly wide",
+    "cheek_to_jaw_transition": "gentle cheek definition flows into a smooth narrowing jaw",
+    "nose_to_mouth_relationship": "medium straight nose over a slightly broader soft mouth",
+    "lip_ratio": "balanced full lips with lower lip modestly fuller",
+    "feature_balance": "no single feature dominates; eye colour, balanced oval geometry, and wavy dimensional hair identify her together"
+  },
+  "expression_behavior": {
+    "priority": "strong",
+    "neutral": "A neutral expression is not shown; maintain the established face geometry.",
+    "smile": "The visible relaxed smile gently raises her cheeks; other expressions are not established.",
+    "cheek_response": "A slight cheek lift is visible in the single smile; preserve the soft oval silhouette.",
+    "eye_response": "A repeatable eye response is uncertain from one expression; preserve the softly almond eye shape."
+  },
+  "signature_features": [
+    {
+      "priority": "critical",
+      "feature": "clear blue-grey almond eyes"
+    },
+    {
+      "priority": "strong",
+      "feature": "balanced oval facial geometry"
+    },
+    {
+      "priority": "strong",
+      "feature": "long dimensional dark-blonde to light-brown wavy hair"
+    },
+    {
+      "priority": "strong",
+      "feature": "lean swimmer-athletic shoulder line"
+    }
+  ],
+  "mutable_features": {
+    "hair_style": true,
+    "makeup": true,
+    "clothing": true,
+    "jewellery": true,
+    "expression": true,
+    "pose": true,
+    "environment": true,
+    "capture_style": true
+  },
+  "presentation_exclusions": [
+    "hiking shell",
+    "backpack",
+    "snowy mountains",
+    "windswept styling",
+    "cold-weather cheek flush",
+    "selfie perspective"
+  ],
+  "immutable_features": [
+    "balanced oval facial proportions",
+    "eye shape and blue-grey colour",
+    "nose structure",
+    "natural lip proportions",
+    "hair base colour and texture",
+    "lean swimmer-athletic proportions"
+  ],
+  "negative_identity_constraints": [
+    "no round full-cheek face",
+    "no long angular jaw",
+    "no dark-brown eyes",
+    "no platinum-blonde or dark-brunette hair",
+    "no exaggerated glam contour",
+    "no petite frail body",
+    "do not sharpen or glamourise away her balanced natural structure"
+  ],
+  "drift_critical_features": [
+    {
+      "feature": "blue-grey almond eyes",
+      "instruction": "Keep the blue-grey eyes and calm almond shape recognizable."
+    },
+    {
+      "feature": "balanced oval face",
+      "instruction": "Maintain the moderate face length and softly narrowing jaw."
+    },
+    {
+      "feature": "long dimensional dark-blonde to light-brown hair",
+      "instruction": "Keep the natural dark-blonde/light-brown colour family and loose texture across styling changes."
+    },
+    {
+      "feature": "lean swimmer-athletic proportions",
+      "instruction": "Preserve the functional shoulder line and strong legs without extreme muscularity."
+    },
+    {
+      "feature": "subtle freckles across nose and upper cheeks",
+      "instruction": "Retain subtle freckles when visible; do not infer additional body markings."
+    }
+  ],
+  "reference_consensus": {
+    "reference_count": 1,
+    "confidence": "single-reference",
+    "stable_features": [
+      "visible face geometry",
+      "visible hair colour family and texture",
+      "visible complexion and freckles or marks where clear",
+      "visible eye shape and appearance where unobscured"
+    ],
+    "variable_features": [
+      "hairstyle arrangement",
+      "expression",
+      "wardrobe",
+      "accessories",
+      "pose",
+      "environment",
+      "lighting and camera framing",
+      "temporary makeup"
+    ],
+    "uncertain_features": [
+      {
+        "feature": "full body proportions and stature",
+        "observations": [
+          "Selfie framing and coat obscure most of the body."
+        ],
+        "resolution": "Keep this property uncertain in the reference record; do not force an unsupported detail into immutable identity."
+      },
+      {
+        "feature": "exact eye hue",
+        "observations": [
+          "Iris appears pale blue-grey to blue-green in daylight; shade may shift with light."
+        ],
+        "resolution": "Keep this property uncertain in the reference record; do not force an unsupported detail into immutable identity."
+      },
+      {
+        "feature": "natural hair shade",
+        "observations": [
+          "Sunlight creates lighter highlights; lock the dark-blonde/light-brown base family, not highlight intensity."
+        ],
+        "resolution": "Keep this property uncertain in the reference record; do not force an unsupported detail into immutable identity."
+      }
+    ]
+  },
+  "variation_envelope": {
+    "hair": {
+      "can_change": true,
+      "locked": [
+        "base colour family",
+        "density",
+        "natural texture family"
+      ],
+      "variable": [
+        "part",
+        "updo",
+        "ponytail",
+        "loose arrangement",
+        "clips and other temporary accessories"
+      ]
+    },
+    "expression": {
+      "can_change": true,
+      "range": [
+        "neutral",
+        "small smile",
+        "focused",
+        "amused"
+      ],
+      "identity_behavior": "Expression may change; preserve the underlying facial geometry and characteristic feature relationships."
+    },
+    "wardrobe": {
+      "can_change": true,
+      "locked": [],
+      "variable": [
+        "clothing style",
+        "colour",
+        "layers",
+        "accessories"
+      ]
+    },
+    "presentation_note": "Treat these as continuity guidance. Do not force a fixed pose, expression, hairstyle, or photographic treatment."
+  },
+  "prompt_identity_blocks": {
+    "compact": "Naomi, a 25-year-old Canadian woman. Face: Balanced medium-length oval face with softly defined cheekbones, moderate cheek width, a smooth gently narrowing jaw, and rounded chin. Neither notably round nor angular. Eyes: Pale blue-grey to blue-green softly almond eyes, average-to-slightly-wide spacing, visible upper-lid crease, and gently lifted outer corners. Preserve their light cool appearance; exact hue varies with daylight. Nose: Straight medium-length nose with a slim-to-medium bridge, softly rounded tip, and balanced nostril width; neither button-small nor strongly prominent. Mouth: Medium-wide mouth with softly full natural lips, subtle cupid's bow, and a slightly fuller lower lip. Resting corners have a gentle upward tendency. Body baseline: Canonical baseline is lean swimmer-athletic with defined shoulders and strong legs. The selfie and coat obscure most of the body, so full proportions are not independently verified.",
+    "standard": "Naomi, a 25-year-old Canadian woman. Face: Balanced medium-length oval face with softly defined cheekbones, moderate cheek width, a smooth gently narrowing jaw, and rounded chin. Neither notably round nor angular. Eyes: Pale blue-grey to blue-green softly almond eyes, average-to-slightly-wide spacing, visible upper-lid crease, and gently lifted outer corners. Preserve their light cool appearance; exact hue varies with daylight. Nose: Straight medium-length nose with a slim-to-medium bridge, softly rounded tip, and balanced nostril width; neither button-small nor strongly prominent. Mouth: Medium-wide mouth with softly full natural lips, subtle cupid's bow, and a slightly fuller lower lip. Resting corners have a gentle upward tendency. Body baseline: Canonical baseline is lean swimmer-athletic with defined shoulders and strong legs. The selfie and coat obscure most of the body, so full proportions are not independently verified. Brows: Medium-full ash-brown brows, naturally straight at the inner half with a low soft arch and fine untidy texture. Complexion: Warm light-to-medium skin with subtle freckles across nose and upper cheeks, natural outdoor colour variation, visible texture, and a healthy non-glossy finish. Hair: Long dark-blonde to light-brown hair with dimensional ash and warm strands, abundant natural loose wave, medium-thick density, and irregular face-framing layers. Styling is mutable. Facial length to width: balanced oval; moderately longer than wide. Eye spacing: average to subtly wide. Cheek to jaw transition: gentle cheek definition flows into a smooth narrowing jaw. Nose to mouth relationship: medium straight nose over a slightly broader soft mouth. Lip ratio: balanced full lips with lower lip modestly fuller. Feature balance: no single feature dominates; eye colour, balanced oval geometry, and wavy dimensional hair identify her together.",
+    "detailed": "Naomi, a 25-year-old Canadian woman. Face: Balanced medium-length oval face with softly defined cheekbones, moderate cheek width, a smooth gently narrowing jaw, and rounded chin. Neither notably round nor angular. Eyes: Pale blue-grey to blue-green softly almond eyes, average-to-slightly-wide spacing, visible upper-lid crease, and gently lifted outer corners. Preserve their light cool appearance; exact hue varies with daylight. Nose: Straight medium-length nose with a slim-to-medium bridge, softly rounded tip, and balanced nostril width; neither button-small nor strongly prominent. Mouth: Medium-wide mouth with softly full natural lips, subtle cupid's bow, and a slightly fuller lower lip. Resting corners have a gentle upward tendency. Body baseline: Canonical baseline is lean swimmer-athletic with defined shoulders and strong legs. The selfie and coat obscure most of the body, so full proportions are not independently verified. Brows: Medium-full ash-brown brows, naturally straight at the inner half with a low soft arch and fine untidy texture. Complexion: Warm light-to-medium skin with subtle freckles across nose and upper cheeks, natural outdoor colour variation, visible texture, and a healthy non-glossy finish. Hair: Long dark-blonde to light-brown hair with dimensional ash and warm strands, abundant natural loose wave, medium-thick density, and irregular face-framing layers. Styling is mutable. Facial length to width: balanced oval; moderately longer than wide. Eye spacing: average to subtly wide. Cheek to jaw transition: gentle cheek definition flows into a smooth narrowing jaw. Nose to mouth relationship: medium straight nose over a slightly broader soft mouth. Lip ratio: balanced full lips with lower lip modestly fuller. Feature balance: no single feature dominates; eye colour, balanced oval geometry, and wavy dimensional hair identify her together. Neutral: A neutral expression is not shown; maintain the established face geometry. Smile: The visible relaxed smile gently raises her cheeks; other expressions are not established. Cheek response: A slight cheek lift is visible in the single smile; preserve the soft oval silhouette. Eye response: A repeatable eye response is uncertain from one expression; preserve the softly almond eye shape."
+  }
 }

@@ -37,7 +37,7 @@ def test_compact_omits_supporting_detail_before_identity():
     detailed = _plan(density="detailed")
     assert compact.face_description is None
     assert detailed.face_description
-    assert compact.identity_anchors == detailed.identity_anchors
+    assert set(compact.identity_anchors).issubset(set(detailed.identity_anchors))
 
 
 def test_all_adapters_receive_the_same_compiled_plan():

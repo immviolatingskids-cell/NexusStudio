@@ -1,22 +1,223 @@
 {
   "schema": "character_studio.locked_look.v1",
+  "version": "1.1.0",
   "character_id": "zara",
-  "reference_basis": {"images": 1, "confidence": "single-reference", "instruction": "Glasses are presentation, not anatomy. Preserve visible facial geometry beneath them; exclude library clothing, pose, props, and setting."},
-  "identity_lock": {
-    "face_geometry": {"priority": "critical", "description": "Soft rounded-oval face with full lower cheeks, moderate facial length, minimal jaw angularity, and a softly rounded chin. Fuller facial structure remains adult and proportionate."},
-    "eyes": {"priority": "critical", "description": "Large deep-brown rounded-almond eyes, average-to-slightly-wide spacing, softly lowered outer corners, visible upper lids, and a thoughtful gentle gaze. Do not let glasses define or distort their shape."},
-    "brows": {"priority": "critical", "description": "Prominent very dark brows, thick and clearly shaped, mostly straight through the inner half with a defined but soft arch."},
-    "nose": {"priority": "critical", "description": "Slightly broad straight-to-soft bridge with a rounded tip and natural wider alar base; substantial enough to balance the full lips and brows."},
-    "mouth": {"priority": "critical", "description": "Full natural lips with a softly defined cupid's bow, broad lower lip, and relaxed slightly downturned resting corners. Mouth is moderate in width, not oversized."},
-    "skin": {"priority": "strong", "description": "Warm olive skin with subtle scattered freckles and small beauty marks, natural pores, and gentle tonal variation; no heavy smoothing or pale washing-out."},
-    "hair": {"priority": "critical", "description": "Very dark brown, nearly black hair in a thick collarbone-length bob, slightly tousled with loose natural wave, high volume around the sides, and irregular face-framing pieces. Bob length and dark base colour remain stable."},
-    "body_proportions": {"priority": "critical", "description": "Medium-height soft fuller build with naturally substantial bust, upper arms, hips and thighs, a soft waist and stomach, and grounded adult proportions. Preserve fullness without caricature or forced slimming."}
+  "reference_basis": {
+    "images": 1,
+    "confidence": "single-reference",
+    "instruction": "Preserve the visible face, dark bob, and warm olive complexion. Glasses obscure iris colour and some eye geometry; do not infer those traits. Exclude glasses, lanyard, clothing, library, books, and reaching pose from permanent identity."
   },
-  "identity_relationships": {"priority": "critical", "facial_length_to_width": "rounded oval, only moderately longer than wide", "eye_spacing": "average to subtly wide", "cheek_to_jaw_transition": "full cheeks blend continuously into a soft jaw with little angular break", "nose_to_mouth_relationship": "slightly broad nose balanced by full moderate-width lips", "lip_ratio": "upper lip full; lower lip broader and slightly fuller", "feature_balance": "large eyes, strong brows, fuller nose and lips sit within a soft cohesive face"},
-  "expression_behavior": {"priority": "strong", "neutral": "Quiet thoughtful expression, relaxed lids, and softly settled mouth corners.", "smile": "Small restrained smile lifts the mouth corners and cheeks without becoming highly performative.", "cheek_response": "Full cheeks rise and round gently.", "eye_response": "Eyes brighten and narrow only slightly, retaining their large rounded-almond appearance."},
-  "signature_features": [{"priority": "critical", "feature": "large deep-brown eyes beneath prominent dark brows"}, {"priority": "critical", "feature": "soft rounded-oval fuller face"}, {"priority": "critical", "feature": "thick nearly-black collarbone bob"}, {"priority": "strong", "feature": "small beauty marks and subtle freckles on warm olive skin"}],
-  "mutable_features": {"hair_style": "limited: part, tuck, clips, and finish may change; preserve bob length, density, and base colour", "makeup": true, "clothing": true, "glasses": true, "jewellery": true, "expression": true, "pose": true, "environment": true, "capture_style": true},
-  "presentation_exclusions": ["glasses", "library", "books", "staff lanyard", "dark sweater", "reaching pose"],
-  "immutable_features": ["soft rounded-oval facial proportions", "eye shape and colour", "prominent brow geometry", "nose structure", "lip proportions", "dark thick bob baseline", "soft fuller body proportions"],
-  "negative_identity_constraints": ["no narrow angular face", "no small button nose", "no thin lips", "no pale cool skin", "no long straight hair", "no slim athletic frame", "glasses must not become an identity requirement"]
+  "identity_lock": {
+    "face_geometry": {
+      "priority": "critical",
+      "description": "Soft rounded-oval face with full lower cheeks, moderate facial length, minimal jaw angularity, and a softly rounded chin. Fuller facial structure remains adult and proportionate."
+    },
+    "eyes": {
+      "priority": "critical",
+      "description": "Rounded-almond eyes with visible upper lids and a thoughtful gaze. Large round glasses and reflections obscure exact eye shape, spacing, and iris colour; do not lock an eye hue from this reference."
+    },
+    "brows": {
+      "priority": "critical",
+      "description": "Prominent very dark brows, thick and clearly shaped, mostly straight through the inner half with a defined but soft arch."
+    },
+    "nose": {
+      "priority": "critical",
+      "description": "Slightly broad straight-to-soft bridge with a rounded tip and natural wider alar base; substantial enough to balance the full lips and brows."
+    },
+    "mouth": {
+      "priority": "critical",
+      "description": "Full natural lips with a softly defined cupid's bow, broad lower lip, and relaxed slightly downturned resting corners. Mouth is moderate in width, not oversized."
+    },
+    "skin": {
+      "priority": "strong",
+      "description": "Warm olive skin with subtle scattered freckles and natural pores. A few small facial spots are visible, but no single mark or exact placement is sufficiently clear to lock."
+    },
+    "hair": {
+      "priority": "critical",
+      "description": "Very dark brown, nearly black hair in a thick collarbone-length bob, slightly tousled with loose natural wave, high volume around the sides, and irregular face-framing pieces. Bob length and dark base colour remain stable."
+    },
+    "body_proportions": {
+      "priority": "critical",
+      "description": "Medium-height soft fuller build with naturally substantial bust, upper arms, hips and thighs, a soft waist and stomach, and grounded adult proportions. Preserve fullness without caricature or forced slimming."
+    }
+  },
+  "identity_relationships": {
+    "priority": "critical",
+    "facial_length_to_width": "rounded oval, only moderately longer than wide",
+    "eye_spacing": "Exact spacing is uncertain because glasses and lens reflections obscure the eye boundaries.",
+    "cheek_to_jaw_transition": "full cheeks blend continuously into a soft jaw with little angular break",
+    "nose_to_mouth_relationship": "slightly broad nose balanced by full moderate-width lips",
+    "lip_ratio": "upper lip full; lower lip broader and slightly fuller",
+    "feature_balance": "large eyes, strong brows, fuller nose and lips sit within a soft cohesive face"
+  },
+  "expression_behavior": {
+    "priority": "strong",
+    "neutral": "The reference shows a downward thoughtful gaze; a neutral baseline is not established.",
+    "smile": "Smiling behavior is not established by the single reference.",
+    "cheek_response": "Expression-driven cheek changes are not established.",
+    "eye_response": "Glasses and the downward gaze obscure repeatable eye behavior; preserve only visible eye shape."
+  },
+  "signature_features": [
+    {
+      "priority": "critical",
+      "feature": "large deep-brown eyes beneath prominent dark brows"
+    },
+    {
+      "priority": "critical",
+      "feature": "soft rounded-oval fuller face"
+    },
+    {
+      "priority": "critical",
+      "feature": "thick nearly-black collarbone bob"
+    },
+    {
+      "priority": "strong",
+      "feature": "small beauty marks and subtle freckles on warm olive skin"
+    }
+  ],
+  "mutable_features": {
+    "hair_style": "limited: part, tuck, clips, and finish may change; preserve bob length, density, and base colour",
+    "makeup": true,
+    "clothing": true,
+    "glasses": true,
+    "jewellery": true,
+    "expression": true,
+    "pose": true,
+    "environment": true,
+    "capture_style": true
+  },
+  "presentation_exclusions": [
+    "glasses",
+    "library",
+    "books",
+    "staff lanyard",
+    "dark sweater",
+    "reaching pose"
+  ],
+  "immutable_features": [
+    "soft rounded-oval facial proportions",
+    "prominent brow geometry",
+    "nose structure",
+    "lip proportions",
+    "dark thick bob baseline",
+    "soft fuller body proportions",
+    "visible rounded-almond eye shape only; exact iris colour and spacing remain uncertain"
+  ],
+  "negative_identity_constraints": [
+    "no narrow angular face",
+    "no small button nose",
+    "no thin lips",
+    "no pale cool skin",
+    "no long straight hair",
+    "no slim athletic frame",
+    "glasses must not become an identity requirement"
+  ],
+  "drift_critical_features": [
+    {
+      "feature": "soft rounded-oval face with full lower cheeks",
+      "instruction": "Keep her adult facial fullness and softly rounded chin recognizable."
+    },
+    {
+      "feature": "large deep-brown eyes beneath prominent dark brows",
+      "instruction": "Preserve the eye and brow relationship; glasses may be present or absent."
+    },
+    {
+      "feature": "thick nearly-black collarbone bob",
+      "instruction": "Keep the dark bob baseline while allowing part, tuck, clips, or finish to vary."
+    },
+    {
+      "feature": "warm olive skin with subtle freckles and beauty marks",
+      "instruction": "Retain visible skin tone and distinguishing marks without overstatement."
+    },
+    {
+      "feature": "soft fuller body proportions",
+      "instruction": "Preserve her natural fullness without forced slimming or caricature."
+    }
+  ],
+  "reference_consensus": {
+    "reference_count": 1,
+    "confidence": "single-reference",
+    "stable_features": [
+      "visible face geometry",
+      "visible hair colour family and texture",
+      "visible complexion and freckles or marks where clear",
+      "visible eye shape and appearance where unobscured"
+    ],
+    "variable_features": [
+      "hairstyle arrangement",
+      "expression",
+      "wardrobe",
+      "accessories",
+      "pose",
+      "environment",
+      "lighting and camera framing",
+      "temporary makeup"
+    ],
+    "uncertain_features": [
+      {
+        "feature": "iris colour and precise eye geometry",
+        "observations": [
+          "Glasses and lens reflections obscure eye colour, shape, and spacing."
+        ],
+        "resolution": "Keep this property uncertain in the reference record; do not force an unsupported detail into immutable identity."
+      },
+      {
+        "feature": "small facial marks",
+        "observations": [
+          "A few spots may be freckles or texture; no single mark placement is unambiguous."
+        ],
+        "resolution": "Keep this property uncertain in the reference record; do not force an unsupported detail into immutable identity."
+      },
+      {
+        "feature": "full body proportions",
+        "observations": [
+          "Dark clothing and crop obscure body shape and stature."
+        ],
+        "resolution": "Keep this property uncertain in the reference record; do not force an unsupported detail into immutable identity."
+      }
+    ]
+  },
+  "variation_envelope": {
+    "hair": {
+      "can_change": true,
+      "locked": [
+        "base colour family",
+        "density",
+        "natural texture family"
+      ],
+      "variable": [
+        "part",
+        "updo",
+        "ponytail",
+        "loose arrangement",
+        "clips and other temporary accessories"
+      ]
+    },
+    "expression": {
+      "can_change": true,
+      "range": [
+        "neutral",
+        "small smile",
+        "focused",
+        "amused"
+      ],
+      "identity_behavior": "Expression may change; preserve the underlying facial geometry and characteristic feature relationships."
+    },
+    "wardrobe": {
+      "can_change": true,
+      "locked": [],
+      "variable": [
+        "clothing style",
+        "colour",
+        "layers",
+        "accessories"
+      ]
+    },
+    "presentation_note": "Treat these as continuity guidance. Do not force a fixed pose, expression, hairstyle, or photographic treatment."
+  },
+  "prompt_identity_blocks": {
+    "compact": "Zarà, a 24-year-old American woman. Face: Soft rounded-oval face with full lower cheeks, moderate facial length, minimal jaw angularity, and a softly rounded chin. Fuller facial structure remains adult and proportionate. Eyes: Rounded-almond eyes with visible upper lids and a thoughtful gaze. Large round glasses and reflections obscure exact eye shape, spacing, and iris colour; do not lock an eye hue from this reference. Brows: Prominent very dark brows, thick and clearly shaped, mostly straight through the inner half with a defined but soft arch. Nose: Slightly broad straight-to-soft bridge with a rounded tip and natural wider alar base; substantial enough to balance the full lips and brows. Mouth: Full natural lips with a softly defined cupid's bow, broad lower lip, and relaxed slightly downturned resting corners. Mouth is moderate in width, not oversized. Hair: Very dark brown, nearly black hair in a thick collarbone-length bob, slightly tousled with loose natural wave, high volume around the sides, and irregular face-framing pieces. Bob length and dark base colour remain stable. Body baseline: Medium-height soft fuller build with naturally substantial bust, upper arms, hips and thighs, a soft waist and stomach, and grounded adult proportions. Preserve fullness without caricature or forced slimming.",
+    "standard": "Zarà, a 24-year-old American woman. Face: Soft rounded-oval face with full lower cheeks, moderate facial length, minimal jaw angularity, and a softly rounded chin. Fuller facial structure remains adult and proportionate. Eyes: Rounded-almond eyes with visible upper lids and a thoughtful gaze. Large round glasses and reflections obscure exact eye shape, spacing, and iris colour; do not lock an eye hue from this reference. Brows: Prominent very dark brows, thick and clearly shaped, mostly straight through the inner half with a defined but soft arch. Nose: Slightly broad straight-to-soft bridge with a rounded tip and natural wider alar base; substantial enough to balance the full lips and brows. Mouth: Full natural lips with a softly defined cupid's bow, broad lower lip, and relaxed slightly downturned resting corners. Mouth is moderate in width, not oversized. Hair: Very dark brown, nearly black hair in a thick collarbone-length bob, slightly tousled with loose natural wave, high volume around the sides, and irregular face-framing pieces. Bob length and dark base colour remain stable. Body baseline: Medium-height soft fuller build with naturally substantial bust, upper arms, hips and thighs, a soft waist and stomach, and grounded adult proportions. Preserve fullness without caricature or forced slimming. Complexion: Warm olive skin with subtle scattered freckles and natural pores. A few small facial spots are visible, but no single mark or exact placement is sufficiently clear to lock. Facial length to width: rounded oval, only moderately longer than wide. Eye spacing: Exact spacing is uncertain because glasses and lens reflections obscure the eye boundaries. Cheek to jaw transition: full cheeks blend continuously into a soft jaw with little angular break. Nose to mouth relationship: slightly broad nose balanced by full moderate-width lips. Lip ratio: upper lip full; lower lip broader and slightly fuller. Feature balance: large eyes, strong brows, fuller nose and lips sit within a soft cohesive face.",
+    "detailed": "Zarà, a 24-year-old American woman. Face: Soft rounded-oval face with full lower cheeks, moderate facial length, minimal jaw angularity, and a softly rounded chin. Fuller facial structure remains adult and proportionate. Eyes: Rounded-almond eyes with visible upper lids and a thoughtful gaze. Large round glasses and reflections obscure exact eye shape, spacing, and iris colour; do not lock an eye hue from this reference. Brows: Prominent very dark brows, thick and clearly shaped, mostly straight through the inner half with a defined but soft arch. Nose: Slightly broad straight-to-soft bridge with a rounded tip and natural wider alar base; substantial enough to balance the full lips and brows. Mouth: Full natural lips with a softly defined cupid's bow, broad lower lip, and relaxed slightly downturned resting corners. Mouth is moderate in width, not oversized. Hair: Very dark brown, nearly black hair in a thick collarbone-length bob, slightly tousled with loose natural wave, high volume around the sides, and irregular face-framing pieces. Bob length and dark base colour remain stable. Body baseline: Medium-height soft fuller build with naturally substantial bust, upper arms, hips and thighs, a soft waist and stomach, and grounded adult proportions. Preserve fullness without caricature or forced slimming. Complexion: Warm olive skin with subtle scattered freckles and natural pores. A few small facial spots are visible, but no single mark or exact placement is sufficiently clear to lock. Facial length to width: rounded oval, only moderately longer than wide. Eye spacing: Exact spacing is uncertain because glasses and lens reflections obscure the eye boundaries. Cheek to jaw transition: full cheeks blend continuously into a soft jaw with little angular break. Nose to mouth relationship: slightly broad nose balanced by full moderate-width lips. Lip ratio: upper lip full; lower lip broader and slightly fuller. Feature balance: large eyes, strong brows, fuller nose and lips sit within a soft cohesive face. Neutral: The reference shows a downward thoughtful gaze; a neutral baseline is not established. Smile: Smiling behavior is not established by the single reference. Cheek response: Expression-driven cheek changes are not established. Eye response: Glasses and the downward gaze obscure repeatable eye behavior; preserve only visible eye shape."
+  }
 }

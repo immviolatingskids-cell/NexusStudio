@@ -1,22 +1,223 @@
 {
   "schema": "character_studio.locked_look.v1",
+  "version": "1.1.0",
   "character_id": "charlotte_taylor_rose",
-  "reference_basis": {"images": 1, "confidence": "single-reference", "instruction": "Treat relational geometry as the identity anchor. Do not copy pose, expression, clothing, accessories, camera distortion, or environment."},
-  "identity_lock": {
-    "face_geometry": {"priority": "critical", "description": "Soft heart-to-oval face, widest through the upper cheeks, narrowing through a gently tapered jaw into a small rounded chin. Compact midface; soft cheek volume rather than sharp sculpting."},
-    "eyes": {"priority": "critical", "description": "Large dark-brown rounded-almond eyes, set slightly wider than one eye width, with visible upper-lid folds, softly lifted outer corners, and an open expressive gaze."},
-    "brows": {"priority": "strong", "description": "Dark full brows, low-to-medium set, mostly straight through the inner half with a soft outer arch and natural texture."},
-    "nose": {"priority": "critical", "description": "Relatively narrow straight bridge, compact softly rounded tip, and subtle nostril width; delicate relative to cheek width."},
-    "mouth": {"priority": "critical", "description": "Broad mouth with naturally full lips, defined cupid's bow, and a fuller lower lip. Retain width and volume without filler-like exaggeration."},
-    "skin": {"priority": "critical", "description": "Warm light-to-olive skin with dense natural freckles across the nose and upper cheeks, scattered more lightly across forehead, lower cheeks, neck, and upper body; realistic pores and tonal variation."},
-    "hair": {"priority": "strong", "description": "Long thick dark espresso-brown hair with subtle natural wave, warm brown highlights in strong light, irregular face-framing strands, and a natural slightly imperfect hairline. Styling may change."},
-    "body_proportions": {"priority": "critical", "description": "Petite-to-average height, naturally curvy and softly toned; compact torso, defined waist, fuller bust, hips and thighs, with soft feminine limb proportions."}
+  "reference_basis": {
+    "images": 1,
+    "confidence": "single-reference",
+    "instruction": "Preserve visible face geometry, freckles, and dark-brown hair appearance. The wink and partial eye occlusion leave eye hue and bilateral geometry uncertain; the updo and seated selfie crop do not establish hair length or body proportions. Exclude headphones, clothing, accessories, pose, room, camera distortion, and lighting."
   },
-  "identity_relationships": {"priority": "critical", "facial_length_to_width": "moderately short face; cheek width dominates facial length", "eye_spacing": "slightly wide-set; inner-eye gap a little greater than one eye width", "cheek_to_jaw_transition": "full upper cheeks flow smoothly into a gently tapered lower face", "nose_to_mouth_relationship": "compact narrow nose above a noticeably broader mouth", "lip_ratio": "full upper lip with defined bow; lower lip slightly fuller", "feature_balance": "large eyes and broad mouth carry expression while nose and chin remain compact"},
-  "expression_behavior": {"priority": "strong", "neutral": "Relaxed playful resting expression with soft mouth corners and alert eyes.", "smile": "Broadens laterally, lifts and rounds the cheeks, and deepens subtle smile creases without changing the narrow chin.", "cheek_response": "Cheeks rise prominently toward the lower eyelids and appear fuller.", "eye_response": "Eyes narrow softly during a full smile or wink but retain their rounded-almond shape."},
-  "signature_features": [{"priority": "critical", "feature": "dense freckle field across nose and upper cheeks"}, {"priority": "critical", "feature": "slightly wide-set large dark-brown eyes"}, {"priority": "strong", "feature": "broad full mouth paired with a compact nose"}, {"priority": "strong", "feature": "heart-to-oval face tapering to a small rounded chin"}],
-  "mutable_features": {"hair_style": true, "makeup": true, "clothing": true, "jewellery": true, "expression": true, "pose": true, "environment": true, "capture_style": true},
-  "presentation_exclusions": ["headphones", "messy bun", "wink", "peace sign", "hoodie", "streaming room", "selfie perspective"],
-  "immutable_features": ["facial proportions", "eye shape and spacing", "nose structure", "mouth width and lip ratio", "freckle distribution", "hair base colour and density", "baseline curvy body proportions"],
-  "negative_identity_constraints": ["no narrow close-set eyes", "no long angular face", "no sharp square jaw", "no tiny narrow mouth", "no porcelain freckle-free skin", "no straight narrow athletic body", "do not converge toward Luna's rounder short-face geometry"]
+  "identity_lock": {
+    "face_geometry": {
+      "priority": "critical",
+      "description": "Soft heart-to-oval face, widest through the upper cheeks, narrowing through a gently tapered jaw into a small rounded chin. Compact midface; soft cheek volume rather than sharp sculpting."
+    },
+    "eyes": {
+      "priority": "critical",
+      "description": "The visible eye appears pale cool grey-green, with an open softly almond shape. A wink and partial occlusion make exact iris hue, eye spacing, and bilateral geometry uncertain; do not lock greater precision than the reference supports."
+    },
+    "brows": {
+      "priority": "strong",
+      "description": "Dark full brows, low-to-medium set, mostly straight through the inner half with a soft outer arch and natural texture."
+    },
+    "nose": {
+      "priority": "critical",
+      "description": "Relatively narrow straight bridge, compact softly rounded tip, and subtle nostril width; delicate relative to cheek width."
+    },
+    "mouth": {
+      "priority": "critical",
+      "description": "Broad mouth with naturally full lips, defined cupid's bow, and a fuller lower lip. Retain width and volume without filler-like exaggeration."
+    },
+    "skin": {
+      "priority": "critical",
+      "description": "Warm light-to-olive skin with dense natural freckles across the nose and upper cheeks, scattered more lightly across forehead, lower cheeks, neck, and upper body; realistic pores and tonal variation."
+    },
+    "hair": {
+      "priority": "strong",
+      "description": "Dark-brown hair with loose natural waves and face-framing strands, partly pulled back at the crown in the reference. The image does not establish natural length or density; do not treat the updo as identity."
+    },
+    "body_proportions": {
+      "priority": "critical",
+      "description": "Body baseline and stature are not reliably observable in the seated selfie crop; use only independently established canonical data and do not claim the reference confirms full proportions."
+    }
+  },
+  "identity_relationships": {
+    "priority": "critical",
+    "facial_length_to_width": "moderately short face; cheek width dominates facial length",
+    "eye_spacing": "Uncertain in the single reference because one eye is closed in a wink and the other is partly occluded.",
+    "cheek_to_jaw_transition": "full upper cheeks flow smoothly into a gently tapered lower face",
+    "nose_to_mouth_relationship": "compact narrow nose above a noticeably broader mouth",
+    "lip_ratio": "full upper lip with defined bow; lower lip slightly fuller",
+    "feature_balance": "large eyes and broad mouth carry expression while nose and chin remain compact"
+  },
+  "expression_behavior": {
+    "priority": "strong",
+    "neutral": "A neutral expression is not shown; the playful wink is presentation.",
+    "smile": "The reference shows a playful asymmetric smile with a wink; do not make either a fixed expression.",
+    "cheek_response": "The single playful smile raises one cheek; bilateral expression behavior is uncertain.",
+    "eye_response": "A wink prevents establishing bilateral eye response; preserve visible eye shape without copying the wink."
+  },
+  "signature_features": [
+    {
+      "priority": "critical",
+      "feature": "dense freckle field across nose and upper cheeks"
+    },
+    {
+      "priority": "critical",
+      "feature": "slightly wide-set large dark-brown eyes"
+    },
+    {
+      "priority": "strong",
+      "feature": "broad full mouth paired with a compact nose"
+    },
+    {
+      "priority": "strong",
+      "feature": "heart-to-oval face tapering to a small rounded chin"
+    }
+  ],
+  "mutable_features": {
+    "hair_style": true,
+    "makeup": true,
+    "clothing": true,
+    "jewellery": true,
+    "expression": true,
+    "pose": true,
+    "environment": true,
+    "capture_style": true
+  },
+  "presentation_exclusions": [
+    "headphones",
+    "messy bun",
+    "wink",
+    "peace sign",
+    "hoodie",
+    "streaming room",
+    "selfie perspective"
+  ],
+  "immutable_features": [
+    "facial proportions",
+    "nose structure",
+    "mouth width and lip ratio",
+    "freckle distribution",
+    "pale cool eye appearance only; exact iris hue and bilateral geometry remain uncertain",
+    "visible dark-brown hair family and loose wave; natural length remains uncertain",
+    "facial proportions and freckles"
+  ],
+  "negative_identity_constraints": [
+    "no narrow close-set eyes",
+    "no long angular face",
+    "no sharp square jaw",
+    "no tiny narrow mouth",
+    "no porcelain freckle-free skin",
+    "no straight narrow athletic body",
+    "do not converge toward Luna's rounder short-face geometry"
+  ],
+  "drift_critical_features": [
+    {
+      "feature": "dense natural freckles across nose and upper cheeks",
+      "instruction": "Retain the visible freckle field when facial detail is clear."
+    },
+    {
+      "feature": "large slightly wide-set dark-brown eyes",
+      "instruction": "Preserve the spacing and rounded-almond shape."
+    },
+    {
+      "feature": "broad full mouth with compact nose and small rounded chin",
+      "instruction": "Keep this feature balance across expression changes."
+    },
+    {
+      "feature": "long thick dark espresso-brown hair",
+      "instruction": "Keep the dark base colour and density while allowing the arrangement to change."
+    },
+    {
+      "feature": "petite-to-average naturally curvy proportions",
+      "instruction": "Preserve her compact curvy baseline without forced slimming or exaggeration."
+    }
+  ],
+  "reference_consensus": {
+    "reference_count": 1,
+    "confidence": "single-reference",
+    "stable_features": [
+      "visible face geometry",
+      "visible hair colour family and texture",
+      "visible complexion and freckles or marks where clear",
+      "visible eye shape and appearance where unobscured"
+    ],
+    "variable_features": [
+      "hairstyle arrangement",
+      "expression",
+      "wardrobe",
+      "accessories",
+      "pose",
+      "environment",
+      "lighting and camera framing",
+      "temporary makeup"
+    ],
+    "uncertain_features": [
+      {
+        "feature": "eye colour and bilateral geometry",
+        "observations": [
+          "One eye is closed in a wink and the other is partly occluded."
+        ],
+        "resolution": "Keep this property uncertain in the reference record; do not force an unsupported detail into immutable identity."
+      },
+      {
+        "feature": "natural hair length and density",
+        "observations": [
+          "Hair is partly pulled back and cropped."
+        ],
+        "resolution": "Keep this property uncertain in the reference record; do not force an unsupported detail into immutable identity."
+      },
+      {
+        "feature": "stature and body proportions",
+        "observations": [
+          "Seated selfie framing does not support full-body estimates."
+        ],
+        "resolution": "Keep this property uncertain in the reference record; do not force an unsupported detail into immutable identity."
+      }
+    ]
+  },
+  "variation_envelope": {
+    "hair": {
+      "can_change": true,
+      "locked": [
+        "base colour family",
+        "density",
+        "natural texture family"
+      ],
+      "variable": [
+        "part",
+        "updo",
+        "ponytail",
+        "loose arrangement",
+        "clips and other temporary accessories"
+      ]
+    },
+    "expression": {
+      "can_change": true,
+      "range": [
+        "neutral",
+        "small smile",
+        "focused",
+        "amused"
+      ],
+      "identity_behavior": "Expression may change; preserve the underlying facial geometry and characteristic feature relationships."
+    },
+    "wardrobe": {
+      "can_change": true,
+      "locked": [],
+      "variable": [
+        "clothing style",
+        "colour",
+        "layers",
+        "accessories"
+      ]
+    },
+    "presentation_note": "Treat these as continuity guidance. Do not force a fixed pose, expression, hairstyle, or photographic treatment."
+  },
+  "prompt_identity_blocks": {
+    "compact": "Charlotte Taylor-Rose, a 22-year-old Australian woman. Face: Soft heart-to-oval face, widest through the upper cheeks, narrowing through a gently tapered jaw into a small rounded chin. Compact midface; soft cheek volume rather than sharp sculpting. Eyes: The visible eye appears pale cool grey-green, with an open softly almond shape. A wink and partial occlusion make exact iris hue, eye spacing, and bilateral geometry uncertain; do not lock greater precision than the reference supports. Nose: Relatively narrow straight bridge, compact softly rounded tip, and subtle nostril width; delicate relative to cheek width. Mouth: Broad mouth with naturally full lips, defined cupid's bow, and a fuller lower lip. Retain width and volume without filler-like exaggeration. Complexion: Warm light-to-olive skin with dense natural freckles across the nose and upper cheeks, scattered more lightly across forehead, lower cheeks, neck, and upper body; realistic pores and tonal variation. Body baseline: Body baseline and stature are not reliably observable in the seated selfie crop; use only independently established canonical data and do not claim the reference confirms full proportions.",
+    "standard": "Charlotte Taylor-Rose, a 22-year-old Australian woman. Face: Soft heart-to-oval face, widest through the upper cheeks, narrowing through a gently tapered jaw into a small rounded chin. Compact midface; soft cheek volume rather than sharp sculpting. Eyes: The visible eye appears pale cool grey-green, with an open softly almond shape. A wink and partial occlusion make exact iris hue, eye spacing, and bilateral geometry uncertain; do not lock greater precision than the reference supports. Nose: Relatively narrow straight bridge, compact softly rounded tip, and subtle nostril width; delicate relative to cheek width. Mouth: Broad mouth with naturally full lips, defined cupid's bow, and a fuller lower lip. Retain width and volume without filler-like exaggeration. Complexion: Warm light-to-olive skin with dense natural freckles across the nose and upper cheeks, scattered more lightly across forehead, lower cheeks, neck, and upper body; realistic pores and tonal variation. Body baseline: Body baseline and stature are not reliably observable in the seated selfie crop; use only independently established canonical data and do not claim the reference confirms full proportions. Brows: Dark full brows, low-to-medium set, mostly straight through the inner half with a soft outer arch and natural texture. Hair: Dark-brown hair with loose natural waves and face-framing strands, partly pulled back at the crown in the reference. The image does not establish natural length or density; do not treat the updo as identity. Facial length to width: moderately short face; cheek width dominates facial length. Eye spacing: Uncertain in the single reference because one eye is closed in a wink and the other is partly occluded. Cheek to jaw transition: full upper cheeks flow smoothly into a gently tapered lower face. Nose to mouth relationship: compact narrow nose above a noticeably broader mouth. Lip ratio: full upper lip with defined bow; lower lip slightly fuller. Feature balance: large eyes and broad mouth carry expression while nose and chin remain compact.",
+    "detailed": "Charlotte Taylor-Rose, a 22-year-old Australian woman. Face: Soft heart-to-oval face, widest through the upper cheeks, narrowing through a gently tapered jaw into a small rounded chin. Compact midface; soft cheek volume rather than sharp sculpting. Eyes: The visible eye appears pale cool grey-green, with an open softly almond shape. A wink and partial occlusion make exact iris hue, eye spacing, and bilateral geometry uncertain; do not lock greater precision than the reference supports. Nose: Relatively narrow straight bridge, compact softly rounded tip, and subtle nostril width; delicate relative to cheek width. Mouth: Broad mouth with naturally full lips, defined cupid's bow, and a fuller lower lip. Retain width and volume without filler-like exaggeration. Complexion: Warm light-to-olive skin with dense natural freckles across the nose and upper cheeks, scattered more lightly across forehead, lower cheeks, neck, and upper body; realistic pores and tonal variation. Body baseline: Body baseline and stature are not reliably observable in the seated selfie crop; use only independently established canonical data and do not claim the reference confirms full proportions. Brows: Dark full brows, low-to-medium set, mostly straight through the inner half with a soft outer arch and natural texture. Hair: Dark-brown hair with loose natural waves and face-framing strands, partly pulled back at the crown in the reference. The image does not establish natural length or density; do not treat the updo as identity. Facial length to width: moderately short face; cheek width dominates facial length. Eye spacing: Uncertain in the single reference because one eye is closed in a wink and the other is partly occluded. Cheek to jaw transition: full upper cheeks flow smoothly into a gently tapered lower face. Nose to mouth relationship: compact narrow nose above a noticeably broader mouth. Lip ratio: full upper lip with defined bow; lower lip slightly fuller. Feature balance: large eyes and broad mouth carry expression while nose and chin remain compact. Neutral: A neutral expression is not shown; the playful wink is presentation. Smile: The reference shows a playful asymmetric smile with a wink; do not make either a fixed expression. Cheek response: The single playful smile raises one cheek; bilateral expression behavior is uncertain. Eye response: A wink prevents establishing bilateral eye response; preserve visible eye shape without copying the wink."
+  }
 }

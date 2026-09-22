@@ -49,12 +49,27 @@ def test_prompt_lint_rejects_identity_conflict():
 
 
 def test_prompt_document_preserves_identity_separate_from_direction():
-    _, _, scene = _scene()
+    _, profile, scene = _scene()
     prompt = compose_prompt_document(scene)
 
-    assert prompt.identity == scene.identity_anchors
+    assert profile.prompt_identity_blocks["standard"] in prompt.identity
+    assert all(item["instruction"] in prompt.identity for item in profile.drift_critical_features)
     assert prompt.negative == scene.negative_constraints
     assert prompt.direction
+
+
+def test_prompt_document_identity_density_tracks_the_same_character():
+    _, profile, scene = _scene()
+    compact = compose_prompt_document(scene, "compact")
+    standard = compose_prompt_document(scene, "standard")
+    detailed = compose_prompt_document(scene, "detailed")
+
+    assert all(item["instruction"] in compact.identity for item in profile.drift_critical_features)
+    assert all(item in " ".join(standard.identity) for item in compact.identity)
+    assert all(item in " ".join(detailed.identity) for item in standard.identity)
+    assert profile.prompt_identity_blocks["standard"] in standard.identity
+    assert profile.prompt_identity_blocks["detailed"] in detailed.identity
+    assert detailed.identity_diagnostics["mutable_traits"]
 
 
 def test_character_migration_preview_and_apply_creates_backup(tmp_path):
@@ -87,3 +102,15 @@ def test_fake_provider_is_deterministic_and_gemini_requires_configuration(monkey
     monkeypatch.delenv("GEMINI_API_KEY", raising=False)
     with pytest.raises(ProviderError, match="GEMINI_API_KEY"):
         GeminiProvider().validate()
+
+
+def test_gemini_refinement_defaults_to_text_model_and_allows_override(monkeypatch):
+    monkeypatch.delenv("GEMINI_TEXT_MODEL", raising=False)
+    assert GeminiProvider().model == "gemini-2.5-flash"
+    monkeypatch.setenv("GEMINI_TEXT_MODEL", "gemini-3.1-flash-lite")
+    assert GeminiProvider().model == "gemini-3.1-flash-lite"
+
+
+def test_gemini_image_generation_is_disabled_in_prompt_refinement_workflow():
+    with pytest.raises(ProviderError, match="text-only"):
+        GeminiProvider().generate(compose_prompt_document(_scene()[2]))
