@@ -16,18 +16,18 @@ def test_every_character_and_mode_compiles(character_id, mode):
 
 
 BENCHMARK_HASHES = {
-    ("ayami_tanaka", "workplace"): "bab762bd5e5d4a31ba5f737d9d56240ecffd7ae3a94941eb564ffbc2e88157f3",
-    ("ayami_tanaka", "portrait"): "02771a666e59ec3db609494538f6ed59e04630ec9be93f0666b7894805b7025f",
-    ("luna_campbell", "lifestyle"): "ee33d472786d4bdb4eb61d11d0b378e343a88a6287e6c2e453cbf38a3d072265",
-    ("luna_campbell", "full_body"): "a68bcc3550d7fcf9f9d5f8f33797a6ad3dfbf42f3b3df955ba85f775fc365652",
-    ("naomi", "hobby"): "40d83cc9cf84e4a3d98f71d8d4e304d6a9008bd983ed4bd603e53984fa7b240d",
-    ("naomi", "environmental"): "63e793f7f2c02853e418b759f44da65e921002aa1c71299d4e103b4b87e8b20e",
-    ("zara", "portrait"): "610c6430e6c0e9b0b577be23a7fffd05801664e19623e7daec8867a2c52bdc3d",
-    ("zara", "lifestyle"): "82248b1c8c4e6f5363ef96bb1ece69670c6af8af79769e9be361938ac4289e3d",
-    ("idun_braten", "workplace"): "41f8990758ad7f90df29bd75a4653608a57c8ad7f1693219e8eb4f05b7753cb1",
-    ("idun_braten", "environmental"): "67141a4af30ba9cc4472f96f4c13c65bc8aea82ea7df29bcefe92150d3cfb7ac",
-    ("charlotte_taylor_rose", "portrait"): "67ccda8b00ca342be004576389da39f20678cad28a9f10731f8715e641d0bbd4",
-    ("charlotte_taylor_rose", "lifestyle"): "bf22667f4539cf8e43d7c6f287b438d6e83bc247dc0f57174b7be7673355607f",
+    ("ayami_tanaka", "workplace"): "2b43c1ef3df4033dfa86d959b919db571834d697357001b3c3236ee76918e27a",
+    ("ayami_tanaka", "portrait"): "888564132e34e444103f0ba7564085954120c61ef51d865acc149e3da0d46eef",
+    ("luna_campbell", "lifestyle"): "990beff1081387e2be5b9bbc2e8f7635bb449f9c43388117d7bfb06b9396bb7b",
+    ("luna_campbell", "full_body"): "8ebb129e6a9d66c6ec0df0bcbdde355bf2b388bbc5ba193f86cb651091f44edd",
+    ("naomi", "hobby"): "2c49ac901dcbeed05fb3c8bde9d4360e598894b7036955a053803c9484106639",
+    ("naomi", "environmental"): "a0c1f45d14003d0a3d3444ce344e09a684bbdbf58aa70be82583afe027349820",
+    ("zara", "portrait"): "d6b9f08d7c3f86b076a679ba11400b85da6d47a0e9900fe125ca54f6a42d78d1",
+    ("zara", "lifestyle"): "02e5b8f70365ec7d70e077a6b7eb9ad568a2b84de6d059dfe928ab91405e0691",
+    ("idun_braten", "workplace"): "c0296388a59a3d2b671a8cced7336ebe9698b4768fd7c7a0b3dc9d76cbb44b09",
+    ("idun_braten", "environmental"): "7cafb940d5c548ffc9f90aa20cd68b0ce2e9236df51327df9643f428a61be3ef",
+    ("charlotte_taylor_rose", "portrait"): "b2cf135c66ad7745a4e325c506423575ef7b25d7f240d58a1e157c70325021e3",
+    ("charlotte_taylor_rose", "lifestyle"): "256b3f766eeb3f5862447a0dbbfdb1b12b8011e953258dbfee6619f1d5d77c28",
 }
 
 

@@ -99,6 +99,9 @@ def compile_prompt_plan(character, visual_description, scene_description, densit
     freckles = next((feature for feature in _appearance_list(character, "skin.features") if "freckle" in feature.casefold()), "")
     profile = load_identity_profile(character.character_id)
     drift = tuple(item["instruction"] for item in profile.drift_critical_features)
+    identity_block = (profile.prompt_identity_blocks or {}).get(density)
+    if identity_block and drift:
+        identity_block = identity_block.rstrip().rstrip(".!?") + "; " + "; ".join(drift)
     canonical_anchors = (f"{hair_length} {hair_color} hair".strip(), f"{eye_color} eyes" if eye_color and identity_color_is_locked(character.character_id, "eyes") else "", freckles, build)
     # Critical LOCKED_LOOK facts lead every density; canonical appearance
     # remains supporting input and cannot displace the identity contract.
@@ -143,13 +146,13 @@ def compile_prompt_plan(character, visual_description, scene_description, densit
     plan = PromptPlan(
         character_id=character.character_id, character_name=character.identity.name, mode=scene_description.mode,
         density=density, image_intent=_intent(scene_description.mode), subject_identity=identity,
-        identity_anchors=anchors, identity_block=(profile.prompt_identity_blocks or {}).get(density), body_description=body, face_description=face, hair_description=hair,
+        identity_anchors=anchors, identity_block=identity_block, body_description=body, face_description=face, hair_description=hair,
         wardrobe=f"She is dressed in {context.wardrobe}." if context.wardrobe else None,
         activity=_event_for(scene_description.mode, context.activity, context.pose), pose=_pose_for(context.activity, context.pose),
         environment=_environment_for(scene_description.mode, context.environment), composition=_composition(context.camera), camera=context.camera,
         lighting=_lighting(context.lighting, context.environment), atmosphere=context.mood if density == "detailed" else None,
         quality_constraints=("Natural skin texture", "Realistic proportions", "Realistic fabric behaviour") if density == "detailed" else ("Natural skin texture", "Realistic proportions"),
-        identity_constraints=(("Preserve her described hair colour, eye colour, and facial proportions as locked identity; allow requested mutable styling and scene changes",) + drift + profile.negative_constraints),
+        identity_constraints=profile.negative_constraints,
         omitted_fields=tuple(omitted), source_metadata={
             "canonical_fallback_paths": visual_description.canonical_fallback_paths,
             "defaulted_fields": scene_description.defaulted_fields,

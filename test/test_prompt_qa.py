@@ -19,20 +19,20 @@ BENCHMARKS = (
 )
 
 GEMINI_QA_GOLDENS = {
-    ("ayami_tanaka", "portrait"): "02771a666e59ec3db609494538f6ed59e04630ec9be93f0666b7894805b7025f",
-    ("ayami_tanaka", "workplace"): "bab762bd5e5d4a31ba5f737d9d56240ecffd7ae3a94941eb564ffbc2e88157f3",
-    ("ayami_tanaka", "lifestyle"): "cdc7b4765f9d32faa10523e1f4df5b47b1e5e1e4e703628afddc8c97d7abbf3e",
-    ("luna_campbell", "portrait"): "7765c55c1e8ebdd04bb6b00368d11266675fa9b7863119ce949401bf8b136c72",
-    ("luna_campbell", "full_body"): "a68bcc3550d7fcf9f9d5f8f33797a6ad3dfbf42f3b3df955ba85f775fc365652",
-    ("luna_campbell", "lifestyle"): "ee33d472786d4bdb4eb61d11d0b378e343a88a6287e6c2e453cbf38a3d072265",
-    ("naomi", "hobby"): "40d83cc9cf84e4a3d98f71d8d4e304d6a9008bd983ed4bd603e53984fa7b240d",
-    ("naomi", "environmental"): "63e793f7f2c02853e418b759f44da65e921002aa1c71299d4e103b4b87e8b20e",
-    ("zara", "portrait"): "610c6430e6c0e9b0b577be23a7fffd05801664e19623e7daec8867a2c52bdc3d",
-    ("idun_braten", "portrait"): "455245f80be9d5f24fc6a8c64d994f1dddd3a9d469da01d10b0e45472bfc87c9",
-    ("idun_braten", "workplace"): "41f8990758ad7f90df29bd75a4653608a57c8ad7f1693219e8eb4f05b7753cb1",
-    ("idun_braten", "environmental"): "67141a4af30ba9cc4472f96f4c13c65bc8aea82ea7df29bcefe92150d3cfb7ac",
-    ("charlotte_taylor_rose", "portrait"): "67ccda8b00ca342be004576389da39f20678cad28a9f10731f8715e641d0bbd4",
-    ("charlotte_taylor_rose", "lifestyle"): "bf22667f4539cf8e43d7c6f287b438d6e83bc247dc0f57174b7be7673355607f",
+    ("ayami_tanaka", "portrait"): "888564132e34e444103f0ba7564085954120c61ef51d865acc149e3da0d46eef",
+    ("ayami_tanaka", "workplace"): "2b43c1ef3df4033dfa86d959b919db571834d697357001b3c3236ee76918e27a",
+    ("ayami_tanaka", "lifestyle"): "2f5630f6fe3493ac605f59e2191f1c12365800e5eecf9888a95957d4ed2c3daa",
+    ("luna_campbell", "portrait"): "3041af7a7a9869e956183bd17403be856949d349df6778ea5b91f4b37194c023",
+    ("luna_campbell", "full_body"): "8ebb129e6a9d66c6ec0df0bcbdde355bf2b388bbc5ba193f86cb651091f44edd",
+    ("luna_campbell", "lifestyle"): "990beff1081387e2be5b9bbc2e8f7635bb449f9c43388117d7bfb06b9396bb7b",
+    ("naomi", "hobby"): "2c49ac901dcbeed05fb3c8bde9d4360e598894b7036955a053803c9484106639",
+    ("naomi", "environmental"): "a0c1f45d14003d0a3d3444ce344e09a684bbdbf58aa70be82583afe027349820",
+    ("zara", "portrait"): "d6b9f08d7c3f86b076a679ba11400b85da6d47a0e9900fe125ca54f6a42d78d1",
+    ("idun_braten", "portrait"): "d720868fe6a2a90ec90270785dac04948cc8c7f753ff4fc8c90458b483f0cb0c",
+    ("idun_braten", "workplace"): "c0296388a59a3d2b671a8cced7336ebe9698b4768fd7c7a0b3dc9d76cbb44b09",
+    ("idun_braten", "environmental"): "7cafb940d5c548ffc9f90aa20cd68b0ce2e9236df51327df9643f428a61be3ef",
+    ("charlotte_taylor_rose", "portrait"): "b2cf135c66ad7745a4e325c506423575ef7b25d7f240d58a1e157c70325021e3",
+    ("charlotte_taylor_rose", "lifestyle"): "256b3f766eeb3f5862447a0dbbfdb1b12b8011e953258dbfee6619f1d5d77c28",
 }
 
 
@@ -70,7 +70,8 @@ def test_activity_and_pose_are_compiled_as_one_event():
 
 def test_realism_and_identity_constraints_have_a_sentence_boundary():
     prompt = build_prompt("luna", "lifestyle", "gemini").positive_prompt
-    assert "Realistic proportions. Preserve her described hair colour" in prompt
+    assert "Realistic proportions. no " in prompt
+    assert "Preserve her described hair colour" not in prompt
 
 
 def test_skin_scalars_are_rendered_as_field_aware_complexion_phrases():

@@ -56,7 +56,7 @@ def test_adapter_negative_prompt_policy_is_explicit():
     gemini = build_prompt("luna", "portrait", "gemini")
 
     assert "incorrect hair color" in generic.negative_prompt
-    assert openai.negative_prompt is None and "hair colour" in openai.positive_prompt
+    assert openai.negative_prompt is None and "copper-auburn hair" in openai.positive_prompt
     assert gemini.negative_prompt is None
 
 

@@ -63,7 +63,6 @@ def test_create_workflow_builds_the_v09_prompt_without_a_second_scene_pipeline()
     window.choose_character("ayami_tanaka")
     window.create_mode.setCurrentIndex(window.create_mode.findData("lifestyle"))
     window.adapter_combo.setCurrentIndex(window.adapter_combo.findData("gemini"))
-    window.provider_combo.setCurrentIndex(window.provider_combo.findData("fake"))
     window.idea.setPlainText("reading quietly")
     window.environment_override.setText("a quiet independent coffee shop")
 
@@ -120,22 +119,13 @@ def test_gallery_refresh_details_favorite_and_reuse(tmp_path, monkeypatch):
     assert window.create_mode.currentData() == "lifestyle"
 
 
-def test_desktop_generation_worker_uses_the_v09_public_pipeline(tmp_path, monkeypatch):
+def test_desktop_manual_qa_is_external_and_has_no_generation_wiring():
     _app()
-    calls = []
-
-    def fake_generate(*args):
-        calls.append(args)
-        return type("Result", (), {"record_id": "gen_test", "assets": (), "dry_run": True})()
-
-    monkeypatch.setattr(desktop, "generate_image", fake_generate)
-    worker = desktop.GenerationWorker("luna_campbell", "portrait", "fake", "generic", "standard", {"activity": "reading"}, tmp_path, True)
-    finished = []
-    worker.finished.connect(finished.append)
-
-    worker.run()
-
-    assert finished and calls[0][:6] == ("luna_campbell", "portrait", "fake", "generic", "standard", {"activity": "reading"})
+    window = desktop.DesktopWindow()
+    assert not hasattr(desktop, "GenerationWorker")
+    assert not hasattr(window, "generate_take")
+    assert not hasattr(window, "provider_combo")
+    assert "external review notes" in window.manual_qa_text.text()
 
 
 def test_character_filters_favorites_and_use_action():
