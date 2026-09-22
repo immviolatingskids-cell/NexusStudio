@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from engine.prompts import compose_prompt_document
 from engine.scene_models import ResolvedScene
+from engine.character_composer import compose_all_characters, compose_character, compose_character_by_id, compose_from_resolution
 
 
 def compose_prompt(scene: ResolvedScene) -> str:
