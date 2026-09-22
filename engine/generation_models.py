@@ -49,6 +49,7 @@ class GenerationResult:
     provider_metadata: dict[str, object] = field(default_factory=dict)
     error: str | None = None
     dry_run: bool = False
+    record_id: str | None = None
 
     def to_dict(self) -> dict[str, object]:
         return {
@@ -58,4 +59,5 @@ class GenerationResult:
             "mime_type": self.mime_type, "warnings": list(self.warnings),
             "provider_metadata": dict(self.provider_metadata), "error": self.error,
             "dry_run": self.dry_run,
+            "record_id": self.record_id,
         }
